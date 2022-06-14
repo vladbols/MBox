@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://dicProductTypeBrowse.caption"
+        focusComponent="dicProductTypesTable">
+    <data readOnly="true">
+        <collection id="dicProductTypesDc"
+                    class="com.company.mbox.entity.DicProductType">
+            <fetchPlan extends="_base"/>
+            <loader id="dicProductTypesDl">
+                <query>
+                    <![CDATA[select e from DicProductType e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dicProductTypesTable" spacing="true">
+        <filter id="filter"
+                dataLoader="dicProductTypesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dicProductTypesTable"
+                    width="100%"
+                    dataContainer="dicProductTypesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="typeName"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dicProductTypesTable.create"
+                        description="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"
+                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
+                <button id="editBtn" action="dicProductTypesTable.edit"
+                        description="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"
+                        caption="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
+                <button id="removeBtn" action="dicProductTypesTable.remove"
+                        description="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"
+                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="MBox">
+        <createTable tableName="ITEMS_LIST">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ITEMS_LIST"/>
+            </column>
+            <column name="ITEM_NAME" type="CLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRISE_FOR_ONE" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOTAL_COUNT" type="INT"/>
+            <column name="COMPANY" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COMPANY_ADDRES" type="CLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="WEARHOUSE_ADDRESS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COUNT_FOR_USER" type="INT"/>
+            <column name="ORDER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="MBox">
+        <createTable tableName="ORDER_">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_"/>
+            </column>
+            <column name="ORDER_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORDER_DATE" type="DATE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="MBox">
+        <createIndex indexName="IDX_ITEMSLIST_ORDER_ID" tableName="ITEMS_LIST">
+            <column name="ORDER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ITEMS_LIST"
+                                 constraintName="FK_ITEMS_LIST_ON_ORDER" referencedColumnNames="ID"
+                                 referencedTableName="ORDER_"/>
+    </changeSet>
+    <changeSet id="4" author="MBox">
+        <dropForeignKeyConstraint baseTableName="SELECTED_POSITIONS" constraintName="FK_SELECTEDPOS_ON_SELECTEDPOS"/>
+    </changeSet>
+    <changeSet id="5" author="MBox">
+        <dropTable cascadeConstraints="true" tableName="DIC_PRODUCT_TYPE"/>
+    </changeSet>
+    <changeSet id="6" author="MBox">
+        <dropTable cascadeConstraints="true" tableName="MAIN_TABLE"/>
+    </changeSet>
+    <changeSet id="7" author="MBox">
+        <dropTable cascadeConstraints="true" tableName="SELECTED_POSITIONS"/>
+    </changeSet>
+</databaseChangeLog>

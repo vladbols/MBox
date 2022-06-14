@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://itemPisitionsEdit.caption"
+        focusComponent="form">
+    <data>
+        <instance id="itemPisitionsDc"
+                  class="com.company.mbox.entity.ItemPisitions">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+                icon="EDITOR_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="windowClose"
+                caption="msg:///actions.Close"
+                icon="EDITOR_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true" expand="editActions">
+        <form id="form" dataContainer="itemPisitionsDc">
+            <column width="350px">
+                <textArea id="itemNameField" property="itemName" rows="5"/>
+                <textField id="itemTotalCountField" property="itemTotalCount"/>
+                <textField id="itrmPriseForOneField" property="itrmPriseForOne"/>
+                <textField id="itemCompanyField" property="itemCompany"/>
+                <textArea id="itemCompanyAddressField" property="itemCompanyAddress" rows="5"/>
+                <textArea id="itemWearhomeAddressField" property="itemWearhomeAddress" rows="5"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>
