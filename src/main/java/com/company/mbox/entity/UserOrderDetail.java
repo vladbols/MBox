@@ -18,6 +18,17 @@ public class UserOrderDetail {
     @Id
     private UUID id;
 
+    @Column(name = "ORDER_NAME")
+    private String orderName;
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
     public UUID getId() {
         return id;
     }

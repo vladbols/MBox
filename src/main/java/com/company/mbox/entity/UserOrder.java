@@ -3,8 +3,11 @@ package com.company.mbox.entity;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JmixEntity
@@ -16,15 +19,26 @@ public class UserOrder {
     @Id
     private UUID id;
 
-    @OneToMany(mappedBy = "userOrder")
-    private List<ItemPisitions> userOrderItem;
+    @Column(name = "ORDER_NAME")
+    private String orderName;
 
-    public List<ItemPisitions> getUserOrderItem() {
-        return userOrderItem;
+    @Column(name = "ORDER_DATE")
+    private LocalDateTime orderDate;
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setUserOrderItem(List<ItemPisitions> userOrderItem) {
-        this.userOrderItem = userOrderItem;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
     }
 
     public UUID getId() {

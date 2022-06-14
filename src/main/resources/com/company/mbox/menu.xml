@@ -6,5 +6,6 @@
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
         <item screen="ItemPisitions.browse"
               caption="msg://com.company.mbox.screen.itempisitions/itemPisitionsBrowse.menu"/>
+        <item screen="UserOrder.browse" caption="msg://com.company.mbox.screen.userorder/userOrderBrowse.menu"/>
     </menu>
 </menu-config>

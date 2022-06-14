@@ -7,9 +7,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "ITEM_PISITIONS", indexes = {
-        @Index(name = "IDX_ITEMPISITIONS", columnList = "USER_ORDER_ID")
-})
+@Table(name = "ITEM_PISITIONS")
 @Entity
 public class ItemPisitions {
     @JmixGeneratedValue
@@ -37,18 +35,6 @@ public class ItemPisitions {
     @Column(name = "ITEM_WEARHOME_ADDRESS")
     @Lob
     private String itemWearhomeAddress;
-
-    @JoinColumn(name = "USER_ORDER_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserOrder userOrder;
-
-    public UserOrder getUserOrder() {
-        return userOrder;
-    }
-
-    public void setUserOrder(UserOrder userOrder) {
-        this.userOrder = userOrder;
-    }
 
     public String getItemWearhomeAddress() {
         return itemWearhomeAddress;
