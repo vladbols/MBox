@@ -1,17 +1,18 @@
 package com.company.mbox.entity;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "USER_ORDER")
+@Table(name = "USER_ORDER", indexes = {
+        @Index(name = "IDX_USERORDER_ORDER_DET_ID", columnList = "ORDER_DET_ID")
+})
 @Entity
 public class UserOrder {
     @JmixGeneratedValue
@@ -19,11 +20,24 @@ public class UserOrder {
     @Id
     private UUID id;
 
+    @OnDeleteInverse(DeletePolicy.CASCADE)
+    @JoinColumn(name = "ORDER_DET_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserOrderDetail orderDet;
+
     @Column(name = "ORDER_NAME")
     private String orderName;
 
     @Column(name = "ORDER_DATE")
     private LocalDateTime orderDate;
+
+    public UserOrderDetail getOrderDet() {
+        return orderDet;
+    }
+
+    public void setOrderDet(UserOrderDetail orderDet) {
+        this.orderDet = orderDet;
+    }
 
     public LocalDateTime getOrderDate() {
         return orderDate;

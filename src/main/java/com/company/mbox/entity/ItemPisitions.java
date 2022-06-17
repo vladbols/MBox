@@ -4,6 +4,7 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -35,6 +36,19 @@ public class ItemPisitions {
     @Column(name = "ITEM_WEARHOME_ADDRESS")
     @Lob
     private String itemWearhomeAddress;
+    @JoinTable(name = "USER_ORDER_DETAIL_ITEM_POS",
+            joinColumns = @JoinColumn(name = "ITEM_PISITIONS_ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ORDER_DETAIL_ID"))
+    @ManyToMany
+    private List<UserOrderDetail> userOrderDetails;
+
+    public List<UserOrderDetail> getUserOrderDetails() {
+        return userOrderDetails;
+    }
+
+    public void setUserOrderDetails(List<UserOrderDetail> userOrderDetails) {
+        this.userOrderDetails = userOrderDetails;
+    }
 
     public String getItemWearhomeAddress() {
         return itemWearhomeAddress;
