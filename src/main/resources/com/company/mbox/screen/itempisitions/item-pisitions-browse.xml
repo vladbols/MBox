@@ -2,7 +2,7 @@
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
         caption="msg://itemPisitionsBrowse.caption"
-        focusComponent="itemPisitionsesTable">
+        focusComponent="itemPisitionsesTable" xmlns:search="http://jmix.io/schema/search/ui">
     <data readOnly="true">
         <collection id="itemPisitionsesDc"
                     class="com.company.mbox.entity.ItemPisitions">
@@ -50,8 +50,6 @@
                         caption="&#1062;&#1077;&#1085;&#1072; &#1079;&#1072; &#1077;&#1076;&#1077;&#1085;&#1080;&#1094;&#1091;"/>
                 <column id="itemCompany"
                         caption="&#1050;&#1086;&#1084;&#1087;&#1072;&#1085;&#1080;&#1103; &#1087;&#1086;&#1089;&#1090;&#1072;&#1074;&#1097;&#1080;&#1082;&#1072;"/>
-                <column id="itemCompanyAddress"
-                        caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1082;&#1086;&#1084;&#1087;&#1072;&#1085;&#1080;&#1080; &#1087;&#1086;&#1089;&#1090;&#1072;&#1074;&#1097;&#1080;&#1082;&#1072;"/>
                 <column id="itemWearhomeAddress"
                         caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;"/>
             </columns>
