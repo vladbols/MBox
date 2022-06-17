@@ -9,6 +9,8 @@
 
     <property name="uuid.type" dbms="oracle" value="varchar2(32)"/>
     <property name="uuid.type" dbms="!oracle" value="uuid"/>
+    <property name="localDateTime.defaultValue" dbms="hsqldb" value="current_timestamp"/>
+    <property name="localDateTime.defaultValue" dbms="postgresql" value="now()"/>
 
     <includeAll path="/com/company/mbox/liquibase/changelog"/>
 
