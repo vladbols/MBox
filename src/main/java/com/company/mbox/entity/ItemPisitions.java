@@ -36,9 +36,10 @@ public class ItemPisitions {
     @Column(name = "ITEM_WEARHOME_ADDRESS")
     @Lob
     private String itemWearhomeAddress;
+
     @JoinTable(name = "USER_ORDER_DETAIL_ITEM_POS",
-            joinColumns = @JoinColumn(name = "ITEM_PISITIONS_ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ORDER_DETAIL_ID"))
+            joinColumns = @JoinColumn(name = "ITEM_PISITIONS_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ORDER_DETAIL_ID", referencedColumnName = "ID"))
     @ManyToMany
     private List<UserOrderDetail> userOrderDetails;
 

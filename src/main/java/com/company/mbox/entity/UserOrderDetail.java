@@ -4,6 +4,8 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,10 @@ public class UserOrderDetail {
     @Id
     private UUID id;
 
+    @Column(name = "ORDER_DATE_TIME", nullable = false)
+    @NotNull
+    private LocalDateTime orderDateTime;
+
     @Column(name = "ORDER_NAME")
     private String orderName;
 
@@ -24,16 +30,15 @@ public class UserOrderDetail {
             inverseJoinColumns = @JoinColumn(name = "ITEM_PISITIONS_ID", referencedColumnName = "ID"))
     @ManyToMany
     private List<ItemPisitions> orderItems;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "orderDet")
-    private UserOrder userOrder;
 
-    public UserOrder getUserOrder() {
-        return userOrder;
+    public LocalDateTime getOrderDateTime() {
+        return orderDateTime;
     }
 
-    public void setUserOrder(UserOrder userOrder) {
-        this.userOrder = userOrder;
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
+        this.orderDateTime = orderDateTime;
     }
+
 
     public List<ItemPisitions> getOrderItems() {
         return orderItems;
