@@ -19,23 +19,34 @@
         </createTable>
     </changeSet>
     <changeSet id="2" author="MBox">
-        <createTable tableName="USER_ORDER">
-            <column name="ID" type="UUID">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ORDER"/>
-            </column>
-            <column name="ORDER_NAME" type="VARCHAR(255)"/>
-            <column name="ORDER_DATE" type="DATETIME"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="3" author="MBox">
         <createTable tableName="USER_ORDER_DETAIL">
             <column name="ID" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ORDER_DETAIL"/>
             </column>
+            <column name="ORDER_DATE_TIME" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
             <column name="ORDER_NAME" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
+    <changeSet id="3" author="MBox">
+        <createTable tableName="USER_ORDER_DETAIL_ITEM_POS">
+            <column name="ITEM_PISITIONS_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ORDER_DETAIL_ITEM_POS"/>
+            </column>
+            <column name="USER_ORDER_DETAIL_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ORDER_DETAIL_ITEM_POS"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet id="4" author="MBox">
-        <dropTable cascadeConstraints="true" tableName="ITEMS_LIST"/>
+        <addForeignKeyConstraint baseColumnNames="ITEM_PISITIONS_ID" baseTableName="USER_ORDER_DETAIL_ITEM_POS"
+                                 constraintName="FK_USEORDDETIT_ON_ITEMPISITIO" referencedColumnNames="ID"
+                                 referencedTableName="ITEM_PISITIONS"/>
+    </changeSet>
+    <changeSet id="5" author="MBox">
+        <addForeignKeyConstraint baseColumnNames="USER_ORDER_DETAIL_ID" baseTableName="USER_ORDER_DETAIL_ITEM_POS"
+                                 constraintName="FK_USEORDDETIT_ON_USERORDERDE" referencedColumnNames="ID"
+                                 referencedTableName="USER_ORDER_DETAIL"/>
     </changeSet>
 </databaseChangeLog>

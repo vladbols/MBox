@@ -6,9 +6,7 @@
         <instance id="userOrderDetailDc"
                   class="com.company.mbox.entity.UserOrderDetail">
             <fetchPlan extends="_base">
-                <property name="orderItems" fetchPlan="_base">
-                    <property name="userOrderDetails" fetchPlan="_base"/>
-                </property>
+                <property name="orderItems" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
             <collection id="orderItemsDc" property="orderItems"/>
@@ -32,7 +30,9 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="userOrderDetailDc">
             <column width="350px">
-                <textField id="orderNameField" property="orderName"/>
+                <dateField id="orderDateTimeField" property="orderDateTime" caption="&#1044;&#1072;&#1090;&#1072;"/>
+                <textField id="orderNameField" property="orderName"
+                           caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077; &#1079;&#1072;&#1082;&#1072;&#1079;&#1072;"/>
             </column>
         </form>
         <groupBox id="orderItemsBox" caption="msg://com.company.mbox.entity/UserOrderDetail.orderItems">
@@ -42,22 +42,25 @@
                     <action id="exclude" type="exclude"/>
                 </actions>
                 <columns>
-                    <column id="itemName"/>
-                    <column id="itemTotalCount"/>
-                    <column id="itrmPriseForOne"/>
-                    <column id="itemCompany"/>
-                    <column id="itemCompanyAddress"/>
-                    <column id="itemWearhomeAddress"/>
+                    <column id="itemName"
+                            caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
+                    <column id="itemCompany"
+                            caption="&#1050;&#1086;&#1084;&#1087;&#1072;&#1085;&#1080;&#1103; &#1087;&#1086;&#1089;&#1090;&#1072;&#1074;&#1097;&#1080;&#1082;"/>
+                    <column id="itemWearhomeAddress"
+                            caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;"/>
                 </columns>
                 <buttonsPanel>
-                    <button action="orderItemsTable.add"/>
-                    <button action="orderItemsTable.exclude"/>
+                    <button action="orderItemsTable.add"
+                            caption="&#1044;&#1086;&#1073;&#1072;&#1074;&#1080;&#1090;&#1100; &#1074; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082;"/>
+                    <button action="orderItemsTable.exclude"
+                            caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100; &#1080;&#1079; &#1089;&#1087;&#1080;&#1089;&#1082;&#1072;"/>
                 </buttonsPanel>
             </table>
         </groupBox>
         <hbox id="editActions" spacing="true">
-            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
-            <button id="closeBtn" action="windowClose"/>
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"
+                    caption="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1080; &#1079;&#1072;&#1082;&#1088;&#1099;&#1090;&#1100;"/>
+            <button id="closeBtn" action="windowClose" caption="&#1047;&#1072;&#1082;&#1088;&#1099;&#1090;&#1100;"/>
         </hbox>
     </layout>
 </window>

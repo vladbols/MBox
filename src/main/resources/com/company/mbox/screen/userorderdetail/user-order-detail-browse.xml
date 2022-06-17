@@ -7,9 +7,7 @@
         <collection id="userOrderDetailsDc"
                     class="com.company.mbox.entity.UserOrderDetail">
             <fetchPlan extends="_base">
-                <property name="orderItems" fetchPlan="_base">
-                    <property name="userOrderDetails" fetchPlan="_base"/>
-                </property>
+                <property name="orderItems" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="userOrderDetailsDl">
                 <query>
@@ -48,14 +46,19 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="orderName"/>
+                <column id="orderName"
+                        caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
+                <column id="orderDateTime" caption="&#1044;&#1072;&#1090;&#1072;"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="userOrderDetailsTable.create"/>
-                <button id="editBtn" action="userOrderDetailsTable.edit"/>
-                <button id="removeBtn" action="userOrderDetailsTable.remove"/>
+                <button id="createBtn" action="userOrderDetailsTable.create"
+                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
+                <button id="editBtn" action="userOrderDetailsTable.edit"
+                        caption="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
+                <button id="removeBtn" action="userOrderDetailsTable.remove"
+                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">
