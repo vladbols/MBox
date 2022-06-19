@@ -1,6 +1,7 @@
 plugins {
     id 'io.jmix' version '1.2.0'
     id 'java'
+    id 'war'
 }
 
 apply plugin: 'org.springframework.boot'
