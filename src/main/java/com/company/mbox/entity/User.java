@@ -9,6 +9,7 @@ import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.security.authentication.JmixUserDetails;
 import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Collection;
@@ -23,7 +24,7 @@ import java.util.UUID;
 public class User implements JmixUserDetails, HasTimeZone {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @JmixGeneratedValue
     private UUID id;
 
@@ -45,6 +46,24 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "LAST_NAME")
     protected String lastName;
 
+    @Column(name = "FACT_ADDRESS")
+    private String factAddress;
+
+    @Column(name = "IIK")
+    private String iik;
+
+    @Column(name = "UR_ADDRESS")
+    private String urAddress;
+
+    @Column(name = "BIN_IIN")
+    private String binIin;
+
+    @Column(name = "BIK")
+    private String bik;
+
+    @Column(name = "K_BE")
+    private String kBe;
+
     @Email
     @Column(name = "EMAIL")
     protected String email;
@@ -57,6 +76,54 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public String getKBe() {
+        return kBe;
+    }
+
+    public void setKBe(String kBe) {
+        this.kBe = kBe;
+    }
+
+    public String getBik() {
+        return bik;
+    }
+
+    public void setBik(String bik) {
+        this.bik = bik;
+    }
+
+    public String getBinIin() {
+        return binIin;
+    }
+
+    public void setBinIin(String binIin) {
+        this.binIin = binIin;
+    }
+
+    public String getUrAddress() {
+        return urAddress;
+    }
+
+    public void setUrAddress(String urAddress) {
+        this.urAddress = urAddress;
+    }
+
+    public String getIik() {
+        return iik;
+    }
+
+    public void setIik(String iik) {
+        this.iik = iik;
+    }
+
+    public String getFactAddress() {
+        return factAddress;
+    }
+
+    public void setFactAddress(String factAddress) {
+        this.factAddress = factAddress;
+    }
 
     public UUID getId() {
         return id;
