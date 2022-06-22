@@ -1,8 +1,0 @@
-@import "mboxtheme-defaults";
-@import "addons";
-@import "mboxtheme";
-
-.mboxtheme {
-  @include addons;
-  @include mboxtheme;
-}
