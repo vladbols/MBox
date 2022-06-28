@@ -46,23 +46,11 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "LAST_NAME")
     protected String lastName;
 
-    @Column(name = "FACT_ADDRESS")
-    private String factAddress;
-
-    @Column(name = "IIK")
-    private String iik;
-
-    @Column(name = "UR_ADDRESS")
-    private String urAddress;
-
     @Column(name = "BIN_IIN")
     private String binIin;
 
     @Column(name = "BIK")
     private String bik;
-
-    @Column(name = "K_BE")
-    private String kBe;
 
     @Email
     @Column(name = "EMAIL")
@@ -74,15 +62,17 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "TIME_ZONE_ID")
     protected String timeZoneId;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    private UserGroup userGroup;
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
 
-    public String getKBe() {
-        return kBe;
+    public UserGroup getUserGroup() {
+        return userGroup;
     }
 
-    public void setKBe(String kBe) {
-        this.kBe = kBe;
+    public void setUserGroup(UserGroup userGroup) {
+        this.userGroup = userGroup;
     }
 
     public String getBik() {
@@ -99,30 +89,6 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     public void setBinIin(String binIin) {
         this.binIin = binIin;
-    }
-
-    public String getUrAddress() {
-        return urAddress;
-    }
-
-    public void setUrAddress(String urAddress) {
-        this.urAddress = urAddress;
-    }
-
-    public String getIik() {
-        return iik;
-    }
-
-    public void setIik(String iik) {
-        this.iik = iik;
-    }
-
-    public String getFactAddress() {
-        return factAddress;
-    }
-
-    public void setFactAddress(String factAddress) {
-        this.factAddress = factAddress;
     }
 
     public UUID getId() {

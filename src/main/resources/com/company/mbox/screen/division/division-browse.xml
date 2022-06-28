@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://divisionBrowse.caption"
+        focusComponent="divisionsTable">
+    <data readOnly="true">
+        <collection id="divisionsDc"
+                    class="com.company.mbox.entity.Division">
+            <fetchPlan extends="_base">
+                <property name="provider" fetchPlan="_base">
+                    <property name="currency" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="divisionsDl">
+                <query>
+                    <![CDATA[select e from Division e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="divisionsTable" spacing="true">
+        <filter id="filter"
+                dataLoader="divisionsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="divisionsTable"
+                    width="100%"
+                    dataContainer="divisionsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="legacyId"/>
+                <column id="name"/>
+                <column id="address"/>
+                <column id="provider"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="divisionsTable.create"/>
+                <button id="editBtn" action="divisionsTable.edit"/>
+                <button id="removeBtn" action="divisionsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

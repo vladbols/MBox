@@ -4,9 +4,14 @@
     <menu id="application" caption="msg://com.company.mbox/menu.application" insertBefore="administration">
         <item screen="User.browse" caption="msg://com.company.mbox.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
-        <item screen="ItemPisitions.browse"
-              caption="msg://com.company.mbox.screen.itempisitions/itemPisitionsBrowse.menu"/>
-        <item screen="UserOrderDetail.browse"
-              caption="msg://com.company.mbox.screen.userorderdetail/userOrderDetailBrowse.menu"/>
+        <item screen="Currency.browse" caption="msg://com.company.mbox.screen.currency/currencyBrowse.menu"/>
+        <item screen="Organization.browse"
+              caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
+        <item screen="Division.browse" caption="msg://com.company.mbox.screen.division/divisionBrowse.menu"/>
+        <item screen="Unit.browse" caption="msg://com.company.mbox.screen.unit/unitBrowse.menu"/>
+        <item screen="Wearhouse.browse" caption="msg://com.company.mbox.screen.wearhouse/wearhouseBrowse.menu"/>
+        <item screen="Item.browse" caption="msg://com.company.mbox.screen.item/itemBrowse.menu"/>
+        <item screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
+        <item screen="UserGroup.browse" caption="msg://com.company.mbox.screen.usergroup/userGroupBrowse.menu"/>
     </menu>
 </menu-config>

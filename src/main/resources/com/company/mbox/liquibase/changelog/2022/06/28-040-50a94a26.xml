@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="MBox">
+        <createTable tableName="CURRENCY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CURRENCY"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="CODE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="MBox">
+        <createTable tableName="DIC_SIDE_BAR">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DIC_SIDE_BAR"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="PARENT_SIDE_BAR_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="MBox">
+        <createTable tableName="DIVISION">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DIVISION"/>
+            </column>
+            <column name="LEGACY_ID" type="INT"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="ADDRESS" type="VARCHAR(255)"/>
+            <column name="PROVIDER_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="MBox">
+        <createTable tableName="ITEM">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ITEM"/>
+            </column>
+            <column name="WEARHOUSE_ID" type="UUID"/>
+            <column name="LEGACY_ID" type="INT"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="UNIT_ID" type="UUID"/>
+            <column name="TYPE_" type="VARCHAR(255)"/>
+            <column name="PRISE" type="INT"/>
+            <column name="AMOUNT" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="MBox">
+        <createTable tableName="ORDER_">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_"/>
+            </column>
+            <column name="USER_ID" type="UUID"/>
+            <column name="AMOUNT" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="MBox">
+        <createTable tableName="ORDER_ITEM_LINK">
+            <column name="ITEM_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_ITEM_LINK"/>
+            </column>
+            <column name="ORDER_ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_ITEM_LINK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="MBox">
+        <createTable tableName="ORGANIZATION">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORGANIZATION"/>
+            </column>
+            <column name="LEGACY_ID" type="INT"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="BIN" type="VARCHAR(255)"/>
+            <column name="DATE_" type="DATE"/>
+            <column name="ADDRESS" type="VARCHAR(255)"/>
+            <column name="ACCOUNT" type="VARCHAR(255)"/>
+            <column name="KBE" type="VARCHAR(255)"/>
+            <column name="BIK" type="VARCHAR(255)"/>
+            <column name="BANK" type="VARCHAR(255)"/>
+            <column name="CURRENCY_ID" type="UUID"/>
+            <column name="ACTIVE" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="8" author="MBox">
+        <createTable tableName="UNIT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_UNIT"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="MBox">
+        <createTable tableName="USER_GROUP">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_GROUP"/>
+            </column>
+            <column name="USER_ID" type="UUID"/>
+            <column name="ORGANIZATION_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="MBox">
+        <createTable tableName="WEARHOUSE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_WEARHOUSE"/>
+            </column>
+            <column name="LEGACY_ID" type="INT"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="ADDRESS" type="VARCHAR(255)"/>
+            <column name="DIVISION_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="11" author="MBox">
+        <createIndex indexName="IDX_DICSIDEBAR" tableName="DIC_SIDE_BAR">
+            <column name="PARENT_SIDE_BAR_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PARENT_SIDE_BAR_ID" baseTableName="DIC_SIDE_BAR"
+                                 constraintName="FK_DICSIDEBAR_ON_PARENTSIDEBAR" referencedColumnNames="ID"
+                                 referencedTableName="DIC_SIDE_BAR"/>
+    </changeSet>
+    <changeSet id="12" author="MBox">
+        <createIndex indexName="IDX_DIVISION_PROVIDER_ID" tableName="DIVISION">
+            <column name="PROVIDER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PROVIDER_ID" baseTableName="DIVISION"
+                                 constraintName="FK_DIVISION_ON_PROVIDER" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="13" author="MBox">
+        <createIndex indexName="IDX_ITEM_UNIT_ID" tableName="ITEM">
+            <column name="UNIT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="ITEM" constraintName="FK_ITEM_ON_UNIT"
+                                 referencedColumnNames="ID" referencedTableName="UNIT"/>
+    </changeSet>
+    <changeSet id="14" author="MBox">
+        <createIndex indexName="IDX_ITEM_WEARHOUSE_ID" tableName="ITEM">
+            <column name="WEARHOUSE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="WEARHOUSE_ID" baseTableName="ITEM"
+                                 constraintName="FK_ITEM_ON_WEARHOUSE" referencedColumnNames="ID"
+                                 referencedTableName="WEARHOUSE"/>
+    </changeSet>
+    <changeSet id="15" author="MBox">
+        <createIndex indexName="IDX_ORDER_USER_ID" tableName="ORDER_">
+            <column name="USER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="ORDER_" constraintName="FK_ORDER__ON_USER"
+                                 referencedColumnNames="ID" referencedTableName="USER_"/>
+    </changeSet>
+    <changeSet id="16" author="MBox">
+        <createIndex indexName="IDX_ORGANIZATION_CURRENCY_ID" tableName="ORGANIZATION">
+            <column name="CURRENCY_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="ORGANIZATION"
+                                 constraintName="FK_ORGANIZATION_ON_CURRENCY" referencedColumnNames="ID"
+                                 referencedTableName="CURRENCY"/>
+    </changeSet>
+    <changeSet id="17" author="MBox">
+        <createIndex indexName="IDX_USERGROUP_ORGANIZATION_ID" tableName="USER_GROUP">
+            <column name="ORGANIZATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORGANIZATION_ID" baseTableName="USER_GROUP"
+                                 constraintName="FK_USER_GROUP_ON_ORGANIZATION" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="18" author="MBox">
+        <createIndex indexName="IDX_USERGROUP_USER_ID" tableName="USER_GROUP">
+            <column name="USER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_GROUP"
+                                 constraintName="FK_USER_GROUP_ON_USER" referencedColumnNames="ID"
+                                 referencedTableName="USER_"/>
+    </changeSet>
+    <changeSet id="19" author="MBox">
+        <createIndex indexName="IDX_WEARHOUSE_DIVISION_ID" tableName="WEARHOUSE">
+            <column name="DIVISION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DIVISION_ID" baseTableName="WEARHOUSE"
+                                 constraintName="FK_WEARHOUSE_ON_DIVISION" referencedColumnNames="ID"
+                                 referencedTableName="DIVISION"/>
+    </changeSet>
+    <changeSet id="20" author="MBox">
+        <addForeignKeyConstraint baseColumnNames="ITEM_ID" baseTableName="ORDER_ITEM_LINK"
+                                 constraintName="FK_ORDITE_ON_ITEM" referencedColumnNames="ID"
+                                 referencedTableName="ITEM"/>
+    </changeSet>
+    <changeSet id="21" author="MBox">
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_ITEM_LINK"
+                                 constraintName="FK_ORDITE_ON_ORDER" referencedColumnNames="ID"
+                                 referencedTableName="ORDER_"/>
+    </changeSet>
+</databaseChangeLog>
