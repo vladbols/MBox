@@ -4,6 +4,7 @@ import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @JmixEntity
@@ -18,12 +19,14 @@ public class UserGroup {
     @Id
     private UUID id;
 
-    @JoinColumn(name = "USER_ID")
-    @OneToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    @JoinColumn(name = "ORGANIZATION_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Organization organization;
 
     public Organization getOrganization() {
