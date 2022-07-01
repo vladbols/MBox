@@ -60,7 +60,7 @@ public class Item {
     @NotNull
     @JoinColumn(name = "WEARHOUSE_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Wearhouse wearhouse;
+    private Warehouse warehouse;
 
     @Column(name = "LEGACY_ID")
     private Integer legacyId;
@@ -189,12 +189,12 @@ public class Item {
         this.legacyId = legacyId;
     }
 
-    public Wearhouse getWearhouse() {
-        return wearhouse;
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
 
-    public void setWearhouse(Wearhouse wearhouse) {
-        this.wearhouse = wearhouse;
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
     }
 
     public UUID getId() {

@@ -20,7 +20,7 @@ import java.util.UUID;
         @Index(name = "IDX_WEARHOUSE_DIVISION_ID", columnList = "DIVISION_ID")
 })
 @Entity
-public class Wearhouse {
+public class Warehouse {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id

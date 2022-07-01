@@ -7,7 +7,7 @@
         <collection id="itemsDc"
                     class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
-                <property name="wearhouse" fetchPlan="_base">
+                <property name="warehouse" fetchPlan="_base">
                     <property name="division" fetchPlan="_base">
                         <property name="provider" fetchPlan="_base">
                             <property name="currency" fetchPlan="_base"/>
@@ -59,7 +59,7 @@
                 <column id="prise" caption="&#1062;&#1077;&#1085;&#1072;"/>
                 <column id="unit.name"
                         caption="&#1045;&#1076;. &#1048;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;"/>
-                <column id="wearhouse.address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
+                <column id="warehouse.address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
