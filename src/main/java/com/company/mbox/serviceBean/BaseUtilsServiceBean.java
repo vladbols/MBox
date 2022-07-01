@@ -1,6 +1,5 @@
 package com.company.mbox.serviceBean;
 
-import com.company.mbox.screen.itempisitions.ItemPisitionsBrowse;
 import com.company.mbox.services.BaseUtilsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import java.util.Map;
 @Service(BaseUtilsService.NAME)
 public class BaseUtilsServiceBean implements BaseUtilsService {
 
-    private static final Logger log = LoggerFactory.getLogger(ItemPisitionsBrowse.class);
 
     @Override
     @SuppressWarnings("all")
