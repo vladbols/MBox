@@ -73,9 +73,8 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "TIME_ZONE_ID")
     protected String timeZoneId;
 
-    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ORGANIZATION_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Organization organization;
 
     @CreatedBy
