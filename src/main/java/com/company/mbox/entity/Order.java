@@ -3,6 +3,7 @@ package com.company.mbox.entity;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -57,6 +58,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    @InstanceName
     @JoinTable(name = "ORDER_ITEM_LINK",
             joinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"))
@@ -68,7 +70,8 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    @Column(name = "AMOUNT")
+    @NotNull
+    @Column(name = "AMOUNT", nullable = false)
     private Double amount;
 
     public Date getDeletedDate() {

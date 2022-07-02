@@ -7,13 +7,6 @@
                   class="com.company.mbox.entity.Order">
             <fetchPlan extends="_base">
                 <property name="item" fetchPlan="_base">
-                    <property name="warehouse" fetchPlan="_base">
-                        <property name="division" fetchPlan="_base">
-                            <property name="provider" fetchPlan="_base">
-                                <property name="currency" fetchPlan="_base"/>
-                            </property>
-                        </property>
-                    </property>
                     <property name="unit" fetchPlan="_base"/>
                 </property>
                 <property name="user" fetchPlan="_base"/>
@@ -61,7 +54,6 @@
                     <column id="type"/>
                     <column id="prise"/>
                     <column id="amount"/>
-                    <column id="warehouse"/>
                     <column id="unit"/>
                 </columns>
                 <buttonsPanel>

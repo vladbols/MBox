@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ITEM", indexes = {
-        @Index(name = "IDX_ITEM_WEARHOUSE_ID", columnList = "WEARHOUSE_ID")
+        @Index(name = "IDX_ITEM_WAREHOUSE_ID", columnList = "WAREHOUSE_ID")
 })
 @Entity
 public class Item {
@@ -57,8 +57,8 @@ public class Item {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    @JoinColumn(name = "WAREHOUSE_ID", nullable = false)
     @NotNull
-    @JoinColumn(name = "WEARHOUSE_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Warehouse warehouse;
 
@@ -84,6 +84,14 @@ public class Item {
 
     @Column(name = "AMOUNT")
     private Integer amount;
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -187,14 +195,6 @@ public class Item {
 
     public void setLegacyId(Integer legacyId) {
         this.legacyId = legacyId;
-    }
-
-    public Warehouse getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
     }
 
     public UUID getId() {

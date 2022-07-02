@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "DIVISION", indexes = {
-        @Index(name = "IDX_DIVISION_PROVIDER_ID", columnList = "PROVIDER_ID")
+        @Index(name = "IDX_DIVISION_ORGANIZATION_ID", columnList = "ORGANIZATION_ID")
 })
 @Entity
 public class Division {
@@ -67,10 +67,18 @@ public class Division {
     @Column(name = "ADDRESS")
     private String address;
 
+    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
     @NotNull
-    @JoinColumn(name = "PROVIDER_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Organization provider;
+    private Organization organization;
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -134,14 +142,6 @@ public class Division {
 
     public Integer getLegacyId() {
         return legacyId;
-    }
-
-    public Organization getProvider() {
-        return provider;
-    }
-
-    public void setProvider(Organization provider) {
-        this.provider = provider;
     }
 
     public String getAddress() {

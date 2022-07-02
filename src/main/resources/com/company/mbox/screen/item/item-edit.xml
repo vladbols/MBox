@@ -6,13 +6,6 @@
         <instance id="itemDc"
                   class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
-                <property name="warehouse" fetchPlan="_base">
-                    <property name="division" fetchPlan="_base">
-                        <property name="provider" fetchPlan="_base">
-                            <property name="currency" fetchPlan="_base"/>
-                        </property>
-                    </property>
-                </property>
                 <property name="unit" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
@@ -36,12 +29,6 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="itemDc">
             <column width="350px">
-                <entityPicker id="wearhouseField" property="warehouse">
-                    <actions>
-                        <action id="entityLookup" type="entity_lookup"/>
-                        <action id="entityClear" type="entity_clear"/>
-                    </actions>
-                </entityPicker>
                 <textField id="legacyIdField" property="legacyId"/>
                 <textField id="nameField" property="name"/>
                 <entityPicker id="unitField" property="unit">

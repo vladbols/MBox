@@ -10,6 +10,7 @@ import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.security.authentication.JmixUserDetails;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -18,6 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -26,7 +28,8 @@ import java.util.UUID;
 @JmixEntity
 @Entity
 @Table(name = "USER_", indexes = {
-        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true)
+        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true),
+        @Index(name = "IDX_USER_ORGANIZATION_ID", columnList = "ORGANIZATION_ID")
 })
 public class User implements JmixUserDetails, HasTimeZone {
 
@@ -39,12 +42,13 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "VERSION", nullable = false)
     private Integer version;
 
-    @Column(name = "USERNAME", nullable = false)
+    @Column(name = "USERNAME", nullable = false, unique = true)
     protected String username;
 
+    @NotNull
     @Secret
     @SystemLevel
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     protected String password;
 
     @Column(name = "FIRST_NAME")
@@ -53,24 +57,26 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "LAST_NAME")
     protected String lastName;
 
-    @Column(name = "BIN_IIN")
-    private String binIin;
-
-    @Column(name = "BIK")
-    private String bik;
-
     @Email
     @Column(name = "EMAIL")
     protected String email;
 
-    @Column(name = "ACTIVE")
+    @Length(min = 12, max = 12)
+    @Column(name = "IIN", nullable = false, length = 12)
+    @NotNull
+    private String iin;
+
+    @NotNull
+    @Column(name = "ACTIVE", nullable = false)
     protected Boolean active = true;
 
     @Column(name = "TIME_ZONE_ID")
     protected String timeZoneId;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-    private UserGroup userGroup;
+    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Organization organization;
 
     @CreatedBy
     @Column(name = "CREATED_BY")
@@ -101,6 +107,22 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public String getIin() {
+        return iin;
+    }
+
+    public void setIin(String iin) {
+        this.iin = iin;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -148,30 +170,6 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public UserGroup getUserGroup() {
-        return userGroup;
-    }
-
-    public void setUserGroup(UserGroup userGroup) {
-        this.userGroup = userGroup;
-    }
-
-    public String getBik() {
-        return bik;
-    }
-
-    public void setBik(String bik) {
-        this.bik = bik;
-    }
-
-    public String getBinIin() {
-        return binIin;
-    }
-
-    public void setBinIin(String binIin) {
-        this.binIin = binIin;
     }
 
     public UUID getId() {
