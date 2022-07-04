@@ -32,6 +32,15 @@
                               icon="SIGN_OUT"/>
             </hbox>
         </hbox>
+        <drawer id="drawer" expandOnHover="true">
+            <cssLayout id="appTitleBox"
+                       stylename="jmix-drawer-header"
+                       width="100%">
+            </cssLayout>
+            <sideMenu id="sideMenu"
+                      width="100%"
+                      stylename="jmix-drawer-content"/>
+        </drawer>
         <workArea id="workArea"
                   stylename="jmix-workarea"
                   width="100%">
