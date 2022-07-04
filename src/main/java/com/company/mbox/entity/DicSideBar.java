@@ -66,8 +66,8 @@ public class DicSideBar {
     @Column(name = "CODE")
     private String code;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_SIDE_BAR_ID")
-    @OneToOne(fetch = FetchType.LAZY)
     private DicSideBar parentSideBar;
 
     public Date getDeletedDate() {
