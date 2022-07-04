@@ -11,5 +11,6 @@
         <item screen="Warehouse.browse" caption="msg://com.company.mbox.screen.warehouse/wearhouseBrowse.menu"/>
         <item screen="Item.browse" caption="msg://com.company.mbox.screen.item/itemBrowse.menu"/>
         <item screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
+        <item screen="DicSideBar.browse" caption="msg://com.company.mbox.screen.dicsidebar/dicSideBarBrowse.menu"/>
     </menu>
 </menu-config>

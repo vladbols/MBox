@@ -16,31 +16,28 @@
                 </resource>
             </image>
             <menu id="mainMenu"
-                  align="MIDDLE_LEFT"/>
+                  align="MIDDLE_CENTER"/>
             <userIndicator id="userIndicator"
-                           align="MIDDLE_LEFT"/>
+                           align="MIDDLE_CENTER"/>
             <timeZoneIndicator id="timeZoneIndicator"
-                               align="MIDDLE_LEFT"/>
+                               align="MIDDLE_CENTER"/>
             <hbox id="mainButtonsBox"
-                  align="MIDDLE_LEFT"
+                  align="MIDDLE_CENTER"
                   stylename="jmix-main-buttons">
-                <newWindowButton id="newWindowButton"
-                                 icon="TH_LARGE"
-                                 description="msg://newWindowBtnDescription"/>
                 <logoutButton id="logoutButton"
                               description="msg://logoutBtnDescription"
                               icon="SIGN_OUT"/>
             </hbox>
         </hbox>
-        <drawer id="drawer" expandOnHover="true">
-            <cssLayout id="appTitleBox"
-                       stylename="jmix-drawer-header"
-                       width="100%">
-            </cssLayout>
-            <sideMenu id="sideMenu"
-                      width="100%"
-                      stylename="jmix-drawer-content"/>
-        </drawer>
+        <treeDataGrid id="dicSideBarsTable"
+                      width="10%"
+                      dataContainer="dicSideBarsDc"
+                      hierarchyProperty="parentSideBar">
+            <columns>
+                <column property="name" id="name"/>
+            </columns>
+            <simplePagination/>
+        </treeDataGrid>
         <workArea id="workArea"
                   stylename="jmix-workarea"
                   width="100%">

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://warehouseEdit.caption"
+        caption="msg://dicSideBarEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="warehouseDc"
-                  class="com.company.mbox.entity.Warehouse">
+        <instance id="dicSideBarDc"
+                  class="com.company.mbox.entity.DicSideBar">
             <fetchPlan extends="_base">
-                <property name="division" fetchPlan="_base">
-                </property>
+                <property name="parentSideBar" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
         </instance>
@@ -28,12 +27,11 @@
     <dialogMode height="600"
                 width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="warehouseDc">
+        <form id="form" dataContainer="dicSideBarDc">
             <column width="350px">
-                <textField id="legacyIdField" property="legacyId"/>
-                <textField id="nameField" property="name"/>
-                <textField id="addressField" property="address"/>
-                <entityPicker id="divisionField" property="division">
+                <textArea id="nameField" property="name" rows="5"/>
+                <textField id="codeField" property="code"/>
+                <entityPicker id="parentSideBarField" property="parentSideBar">
                     <actions>
                         <action id="entityLookup" type="entity_lookup"/>
                         <action id="entityClear" type="entity_clear"/>

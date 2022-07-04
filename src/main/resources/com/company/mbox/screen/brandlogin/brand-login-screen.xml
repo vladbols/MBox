@@ -15,7 +15,7 @@
                   height="100%"
                   stylename="jmix-brandlogin-login-panel">
                 <vbox id="loginBox"
-                      align="MIDDLE_CENTER"
+                      align="MIDDLE_LEFT"
                       margin="true"
                       width="AUTO">
                     <image id="logoImage"
