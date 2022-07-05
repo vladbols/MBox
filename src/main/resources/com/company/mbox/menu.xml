@@ -5,11 +5,12 @@
         <item screen="User.browse" caption="msg://com.company.mbox.screen.user/UserBrowse.caption"/>
         <item screen="themeSettingsScreen" caption="msg://io.jmix.ui.app.themesettings/themeSettings.caption"/>
         <item screen="Currency.browse" caption="msg://com.company.mbox.screen.currency/currencyBrowse.menu"/>
-        <item screen="Organization.browse" caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
+        <item screen="Warehouse.browse" caption="msg://com.company.mbox.screen.warehouse/warehouseBrowse.menu"/>
         <item screen="Division.browse" caption="msg://com.company.mbox.screen.division/divisionBrowse.menu"/>
-        <item screen="Unit.browse" caption="msg://com.company.mbox.screen.unit/unitBrowse.menu"/>
-        <item screen="Warehouse.browse" caption="msg://com.company.mbox.screen.warehouse/wearhouseBrowse.menu"/>
+        <item screen="Organization.browse"
+              caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
         <item screen="Item.browse" caption="msg://com.company.mbox.screen.item/itemBrowse.menu"/>
+        <item screen="Unit.browse" caption="msg://com.company.mbox.screen.unit/unitBrowse.menu"/>
         <item screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
         <item screen="DicSideBar.browse" caption="msg://com.company.mbox.screen.dicsidebar/dicSideBarBrowse.menu"/>
     </menu>

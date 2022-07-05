@@ -41,6 +41,7 @@
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
+                <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
@@ -51,6 +52,7 @@
                           alwaysVisible="true">
                 <button id="createBtn" action="unitsTable.create"/>
                 <button id="editBtn" action="unitsTable.edit"/>
+                <button id="refreshBtn" action="unitsTable.refresh"/>
                 <button id="removeBtn" action="unitsTable.remove"/>
             </buttonsPanel>
         </groupTable>

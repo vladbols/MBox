@@ -1,7 +1,7 @@
 package com.company.mbox.screen.warehouse;
 
-import com.company.mbox.entity.Warehouse;
 import io.jmix.ui.screen.*;
+import com.company.mbox.entity.Warehouse;
 
 @UiController("Warehouse.browse")
 @UiDescriptor("warehouse-browse.xml")

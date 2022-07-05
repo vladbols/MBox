@@ -6,10 +6,19 @@
         <instance id="orderDc"
                   class="com.company.mbox.entity.Order">
             <fetchPlan extends="_base">
-                <property name="orderDetail" fetchPlan="_base"/>
+                <property name="item" fetchPlan="_instance_name">
+                    <property name="warehouse" fetchPlan="_instance_name">
+                        <property name="division" fetchPlan="_instance_name">
+                            <property name="organization" fetchPlan="_instance_name"/>
+                        </property>
+                    </property>
+                    <property name="unit" fetchPlan="_base"/>
+                    <property name="type"/>
+                    <property name="prise"/>
+                </property>
             </fetchPlan>
             <loader/>
-            <collection id="orderDetailDc" property="orderDetail"/>
+            <collection id="itemDc" property="item"/>
         </instance>
     </data>
     <facets>
@@ -30,30 +39,21 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="orderDc">
             <column width="350px">
-                <textField id="orderNameField" property="orderName"/>
-                <dateField id="orderDateField" property="orderDate"/>
+                <textField id="amountField" property="amount"/>
             </column>
         </form>
-        <groupBox id="orderDetailBox" caption="msg://com.company.mbox.entity/Order.orderDetail">
-            <table id="orderDetailTable" dataContainer="orderDetailDc" width="100%" height="200px">
+        <groupBox id="itemBox" caption="msg://com.company.mbox.entity/Order.item">
+            <table id="itemTable" dataContainer="itemDc" width="100%" height="200px">
                 <actions>
-                    <action id="create" type="create"/>
-                    <action id="edit" type="edit"/>
-                    <action id="remove" type="remove"/>
+                    <action id="add" type="add"/>
+                    <action id="exclude" type="exclude"/>
                 </actions>
                 <columns>
-                    <column id="itemName"/>
-                    <column id="priseForOne"/>
-                    <column id="totalCount"/>
-                    <column id="company"/>
-                    <column id="companyAddres"/>
-                    <column id="wearhouseAddress"/>
-                    <column id="countForUser"/>
+                    <column id="name"/>
                 </columns>
                 <buttonsPanel>
-                    <button action="orderDetailTable.create"/>
-                    <button action="orderDetailTable.edit"/>
-                    <button action="orderDetailTable.remove"/>
+                    <button action="itemTable.add"/>
+                    <button action="itemTable.exclude"/>
                 </buttonsPanel>
             </table>
         </groupBox>

@@ -6,7 +6,12 @@
         <instance id="warehouseDc"
                   class="com.company.mbox.entity.Warehouse">
             <fetchPlan extends="_base">
-                <property name="division" fetchPlan="_base">
+                <property name="division">
+                    <property name="name"/>
+                    <property name="address"/>
+                    <property name="organization" fetchPlan="_instance_name">
+                        <property name="bin"/>
+                    </property>
                 </property>
             </fetchPlan>
             <loader/>
@@ -27,20 +32,22 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="warehouseDc">
-            <column width="350px">
-                <textField id="legacyIdField" property="legacyId"/>
-                <textField id="nameField" property="name"/>
-                <textField id="addressField" property="address"/>
-                <entityPicker id="divisionField" property="division">
-                    <actions>
-                        <action id="entityLookup" type="entity_lookup"/>
-                        <action id="entityClear" type="entity_clear"/>
-                    </actions>
-                </entityPicker>
-            </column>
-        </form>
+    <layout spacing="true" expand="scrollBox">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="warehouseDc">
+                <column width="350px">
+                    <textField id="legacyIdField" property="legacyId"/>
+                    <textField id="nameField" property="name"/>
+                    <textField id="addressField" property="address"/>
+                    <entityPicker id="divisionField" property="division">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                </column>
+            </form>
+        </scrollBox>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>

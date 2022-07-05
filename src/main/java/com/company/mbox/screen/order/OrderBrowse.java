@@ -4,7 +4,7 @@ import io.jmix.ui.screen.*;
 import com.company.mbox.entity.Order;
 
 @UiController("Order_.browse")
-@UiDescriptor("orders-browse.xml")
+@UiDescriptor("order-browse.xml")
 @LookupComponent("ordersTable")
 public class OrderBrowse extends StandardLookup<Order> {
 }

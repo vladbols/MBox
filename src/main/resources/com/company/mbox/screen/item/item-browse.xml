@@ -7,6 +7,11 @@
         <collection id="itemsDc"
                     class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
+                <property name="warehouse">
+                    <property name="division">
+                        <property name="organization" fetchPlan="_instance_name"/>
+                    </property>
+                </property>
                 <property name="unit" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="itemsDl">
@@ -39,26 +44,28 @@
         </filter>
         <groupTable id="itemsTable"
                     width="100%"
-                    dataContainer="itemsDc"
-                    caption="&#1057;&#1087;&#1080;&#1089;&#1086;&#1082; &#1090;&#1086;&#1074;&#1072;&#1088;&#1086;&#1074;">
+                    dataContainer="itemsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
+                <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name"
-                        caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
-                <column id="prise" caption="&#1062;&#1077;&#1085;&#1072;"/>
-                <column id="unit.name"
-                        caption="&#1045;&#1076;. &#1048;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;"/>
-                <column id="warehouse.address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
+                <column id="name"/>
+                <column id="warehouse"/>
+                <column id="legacyId"/>
+                <column id="unit"/>
+                <column id="type"/>
+                <column id="prise"/>
+                <column id="amount"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn" action="itemsTable.create"/>
                 <button id="editBtn" action="itemsTable.edit"/>
+                <button id="refreshBtn" action="itemsTable.refresh"/>
                 <button id="removeBtn" action="itemsTable.remove"/>
             </buttonsPanel>
         </groupTable>

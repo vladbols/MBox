@@ -6,6 +6,9 @@
         <instance id="itemDc"
                   class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
+                <property name="warehouse">
+                    <property name="name"/>
+                </property>
                 <property name="unit" fetchPlan="_base"/>
             </fetchPlan>
             <loader/>
@@ -26,22 +29,30 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="itemDc">
-            <column width="350px">
-                <textField id="legacyIdField" property="legacyId"/>
-                <textField id="nameField" property="name"/>
-                <entityPicker id="unitField" property="unit">
-                    <actions>
-                        <action id="entityLookup" type="entity_lookup"/>
-                        <action id="entityClear" type="entity_clear"/>
-                    </actions>
-                </entityPicker>
-                <textField id="typeField" property="type"/>
-                <textField id="priseField" property="prise"/>
-                <textField id="amountField" property="amount"/>
-            </column>
-        </form>
+    <layout spacing="true" expand="scrollBox">
+        <scrollBox id="scrollBox" spacing="true">
+            <form id="form" dataContainer="itemDc">
+                <column width="350px">
+                    <entityPicker id="warehouseField" property="warehouse">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                    <textField id="legacyIdField" property="legacyId"/>
+                    <textArea id="nameField" property="name" rows="5"/>
+                    <entityPicker id="unitField" property="unit">
+                        <actions>
+                            <action id="entityLookup" type="entity_lookup"/>
+                            <action id="entityClear" type="entity_clear"/>
+                        </actions>
+                    </entityPicker>
+                    <comboBox id="typeField" property="type"/>
+                    <textField id="priseField" property="prise"/>
+                    <textField id="amountField" property="amount"/>
+                </column>
+            </form>
+        </scrollBox>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
             <button id="closeBtn" action="windowClose"/>

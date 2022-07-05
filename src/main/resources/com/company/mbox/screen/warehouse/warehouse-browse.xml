@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://orderBrowse.caption"
-        focusComponent="ordersTable">
+        caption="msg://warehouseBrowse.caption"
+        focusComponent="warehousesTable">
     <data readOnly="true">
-        <collection id="ordersDc"
-                    class="com.company.mbox.entity.Order">
-            <fetchPlan extends="_base">
-                <property name="item" fetchPlan="_base">
-                    <property name="unit" fetchPlan="_base"/>
+        <collection id="warehousesDc"
+                    class="com.company.mbox.entity.Warehouse">
+            <fetchPlan extends="_instance_name">
+                <property name="address"/>
+                <property name="division">
+                    <property name="name"/>
+                    <property name="organization" fetchPlan="_instance_name"/>
                 </property>
-                <property name="user" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="ordersDl">
+            <loader id="warehousesDl">
                 <query>
-                    <![CDATA[select e from Order_ e]]>
+                    <![CDATA[select e from Warehouse e]]>
                 </query>
             </loader>
         </collection>
@@ -35,29 +36,32 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="ordersTable" spacing="true">
+    <layout expand="warehousesTable" spacing="true">
         <filter id="filter"
-                dataLoader="ordersDl">
+                dataLoader="warehousesDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="ordersTable"
+        <groupTable id="warehousesTable"
                     width="100%"
-                    dataContainer="ordersDc">
+                    dataContainer="warehousesDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
+                <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="user"/>
-                <column id="amount"/>
+                <column id="name"/>
+                <column id="address"/>
+                <column id="division"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="ordersTable.create"/>
-                <button id="editBtn" action="ordersTable.edit"/>
-                <button id="removeBtn" action="ordersTable.remove"/>
+                <button id="createBtn" action="warehousesTable.create"/>
+                <button id="editBtn" action="warehousesTable.edit"/>
+                <button id="refreshBtn" action="warehousesTable.refresh"/>
+                <button id="removeBtn" action="warehousesTable.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

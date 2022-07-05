@@ -7,9 +7,7 @@
         <collection id="divisionsDc"
                     class="com.company.mbox.entity.Division">
             <fetchPlan extends="_base">
-                <property name="provider" fetchPlan="_base">
-                    <property name="currency" fetchPlan="_base"/>
-                </property>
+                <property name="organization" fetchPlan="_instance_name"/>
             </fetchPlan>
             <loader id="divisionsDl">
                 <query>
@@ -45,19 +43,21 @@
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
+                <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
                 <column id="legacyId"/>
                 <column id="name"/>
                 <column id="address"/>
-                <column id="provider"/>
+                <column id="organization"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn" action="divisionsTable.create"/>
                 <button id="editBtn" action="divisionsTable.edit"/>
+                <button id="refreshBtn" action="divisionsTable.refresh"/>
                 <button id="removeBtn" action="divisionsTable.remove"/>
             </buttonsPanel>
         </groupTable>
