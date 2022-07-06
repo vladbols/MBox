@@ -15,6 +15,7 @@
                 icon="EDITOR_OK"
                 primary="true"
                 shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="createOrganization"/>
     </actions>
     <layout>
         <form id="form" dataContainer="userDc"
@@ -30,6 +31,8 @@
             <textField id="emailField" property="email"/>
             <comboBox id="timeZoneField" property="timeZoneId"/>
             <comboBox id="organizationBin" property="organization.bin" dataContainer="userDc" pageLength="1"/>
+            <button id="createOrganization" action="createOrganization"
+                    caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102;"/>
         </form>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"

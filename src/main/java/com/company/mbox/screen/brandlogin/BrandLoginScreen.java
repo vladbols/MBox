@@ -139,4 +139,9 @@ public class BrandLoginScreen extends Screen {
         logoImage.setSource(RelativePathResource.class)
                 .setPath("VAADIN/brand-login-screen/jmix-icon-login.svg");
     }
+
+    @Subscribe("registration")
+    public void onRegistrationClick(Button.ClickEvent event) {
+        
+    }
 }

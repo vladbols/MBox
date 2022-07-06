@@ -15,6 +15,7 @@ import java.util.TimeZone;
 @UiController("UserRegisrtation")
 @UiDescriptor("user-regisrtation.xml")
 public class UserRegisrtation extends ScreenFragment {
+
     @Autowired
     private EntityStates entityStates;
 
