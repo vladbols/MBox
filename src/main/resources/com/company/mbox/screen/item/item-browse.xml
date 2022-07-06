@@ -38,9 +38,13 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="itemsTable" spacing="true">
-        <filter id="filter"
-                dataLoader="itemsDl">
+        <filter id="filter" dataLoader="itemsDl">
             <properties include=".*"/>
+            <configurations>
+                <configuration id="name_contains" default="true" name="msg:///filter.name.contains">
+                    <propertyFilter id="name_property" property="name" caption="msg:///filter.name.contains" operation="CONTAINS"/>
+                </configuration>
+            </configurations>
         </filter>
         <groupTable id="itemsTable"
                     width="100%"

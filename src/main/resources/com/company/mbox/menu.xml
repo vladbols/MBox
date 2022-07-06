@@ -7,8 +7,7 @@
         <item screen="Currency.browse" caption="msg://com.company.mbox.screen.currency/currencyBrowse.menu"/>
         <item screen="Warehouse.browse" caption="msg://com.company.mbox.screen.warehouse/warehouseBrowse.menu"/>
         <item screen="Division.browse" caption="msg://com.company.mbox.screen.division/divisionBrowse.menu"/>
-        <item screen="Organization.browse"
-              caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
+        <item screen="Organization.browse" caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
         <item screen="Item.browse" caption="msg://com.company.mbox.screen.item/itemBrowse.menu"/>
         <item screen="Unit.browse" caption="msg://com.company.mbox.screen.unit/unitBrowse.menu"/>
         <item screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
