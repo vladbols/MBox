@@ -68,6 +68,7 @@ public class BrandLoginScreen extends Screen {
         initLocalesField();
         initDefaultCredentials();
         loadStyles();
+
     }
 
     private void initLocalesField() {
@@ -142,6 +143,9 @@ public class BrandLoginScreen extends Screen {
 
     @Subscribe("registration")
     public void onRegistrationClick(Button.ClickEvent event) {
+        registrration();
+    }
+    private void registrration() {
         
     }
 }
