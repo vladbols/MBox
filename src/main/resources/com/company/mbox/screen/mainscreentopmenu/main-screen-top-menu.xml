@@ -1,6 +1,6 @@
 <window xmlns="http://jmix.io/schema/ui/window"
         caption="msg://caption">
-    <layout expand="workArea">
+    <layout expand="side">
         <hbox id="header"
               expand="mainMenu"
               margin="false;true;false;true"
@@ -29,21 +29,16 @@
                               icon="SIGN_OUT"/>
             </hbox>
         </hbox>
-        <treeDataGrid id="dicSideBarsTable"
-                      width="10%"
-                      dataContainer="dicSideBarsDc"
-                      hierarchyProperty="parentSideBar">
-            <columns>
-                <column property="name" id="name"/>
-            </columns>
-            <simplePagination/>
-        </treeDataGrid>
-        <workArea id="workArea"
-                  stylename="jmix-workarea"
-                  width="100%">
-            <initialLayout margin="true"
-                           spacing="true">
-            </initialLayout>
-        </workArea>
+        <hbox id="side"
+              margin="false;true;false;true"
+              expand="workArea"
+              width="100%">
+            <sideMenu id="sideMenu" align="TOP_LEFT" loadMenuConfig="false" selectOnClick="true"/>
+            <workArea id="workArea" stylename="jmix-workarea" height="100%">
+                <initialLayout margin="true" spacing="true">
+                </initialLayout>
+            </workArea>
+        </hbox>
+
     </layout>
 </window>
