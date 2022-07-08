@@ -31,6 +31,14 @@
             <form id="form" dataContainer="userDc">
                 <column width="350px">
                     <textField id="usernameField" property="username"/>
+                    <passwordField id="passwordField"
+                                   caption="msg://com.company.mbox.entity/User.password"
+                                   required="true"
+                                   visible="false"/>
+                    <passwordField id="confirmPasswordField"
+                                   caption="msg://confirmPassword"
+                                   required="true"
+                                   visible="false"/>
                     <textField id="firstNameField" property="firstName"/>
                     <textField id="lastNameField" property="lastName"/>
                     <textField id="emailField" property="email"/>
