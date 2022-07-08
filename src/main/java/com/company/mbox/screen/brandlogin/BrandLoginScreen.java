@@ -1,5 +1,8 @@
 package com.company.mbox.screen.brandlogin;
 
+import com.company.mbox.dto.PassScreenOptions;
+import com.company.mbox.screen.item.ItemBrowse;
+import com.company.mbox.screen.user.RegistrationUser;
 import com.vaadin.ui.Dependency;
 import io.jmix.core.MessageTools;
 import io.jmix.core.Messages;
@@ -7,10 +10,13 @@ import io.jmix.securityui.authentication.AuthDetails;
 import io.jmix.securityui.authentication.LoginScreenSupport;
 import io.jmix.ui.JmixApp;
 import io.jmix.ui.Notifications;
+import io.jmix.ui.ScreenBuilders;
+import io.jmix.ui.Screens;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.component.*;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
+import io.jmix.ui.screen.Screen;
 import io.jmix.ui.security.UiLoginProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +55,12 @@ public class BrandLoginScreen extends Screen {
 
     @Autowired
     private MessageTools messageTools;
+
+    @Autowired
+    private Screens screens;
+
+    @Autowired
+    private ScreenBuilders screenBuilders;
 
     @Autowired
     private LoginScreenSupport loginScreenSupport;
@@ -143,9 +155,10 @@ public class BrandLoginScreen extends Screen {
 
     @Subscribe("registration")
     public void onRegistrationClick(Button.ClickEvent event) {
-        registrration();
-    }
-    private void registrration() {
-        
+        Screen itemScreen = screens.create(RegistrationUser.class);
+        screenBuilders
+                .screen(itemScreen)
+                .withScreenClass(RegistrationUser.class)
+                .build().show();
     }
 }
