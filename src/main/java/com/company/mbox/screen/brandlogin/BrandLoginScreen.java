@@ -154,7 +154,7 @@ public class BrandLoginScreen extends Screen {
     }
 
     @Subscribe("registration")
-    public void onRegistrationClick(Button.ClickEvent event) {
+    public void onRegistrationClick(Action.ActionPerformedEvent event) {
         Screen itemScreen = screens.create(RegistrationUser.class);
         screenBuilders
                 .screen(itemScreen)
