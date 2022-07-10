@@ -30,20 +30,20 @@
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="userDc">
                 <column width="350px">
-                    <textField id="usernameField" property="username"/>
+                    <textField id="usernameField" property="username" caption="Имя пользователя"/>
                     <passwordField id="passwordField"
-                                   caption="msg://com.company.mbox.entity/User.password"
+                                   caption="Пароль"
                                    required="true"
                                    visible="false"/>
                     <passwordField id="confirmPasswordField"
-                                   caption="msg://confirmPassword"
+                                   caption="Повторите пароль"
                                    required="true"
                                    visible="false"/>
-                    <textField id="firstNameField" property="firstName"/>
-                    <textField id="lastNameField" property="lastName"/>
+                    <textField id="firstNameField" property="firstName" caption="Имя"/>
+                    <textField id="lastNameField" property="lastName" caption="Фамилия"/>
                     <textField id="emailField" property="email"/>
-                    <textField id="iinField" property="iin"/>
-                    <entityPicker id="organizationField" property="organization">
+                    <textField id="iinField" property="iin" caption="ИИН"/>
+                    <entityPicker id="organizationField" property="organization" caption="Организация">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
