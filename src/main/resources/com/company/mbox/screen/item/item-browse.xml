@@ -43,6 +43,7 @@
             <configurations>
                 <configuration id="name_contains" default="true" name="msg:///filter.name.contains">
                     <propertyFilter id="name_property" property="name" caption="msg:///filter.name.contains" operation="CONTAINS"/>
+                    <propertyFilter id="amount_property" property="amount" caption="Количество" operation="GREATER_OR_EQUAL"/>
                 </configuration>
             </configurations>
         </filter>
@@ -62,7 +63,6 @@
                 <column id="unit"/>
                 <column id="type"/>
                 <column id="prise"/>
-                <column id="amount"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"

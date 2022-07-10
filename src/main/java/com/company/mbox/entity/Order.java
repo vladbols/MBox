@@ -65,13 +65,13 @@ public class Order {
     @ManyToMany
     private List<Item> item;
 
-    @NotNull
-    @JoinColumn(name = "USER_ID", nullable = false)
+
+    @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    @NotNull
-    @Column(name = "AMOUNT", nullable = false)
+
+    @Column(name = "AMOUNT")
     private Double amount;
 
     public Date getDeletedDate() {
