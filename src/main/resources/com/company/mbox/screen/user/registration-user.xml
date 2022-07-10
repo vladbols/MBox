@@ -43,7 +43,6 @@
                     <textField id="lastNameField" property="lastName"/>
                     <textField id="emailField" property="email"/>
                     <textField id="iinField" property="iin"/>
-                    <textField id="timeZoneIdField" property="timeZoneId"/>
                     <entityPicker id="organizationField" property="organization">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>

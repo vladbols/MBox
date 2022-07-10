@@ -1,17 +1,16 @@
 package com.company.mbox.screen.main;
 
+import com.company.mbox.screen.user.RegistrationUser;
 import io.jmix.ui.ScreenTools;
+import io.jmix.ui.UiProperties;
+import io.jmix.ui.action.Action;
 import io.jmix.ui.component.AppWorkArea;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.Window;
 import io.jmix.ui.component.mainwindow.Drawer;
 import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.navigation.Route;
-import io.jmix.ui.screen.Screen;
-import io.jmix.ui.screen.Subscribe;
-import io.jmix.ui.screen.UiController;
-import io.jmix.ui.screen.UiControllerUtils;
-import io.jmix.ui.screen.UiDescriptor;
+import io.jmix.ui.screen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @UiController("MainScreen")
@@ -26,23 +25,12 @@ public class MainScreen extends Screen implements Window.HasWorkArea {
     private AppWorkArea workArea;
     @Autowired
     private Drawer drawer;
-    @Autowired
-    private Button collapseDrawerButton;
+
 
 
     @Override
     public AppWorkArea getWorkArea() {
         return workArea;
-    }
-
-    @Subscribe("collapseDrawerButton")
-    private void onCollapseDrawerButtonClick(Button.ClickEvent event) {
-        drawer.toggle();
-        if (drawer.isCollapsed()) {
-            collapseDrawerButton.setIconFromSet(JmixIcon.CHEVRON_RIGHT);
-        } else {
-            collapseDrawerButton.setIconFromSet(JmixIcon.CHEVRON_LEFT);
-        }
     }
 
     @Subscribe
@@ -52,4 +40,5 @@ public class MainScreen extends Screen implements Window.HasWorkArea {
 
         screenTools.handleRedirect();
     }
+
 }

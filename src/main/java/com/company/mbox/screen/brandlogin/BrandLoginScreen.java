@@ -153,12 +153,5 @@ public class BrandLoginScreen extends Screen {
                 .setPath("VAADIN/brand-login-screen/jmix-icon-login.svg");
     }
 
-    @Subscribe("registration")
-    public void onRegistrationClick(Action.ActionPerformedEvent event) {
-        Screen itemScreen = screens.create(RegistrationUser.class);
-        screenBuilders
-                .screen(itemScreen)
-                .withScreenClass(RegistrationUser.class)
-                .build().show();
-    }
+
 }

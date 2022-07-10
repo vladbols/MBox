@@ -70,13 +70,6 @@
                                 width="200px"
                                 height="40px"
                                 stylename="jmix-login-button primary"/>
-                        <button id="registration"
-                                action="registration"
-                                align="MIDDLE_CENTER"
-                                width="200px"
-                                height="40px"
-                                stylename="jmix-login-button primary"
-                                caption="&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103;"/>
                     </vbox>
                 </vbox>
             </vbox>
@@ -88,5 +81,6 @@
                 </resource>
             </image>
         </cssLayout>
+
     </layout>
 </window>

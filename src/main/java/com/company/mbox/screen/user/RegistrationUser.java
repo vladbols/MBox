@@ -5,6 +5,7 @@ import io.jmix.ui.Notifications;
 import io.jmix.ui.component.ComboBox;
 import io.jmix.ui.component.PasswordField;
 import io.jmix.ui.component.TextField;
+import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import com.company.mbox.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.TimeZone;
 
 @UiController("User.registration")
 @UiDescriptor("registration-user.xml")
+@Route(path = "anonymous")
 @EditedEntityContainer("userDc")
 public class RegistrationUser extends StandardEditor<User> {
     @Autowired
@@ -39,8 +41,6 @@ public class RegistrationUser extends StandardEditor<User> {
     @Autowired
     private MessageBundle messageBundle;
 
-    @Autowired
-    private ComboBox<String> timeZoneField;
 
     @Subscribe
     public void onInitEntity(InitEntityEvent<User> event) {
@@ -67,10 +67,5 @@ public class RegistrationUser extends StandardEditor<User> {
             }
             getEditedEntity().setPassword(passwordEncoder.encode(passwordField.getValue()));
         }
-    }
-
-    @Subscribe
-    public void onInit(InitEvent event) {
-        timeZoneField.setOptionsList(Arrays.asList(TimeZone.getAvailableIDs()));
     }
 }
