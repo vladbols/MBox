@@ -10,13 +10,12 @@
         <item screen="Organization.browse" caption="msg://com.company.mbox.screen.organization/organizationBrowse.menu"/>
         <item screen="Item.browse" caption="msg://com.company.mbox.screen.item/itemBrowse.menu"/>
         <item screen="Unit.browse" caption="msg://com.company.mbox.screen.unit/unitBrowse.menu"/>
-        <item screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
         <item screen="DicSideBar.browse" caption="msg://com.company.mbox.screen.dicsidebar/dicSideBarBrowse.menu"/>
     </menu>
+    <item id="orderBrowse" screen="Order_.browse" caption="msg://com.company.mbox.screen.order/orderBrowse.menu"/>
     <item id="loginScreen" screen="BrandLogin" caption="msg://com.company.mbox/menu_config.BrandLogin" insertAfter="administration"
           openMode="DIALOG"/>
     <item id="registrationUser"
           screen="User.registration"
           caption="msg:///registrationUser"/>
-
 </menu-config>

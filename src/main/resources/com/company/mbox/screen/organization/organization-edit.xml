@@ -30,22 +30,21 @@
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="organizationDc">
                 <column width="350px">
-                    <textField id="legacyIdField" property="legacyId"/>
-                    <textArea id="nameField" property="name" rows="5"/>
-                    <textField id="binField" property="bin"/>
-                    <dateField id="dateField" property="date"/>
-                    <textArea id="addressField" property="address" rows="5"/>
-                    <textField id="accountField" property="account"/>
-                    <textField id="kbeField" property="kbe"/>
-                    <textField id="bikField" property="bik"/>
-                    <textField id="bankField" property="bank"/>
-                    <entityPicker id="currencyField" property="currency">
+                    <textArea id="nameField" property="name" rows="5" caption="Название организации"/>
+                    <textField id="binField" property="bin" caption="БИН"/>
+                    <dateField id="dateField" property="date" caption="Дата"/>
+                    <textArea id="addressField" property="address" rows="5" caption="Адрес"/>
+                    <textField id="accountField" property="account" caption="Номер счета"/>
+                    <textField id="kbeField" property="kbe" caption="КБе"/>
+                    <textField id="bikField" property="bik" caption="БИК"/>
+                    <textField id="bankField" property="bank" caption="Банк"/>
+                    <entityPicker id="currencyField" property="currency" caption="Валюта">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
                         </actions>
                     </entityPicker>
-                    <checkBox id="activeField" property="active"/>
+                    <checkBox id="activeField" property="active" caption="Активно"/>
                 </column>
             </form>
         </scrollBox>

@@ -5,6 +5,7 @@ import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -65,6 +66,7 @@ public class Organization {
     @Column(name = "NAME")
     private String name;
 
+    @Length(min = 12, max = 12)
     @NotNull
     @Column(name = "BIN", nullable = false)
     private String bin;
@@ -77,12 +79,15 @@ public class Organization {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Length(min = 20, max = 20)
     @Column(name = "ACCOUNT")
     private String account;
 
+    @Length(min = 2, max = 2)
     @Column(name = "KBE")
     private String kbe;
 
+    @Length(min = 8, max = 12)
     @Column(name = "BIK")
     private String bik;
 
