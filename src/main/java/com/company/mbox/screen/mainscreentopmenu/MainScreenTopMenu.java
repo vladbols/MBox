@@ -78,6 +78,7 @@ public class MainScreenTopMenu extends Screen implements Window.HasWorkArea {
     @Subscribe("sideMenu")
     public void onSideMenuItemSelect(SideMenu.ItemSelectEvent event) {
         Collection<Screen> scr = screens.getOpenedScreens().getActiveScreens();
+        SideMenu.MenuItem item = event.getMenuItem();
 
         scr.forEach(screen -> {
             if(screen.getId().equals("Item.browse")){
@@ -85,11 +86,17 @@ public class MainScreenTopMenu extends Screen implements Window.HasWorkArea {
             }
         });
 
+        String param = item.getCaption();
+        while(item.getParent() != null){
+            item = item.getParent();
+            param = String.format("%s %s", item.getCaption(), param);
+        }
+
         Screen itemScreen = screens.create(ItemBrowse.class);
         screenBuilders
                 .screen(itemScreen)
                 .withScreenClass(ItemBrowse.class)
-                .withOptions(new PassScreenOptions(event.getMenuItem().getId(), event.getMenuItem().getCaption()))
+                .withOptions(new PassScreenOptions(event.getMenuItem().getId(), param))
                 .build().show();
     }
 
