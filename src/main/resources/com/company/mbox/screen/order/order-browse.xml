@@ -7,15 +7,8 @@
         <collection id="ordersDc"
                     class="com.company.mbox.entity.Order">
             <fetchPlan extends="_base">
-                <property name="item" fetchPlan="_instance_name">
-                    <property name="warehouse" fetchPlan="_instance_name">
-                        <property name="division" fetchPlan="_instance_name">
-                            <property name="organization" fetchPlan="_instance_name"/>
-                        </property>
-                    </property>
-                    <property name="unit" fetchPlan="_base"/>
-                    <property name="type"/>
-                    <property name="prise"/>
+                <property name="orderGroupId" fetchPlan="_base">
+                    <property name="item" fetchPlan="_base"/>
                 </property>
             </fetchPlan>
             <loader id="ordersDl">
@@ -52,22 +45,17 @@
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
-                <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="item.name"/>
-                <column id="item.warehouse.name"/>
-                <column id="item.warehouse.division.name"/>
-                <column id="item.warehouse.division.organization.name"/>
-                <column id="amount"/>
+                <column id="name"
+                        caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn" action="ordersTable.create"/>
                 <button id="editBtn" action="ordersTable.edit"/>
-                <button id="refreshBtn" action="ordersTable.refresh"/>
                 <button id="removeBtn" action="ordersTable.remove"/>
             </buttonsPanel>
         </groupTable>

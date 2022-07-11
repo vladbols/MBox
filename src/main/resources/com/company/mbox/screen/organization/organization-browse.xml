@@ -39,30 +39,34 @@
                     width="100%"
                     dataContainer="organizationsDc">
             <actions>
-                <action id="create" type="create"/>
+                <action id="create" type="create" caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
                 <action id="edit" type="edit"/>
                 <action id="refresh" type="refresh"/>
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="legacyId"/>
-                <column id="name"/>
-                <column id="bin"/>
-                <column id="date"/>
-                <column id="address"/>
-                <column id="account"/>
-                <column id="kbe"/>
-                <column id="bik"/>
-                <column id="bank"/>
+                <column id="name"
+                        caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
+                <column id="bin" caption="&#1041;&#1080;&#1085;"/>
+                <column id="date" caption="&#1044;&#1072;&#1090;&#1072;"/>
+                <column id="address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
+                <column id="account" caption="&#1053;&#1086;&#1084;&#1077;&#1088; &#1089;&#1095;&#1077;&#1090;&#1072;"/>
+                <column id="kbe" caption="&#1050;&#1041;&#1077;"/>
+                <column id="bik" caption="&#1041;&#1080;&#1082;"/>
+                <column id="bank" caption="&#1041;&#1072;&#1085;&#1082;"/>
                 <column id="active"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="organizationsTable.create"/>
-                <button id="editBtn" action="organizationsTable.edit"/>
-                <button id="refreshBtn" action="organizationsTable.refresh"/>
-                <button id="removeBtn" action="organizationsTable.remove"/>
+                <button id="createBtn" action="organizationsTable.create"
+                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
+                <button id="editBtn" action="organizationsTable.edit"
+                        caption="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
+                <button id="refreshBtn" action="organizationsTable.refresh"
+                        caption="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;"/>
+                <button id="removeBtn" action="organizationsTable.remove"
+                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

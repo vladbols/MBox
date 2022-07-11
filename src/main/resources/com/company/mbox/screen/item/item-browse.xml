@@ -42,7 +42,7 @@
             <properties include=".*"/>
             <configurations>
                 <configuration id="name_contains" default="true" name="msg:///filter.name.contains">
-                    <propertyFilter id="name_property" property="name" caption="msg:///filter.name.contains" operation="CONTAINS"/>
+                    <propertyFilter id="name_property" property="name" caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;" operation="CONTAINS"/>
                     <propertyFilter id="amount_property" property="amount" caption="Количество" operation="GREATER_OR_EQUAL"/>
                 </configuration>
             </configurations>
@@ -57,20 +57,25 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name"/>
-                <column id="warehouse"/>
-                <column id="legacyId"/>
-                <column id="unit"/>
-                <column id="type"/>
-                <column id="prise"/>
+                <column id="name" caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
+                <column id="warehouse.address"
+                        caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;"/>
+                <column id="unit.name"
+                        caption="&#1045;&#1076;. &#1080;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;"/>
+                <column id="type" caption="&#1058;&#1080;&#1087;"/>
+                <column id="prise" caption="&#1062;&#1077;&#1085;&#1072;"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="itemsTable.create"/>
-                <button id="editBtn" action="itemsTable.edit"/>
-                <button id="refreshBtn" action="itemsTable.refresh"/>
-                <button id="removeBtn" action="itemsTable.remove"/>
+                <button id="createBtn" action="itemsTable.create"
+                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
+                <button id="editBtn" action="itemsTable.edit"
+                        caption="&#1056;&#1077;&#1076;&#1072;&#1077;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
+                <button id="refreshBtn" action="itemsTable.refresh"
+                        caption="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;"/>
+                <button id="removeBtn" action="itemsTable.remove"
+                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

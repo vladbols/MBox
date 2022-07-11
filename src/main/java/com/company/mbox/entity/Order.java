@@ -11,7 +11,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -58,21 +57,37 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-    @InstanceName
-    @JoinTable(name = "ORDER_ITEM_LINK",
+
+    @JoinTable(name = "ORDER_ORDER_GROUP_LINK",
             joinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"))
+            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"))
     @ManyToMany
-    private List<Item> item;
+    private List<OrderGroup> orderGroupId;
 
-
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
+    @InstanceName
+    @Column(name = "NAME")
+    private String name;
 
-    @Column(name = "AMOUNT")
-    private Double amount;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public List<OrderGroup> getOrderGroupId() {
+        return orderGroupId;
+    }
+
+    public void setOrderGroupId(List<OrderGroup> orderGroupId) {
+        this.orderGroupId = orderGroupId;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;
@@ -130,28 +145,12 @@ public class Order {
         this.version = version;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Item> getItem() {
-        return item;
-    }
-
-    public void setItem(List<Item> item) {
-        this.item = item;
     }
 
     public UUID getId() {

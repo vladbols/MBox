@@ -33,23 +33,26 @@
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="itemDc">
                 <column width="350px">
-                    <entityPicker id="warehouseField" property="warehouse">
+                    <entityPicker id="warehouseField" property="warehouse.address"
+                                  caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
                         </actions>
                     </entityPicker>
-                    <textField id="legacyIdField" property="legacyId"/>
-                    <textArea id="nameField" property="name" rows="5"/>
-                    <entityPicker id="unitField" property="unit">
+                    <textArea id="nameField" property="name" rows="5"
+                              caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
+                    <entityPicker id="unitField" property="unit.name"
+                                  caption="&#1045;&#1076;. &#1080;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
                         </actions>
                     </entityPicker>
-                    <comboBox id="typeField" property="type"/>
-                    <textField id="priseField" property="prise"/>
-                    <textField id="amountField" property="amount"/>
+                    <comboBox id="typeField" property="type" caption="&#1058;&#1080;&#1087;"/>
+                    <textField id="priseField" property="prise" caption="&#1062;&#1077;&#1085;&#1072;"/>
+                    <textField id="amountField" property="amount"
+                               caption="&#1050;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1086; &#1085;&#1072; &#1089;&#1082;&#1083;&#1072;&#1076;&#1077;"/>
                 </column>
             </form>
         </scrollBox>

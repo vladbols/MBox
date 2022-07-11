@@ -27,20 +27,23 @@
     <layout spacing="true" expand="editActions">
         <form id="form" dataContainer="userDc"
         >
-                <textField id="usernameField" property="username" editable="false"/>
+                <textField id="usernameField" property="username" editable="false"
+                           caption="&#1051;&#1086;&#1075;&#1080;&#1085;"/>
                 <passwordField id="passwordField"
-                               caption="msg://com.company.mbox.entity/User.password"
+                               caption="&#1055;&#1072;&#1088;&#1086;&#1083;&#1100;"
                                required="true"
                                visible="false"/>
                 <passwordField id="confirmPasswordField"
-                               caption="msg://confirmPassword"
+                               caption="&#1055;&#1086;&#1074;&#1090;&#1086;&#1088;&#1080;&#1090;&#1077; &#1087;&#1072;&#1088;&#1086;&#1083;&#1100;"
                                required="true"
                                visible="false"/>
-                <textField id="iinField" property="iin" required="true"/>
-                <textField id="firstNameField" property="firstName"/>
-                <textField id="lastNameField" property="lastName"/>
+                <textField id="iinField" property="iin" required="true" caption="&#1048;&#1048;&#1053;"/>
+                <textField id="firstNameField" property="firstName" caption="&#1048;&#1084;&#1103;"/>
+                <textField id="lastNameField" property="lastName"
+                           caption="&#1060;&#1072;&#1084;&#1080;&#1083;&#1080;&#1103;"/>
                 <textField id="emailField" property="email"/>
-                <comboBox id="timeZoneField" property="timeZoneId"/>
+                <comboBox id="timeZoneField" property="timeZoneId"
+                          caption="&#1063;&#1072;&#1089;&#1086;&#1074;&#1086;&#1081; &#1087;&#1086;&#1103;&#1089;"/>
                 <checkBox id="activeField" property="active"/>
         </form>
         <hbox id="editActions" spacing="true">

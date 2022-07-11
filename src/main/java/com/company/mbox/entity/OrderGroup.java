@@ -11,17 +11,14 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "ITEM", indexes = {
-        @Index(name = "IDX_ITEM_WAREHOUSE_ID", columnList = "WAREHOUSE_ID")
-})
+@Table(name = "ORDER_GROUP")
 @Entity
-public class Item {
+public class OrderGroup {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -58,53 +55,48 @@ public class Item {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-    @JoinColumn(name = "WAREHOUSE_ID", nullable = false)
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Warehouse warehouse;
 
-    @Column(name = "LEGACY_ID")
-    private Integer legacyId;
+    @JoinTable(name = "ORDER_GROUP_ITEM_LINK",
+            joinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"))
+    @ManyToMany
+    private List<Item> item;
 
-    @Lob
     @InstanceName
     @Column(name = "NAME")
     private String name;
 
-    @NotNull
-    @JoinColumn(name = "UNIT_ID", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Unit unit;
-
-    @NotNull
-    @Column(name = "TYPE_", nullable = false)
-    private String type;
-
-    @Column(name = "PRISE")
-    private Double prise;
-
     @Column(name = "AMOUNT")
-    private Integer amount;
-    @JoinTable(name = "ORDER_GROUP_ITEM_LINK",
-            joinColumns = @JoinColumn(name = "ITEM_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID"))
+    private Double amount;
+
+    @JoinTable(name = "ORDER_ORDER_GROUP_LINK",
+            joinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID"))
     @ManyToMany
-    private List<OrderGroup> orderGroups;
+    private List<Order> orders;
 
-    public List<OrderGroup> getOrderGroups() {
-        return orderGroups;
+    public String getName() {
+        return name;
     }
 
-    public void setOrderGroups(List<OrderGroup> orderGroups) {
-        this.orderGroups = orderGroups;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Warehouse getWarehouse() {
-        return warehouse;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setWarehouse(Warehouse warehouse) {
-        this.warehouse = warehouse;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Item> getItem() {
+        return item;
+    }
+
+    public void setItem(List<Item> item) {
+        this.item = item;
     }
 
     public Date getDeletedDate() {
@@ -163,52 +155,12 @@ public class Item {
         this.version = version;
     }
 
-    public void setPrise(Double prise) {
-        this.prise = prise;
-    }
-
-    public Double getPrise() {
-        return prise;
-    }
-
-    public void setType(ItemType type) {
-        this.type = type == null ? null : type.getId();
-    }
-
-    public ItemType getType() {
-        return type == null ? null : ItemType.fromId(type);
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getLegacyId() {
-        return legacyId;
-    }
-
-    public void setLegacyId(Integer legacyId) {
-        this.legacyId = legacyId;
+    public Double getAmount() {
+        return amount;
     }
 
     public UUID getId() {

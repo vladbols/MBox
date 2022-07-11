@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
         xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://currencyBrowse.caption"
-        focusComponent="currenciesTable">
+        caption="msg://orderGroupBrowse.caption"
+        focusComponent="orderGroupsTable">
     <data readOnly="true">
-        <collection id="currenciesDc"
-                    class="com.company.mbox.entity.Currency">
-            <fetchPlan extends="_base"/>
-            <loader id="currenciesDl">
+        <collection id="orderGroupsDc"
+                    class="com.company.mbox.entity.OrderGroup">
+            <fetchPlan extends="_base">
+                <property name="item" fetchPlan="_base">
+                    <property name="warehouse" fetchPlan="_base">
+                        <property name="division" fetchPlan="_base">
+                            <property name="organization" fetchPlan="_base">
+                                <property name="currency" fetchPlan="_base"/>
+                            </property>
+                        </property>
+                    </property>
+                    <property name="unit" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="orderGroupsDl">
                 <query>
-                    <![CDATA[select e from Currency e]]>
+                    <![CDATA[select e from OrderGroup e]]>
                 </query>
             </loader>
         </collection>
@@ -30,14 +41,14 @@
     </actions>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="currenciesTable" spacing="true">
+    <layout expand="orderGroupsTable" spacing="true">
         <filter id="filter"
-                dataLoader="currenciesDl">
+                dataLoader="orderGroupsDl">
             <properties include=".*"/>
         </filter>
-        <groupTable id="currenciesTable"
+        <groupTable id="orderGroupsTable"
                     width="100%"
-                    dataContainer="currenciesDc">
+                    dataContainer="orderGroupsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -46,16 +57,16 @@
             <columns>
                 <column id="name"
                         caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
-                <column id="code" caption="&#1050;&#1086;&#1076;"/>
+                <column id="amount" caption="&#1050;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1086;"/>
             </columns>
             <simplePagination/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-                <button id="createBtn" action="currenciesTable.create"
+                <button id="createBtn" action="orderGroupsTable.create"
                         caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
-                <button id="editBtn" action="currenciesTable.edit"
+                <button id="editBtn" action="orderGroupsTable.edit"
                         caption="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
-                <button id="removeBtn" action="currenciesTable.remove"
+                <button id="removeBtn" action="orderGroupsTable.remove"
                         caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
             </buttonsPanel>
         </groupTable>
