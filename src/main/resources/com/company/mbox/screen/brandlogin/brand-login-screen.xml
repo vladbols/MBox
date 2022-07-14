@@ -5,7 +5,6 @@
         <action id="submit"
                 caption="msg://submitAction"
                 shortcut="ENTER"/>
-        <action id="registration"/>
     </actions>
     <layout stylename="jmix-brandlogin-main-layout">
         <cssLayout id="mainLayout"

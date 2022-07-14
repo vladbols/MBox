@@ -141,6 +141,7 @@ public class BrandLoginScreen extends Screen {
                     .withDescription(messages.getMessage(getClass(), "badCredentials"))
                     .show();
         }
+        close(StandardOutcome.CLOSE);
     }
 
     private void loadStyles() {
