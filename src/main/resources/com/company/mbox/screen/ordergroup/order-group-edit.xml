@@ -6,16 +6,15 @@
         <instance id="orderGroupDc"
                   class="com.company.mbox.entity.OrderGroup">
             <fetchPlan extends="_base">
-                <property name="item" fetchPlan="_base">
-                    <property name="warehouse" fetchPlan="_base">
-                        <property name="division" fetchPlan="_base">
-                            <property name="organization" fetchPlan="_base">
-                                <property name="currency" fetchPlan="_base"/>
-                            </property>
-                        </property>
-                    </property>
-                    <property name="unit" fetchPlan="_base"/>
-                </property>
+<!--                <property name="item" fetchPlan="_base">-->
+<!--                    <property name="warehouse" fetchPlan="_base">-->
+<!--                        <property name="division" fetchPlan="_base">-->
+<!--                            <property name="organization" fetchPlan="_base">-->
+<!--                                <property name="currency" fetchPlan="_base"/>-->
+<!--                            </property>-->
+<!--                        </property>-->
+<!--                    </property>-->
+<!--                </property>-->
             </fetchPlan>
             <loader/>
             <collection id="itemDc" property="item"/>
@@ -53,7 +52,7 @@
                     <column id="name"
                             caption="&#1053;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
                     <column id="type" caption="&#1058;&#1080;&#1087;"/>
-                    <column id="prise" caption="&#1062;&#1077;&#1085;&#1072;"/>
+                    <column id="price" caption="&#1062;&#1077;&#1085;&#1072;"/>
                     <column id="unit" caption="&#1045;&#1076;. &#1080;&#1079;&#1084;."/>
                     <column id="warehouse.address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
                 </columns>

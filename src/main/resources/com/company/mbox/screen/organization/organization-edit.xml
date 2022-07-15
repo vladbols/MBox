@@ -38,7 +38,7 @@
                     <textField id="kbeField" property="kbe" caption="КБе"/>
                     <textField id="bikField" property="bik" caption="БИК"/>
                     <textField id="bankField" property="bank" caption="Банк"/>
-                    <entityPicker id="currencyField" property="currency.name" caption="Валюта">
+                    <entityPicker id="currencyField" property="currency" caption="Валюта">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>

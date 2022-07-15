@@ -39,7 +39,7 @@
                     <textField id="nameField" property="name"
                                caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
                     <textField id="addressField" property="address" caption="&#1040;&#1076;&#1088;&#1077;&#1089;"/>
-                    <entityPicker id="divisionField" property="division.name"
+                    <entityPicker id="divisionField" property="division"
                                   caption="&#1055;&#1086;&#1076;&#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077;">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>

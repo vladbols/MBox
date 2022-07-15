@@ -6,3 +6,7 @@
   @include addons;
   @include mbox-theme;
 }
+
+.v-slot-overflow-scroll {
+  overflow: scroll;
+}
