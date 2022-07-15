@@ -13,25 +13,11 @@ public class WarehouseDto {
     @InstanceName
     private String store;
 
+    private Integer store_uid;
+
     private String address;
 
-    private List<ItemsDto> items;
-
-    public List<ItemsDto> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemsDto> items) {
-        this.items = items;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    private List<ItemsDto> list;
 
     public UUID getStoreId() {
         return storeId;
@@ -47,5 +33,29 @@ public class WarehouseDto {
 
     public void setStore(String store) {
         this.store = store;
+    }
+
+    public Integer getStore_uid() {
+        return store_uid;
+    }
+
+    public void setStore_uid(Integer store_uid) {
+        this.store_uid = store_uid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<ItemsDto> getList() {
+        return list;
+    }
+
+    public void setList(List<ItemsDto> list) {
+        this.list = list;
     }
 }

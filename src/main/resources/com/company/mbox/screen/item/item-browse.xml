@@ -12,7 +12,6 @@
                         <property name="organization" fetchPlan="_instance_name"/>
                     </property>
                 </property>
-                <property name="unit" fetchPlan="_base"/>
             </fetchPlan>
             <loader id="itemsDl">
                 <query>

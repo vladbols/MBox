@@ -13,24 +13,18 @@ public class DivisionDto {
     @InstanceName
     private String division;
 
+    private Integer division_uid;
+
     private String address;
 
-    private List<WarehouseDto> stores;
+    private List<WarehouseDto> stors;
 
-    public List<WarehouseDto> getStores() {
-        return stores;
+    public UUID getDivisionId() {
+        return divisionId;
     }
 
-    public void setStores(List<WarehouseDto> stores) {
-        this.stores = stores;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDivisionId(UUID divisionId) {
+        this.divisionId = divisionId;
     }
 
     public String getDivision() {
@@ -41,11 +35,27 @@ public class DivisionDto {
         this.division = division;
     }
 
-    public UUID getDivisionId() {
-        return divisionId;
+    public Integer getDivision_uid() {
+        return division_uid;
     }
 
-    public void setDivisionId(UUID divisionId) {
-        this.divisionId = divisionId;
+    public void setDivision_uid(Integer division_uid) {
+        this.division_uid = division_uid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<WarehouseDto> getStors() {
+        return stors;
+    }
+
+    public void setStors(List<WarehouseDto> stors) {
+        this.stors = stors;
     }
 }

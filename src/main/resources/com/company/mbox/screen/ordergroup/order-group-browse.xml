@@ -15,7 +15,6 @@
                             </property>
                         </property>
                     </property>
-                    <property name="unit" fetchPlan="_base"/>
                 </property>
             </fetchPlan>
             <loader id="orderGroupsDl">

@@ -12,6 +12,10 @@ public class ItemsDto {
     @InstanceName
     private String item;
 
+    private Integer item_uid;
+
+    private String category;
+
     private String unit;
 
     private String type;
@@ -28,28 +32,28 @@ public class ItemsDto {
         this.itemId = itemId;
     }
 
-    public Integer getNumber() {
-        return number;
+    public String getItem() {
+        return item;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setItem(String item) {
+        this.item = item;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getItem_uid() {
+        return item_uid;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setItem_uid(Integer item_uid) {
+        this.item_uid = item_uid;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getUnit() {
@@ -60,12 +64,27 @@ public class ItemsDto {
         this.unit = unit;
     }
 
-    public String getItem() {
-        return item;
+    public String getType() {
+        return type;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setType(String type) {
+        this.type = type;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 }

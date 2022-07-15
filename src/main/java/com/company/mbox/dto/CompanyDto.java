@@ -4,9 +4,6 @@ import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,13 +12,14 @@ public class CompanyDto {
     private UUID organizationId;
 
     @InstanceName
-    private String organization;
+    private String org;
+
+    private Integer org_uid;
 
     @Length(min = 12, max = 12)
     private String bin;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private String date;
 
     private String address;
 
@@ -37,68 +35,28 @@ public class CompanyDto {
 
     private List<DivisionDto> divisions;
 
-    public List<DivisionDto> getDivisions() {
-        return divisions;
+    public UUID getOrganizationId() {
+        return organizationId;
     }
 
-    public void setDivisions(List<DivisionDto> divisions) {
-        this.divisions = divisions;
+    public void setOrganizationId(UUID organizationId) {
+        this.organizationId = organizationId;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getOrg() {
+        return org;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setOrg(String org) {
+        this.org = org;
     }
 
-    public String getBank() {
-        return bank;
+    public Integer getOrg_uid() {
+        return org_uid;
     }
 
-    public void setBank(String bank) {
-        this.bank = bank;
-    }
-
-    public String getBik() {
-        return bik;
-    }
-
-    public void setBik(String bik) {
-        this.bik = bik;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getKbe() {
-        return kbe;
-    }
-
-    public void setKbe(String kbe) {
-        this.kbe = kbe;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setOrg_uid(Integer org_uid) {
+        this.org_uid = org_uid;
     }
 
     public String getBin() {
@@ -109,19 +67,67 @@ public class CompanyDto {
         this.bin = bin;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getDate() {
+        return date;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public UUID getOrganizationId() {
-        return organizationId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setOrganizationId(UUID organizationId) {
-        this.organizationId = organizationId;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getKbe() {
+        return kbe;
+    }
+
+    public void setKbe(String kbe) {
+        this.kbe = kbe;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getBik() {
+        return bik;
+    }
+
+    public void setBik(String bik) {
+        this.bik = bik;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public List<DivisionDto> getDivisions() {
+        return divisions;
+    }
+
+    public void setDivisions(List<DivisionDto> divisions) {
+        this.divisions = divisions;
     }
 }

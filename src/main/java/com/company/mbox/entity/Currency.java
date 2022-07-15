@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
 
@@ -60,8 +61,9 @@ public class Currency {
     @Column(name = "NAME")
     private String name;
 
+    @NotNull
     @CaseConversion
-    @Column(name = "CODE")
+    @Column(name = "CODE", nullable = false, unique = true)
     private String code;
 
     public Date getDeletedDate() {

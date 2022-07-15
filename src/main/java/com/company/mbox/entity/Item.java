@@ -66,30 +66,57 @@ public class Item {
     @Column(name = "LEGACY_ID")
     private Integer legacyId;
 
+    @Column(name = "CATEGORY")
+    private String category;
+
     @Lob
     @InstanceName
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "UNIT", nullable = false)
     @NotNull
-    @JoinColumn(name = "UNIT_ID", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Unit unit;
+    private String unit;
 
-    @NotNull
-    @Column(name = "TYPE_", nullable = false)
+    @Lob
+    @Column(name = "TYPE_")
     private String type;
 
-    @Column(name = "PRISE")
-    private Double prise;
+    @Column(name = "PRICE")
+    private Double price;
 
     @Column(name = "AMOUNT")
     private Integer amount;
+
     @JoinTable(name = "ORDER_GROUP_ITEM_LINK",
-            joinColumns = @JoinColumn(name = "ITEM_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID"))
+            joinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"))
     @ManyToMany
     private List<OrderGroup> orderGroups;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public List<OrderGroup> getOrderGroups() {
         return orderGroups;
@@ -97,6 +124,14 @@ public class Item {
 
     public void setOrderGroups(List<OrderGroup> orderGroups) {
         this.orderGroups = orderGroups;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public Warehouse getWarehouse() {
@@ -163,36 +198,12 @@ public class Item {
         this.version = version;
     }
 
-    public void setPrise(Double prise) {
-        this.prise = prise;
-    }
-
-    public Double getPrise() {
-        return prise;
-    }
-
-    public void setType(ItemType type) {
-        this.type = type == null ? null : type.getId();
-    }
-
-    public ItemType getType() {
-        return type == null ? null : ItemType.fromId(type);
-    }
-
     public Integer getAmount() {
         return amount;
     }
 
     public void setAmount(Integer amount) {
         this.amount = amount;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
     }
 
     public String getName() {

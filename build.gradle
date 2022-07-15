@@ -44,6 +44,7 @@ dependencies {
     implementation("org.postgresql:postgresql")
     themes("io.jmix.ui:jmix-ui-themes")
     implementation("io.jmix.ui:jmix-ui-themes")
+    implementation("io.jmix.quartz:jmix-quartz-starter")
 }
 
 test {
