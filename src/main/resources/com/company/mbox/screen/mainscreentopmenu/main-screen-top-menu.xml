@@ -33,7 +33,8 @@
               margin="false;true;false;true"
               expand="workArea"
               width="100%">
-            <sideMenu id="sideMenu" align="TOP_LEFT" loadMenuConfig="false" selectOnClick="true"/>
+            <scrollBox orientation="horizontal" height="100px" scrollBars="vertical" spacing="true">
+            <sideMenu id="sideMenu" align="TOP_LEFT" loadMenuConfig="false" selectOnClick="true"/></scrollBox>
             <workArea id="workArea" stylename="jmix-workarea" height="100%">
                 <initialLayout margin="true" spacing="true">
                 </initialLayout>
