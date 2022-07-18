@@ -13,7 +13,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -88,12 +87,6 @@ public class Item {
     @Column(name = "AMOUNT")
     private Integer amount;
 
-    @JoinTable(name = "ORDER_GROUP_ITEM_LINK",
-            joinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"))
-    @ManyToMany
-    private List<OrderGroup> orderGroups;
-
     public Double getPrice() {
         return price;
     }
@@ -116,14 +109,6 @@ public class Item {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public List<OrderGroup> getOrderGroups() {
-        return orderGroups;
-    }
-
-    public void setOrderGroups(List<OrderGroup> orderGroups) {
-        this.orderGroups = orderGroups;
     }
 
     public void setType(String type) {

@@ -1,8 +1,11 @@
 package com.company.mbox.entity;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDelete;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -58,11 +61,10 @@ public class Order {
     private Date deletedDate;
 
 
-    @JoinTable(name = "ORDER_ORDER_GROUP_LINK",
-            joinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"))
-    @ManyToMany
-    private List<OrderGroup> orderGroupId;
+    @OnDelete(DeletePolicy.CASCADE)
+    @Composition
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItemId;
 
     @JoinColumn(name = "USER_ID", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -71,6 +73,10 @@ public class Order {
     @InstanceName
     @Column(name = "NAME")
     private String name;
+
+    public List<OrderItem> getOrderItemId() {
+        return orderItemId;
+    }
 
     public String getName() {
         return name;
@@ -81,12 +87,12 @@ public class Order {
     }
 
 
-    public List<OrderGroup> getOrderGroupId() {
-        return orderGroupId;
+    public List<OrderItem> getOrderGroupId() {
+        return orderItemId;
     }
 
-    public void setOrderGroupId(List<OrderGroup> orderGroupId) {
-        this.orderGroupId = orderGroupId;
+    public void setOrderGroupId(List<OrderItem> orderItemId) {
+        this.orderItemId = orderItemId;
     }
 
     public Date getDeletedDate() {

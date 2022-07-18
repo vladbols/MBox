@@ -3,7 +3,6 @@ package com.company.mbox.entity;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,13 +11,14 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
-@Table(name = "ORDER_GROUP")
+@Table(name = "ORDER_ITEM", indexes = {
+        @Index(name = "IDX_ORDERGROUP_ORDER_ID", columnList = "ORDER_ID")
+})
 @Entity
-public class OrderGroup {
+public class OrderItem {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
@@ -56,47 +56,31 @@ public class OrderGroup {
     private Date deletedDate;
 
 
-    @JoinTable(name = "ORDER_GROUP_ITEM_LINK",
-            joinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ITEM_ID", referencedColumnName = "ID"))
-    @ManyToMany
-    private List<Item> item;
-
-    @InstanceName
-    @Column(name = "NAME")
-    private String name;
+    @JoinColumn(name = "ITEM_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Item item;
 
     @Column(name = "AMOUNT")
     private Double amount;
 
-    @JoinTable(name = "ORDER_ORDER_GROUP_LINK",
-            joinColumns = @JoinColumn(name = "ORDER_GROUP_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID"))
-    @ManyToMany
-    private List<Order> orders;
+    @JoinColumn(name = "ORDER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 
-    public String getName() {
-        return name;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public List<Item> getItem() {
-        return item;
-    }
-
-    public void setItem(List<Item> item) {
+    public void setItem(Item item) {
         this.item = item;
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     public Date getDeletedDate() {
