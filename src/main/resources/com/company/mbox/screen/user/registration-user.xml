@@ -1,61 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://registrationUser.caption"
-        focusComponent="form">
-    <data>
-        <instance id="userDc"
-                  class="com.company.mbox.entity.User">
-            <fetchPlan extends="_base">
-                <property name="organization" fetchPlan="_base"/>
-            </fetchPlan>
-            <loader/>
-        </instance>
-    </data>
-    <facets>
-        <dataLoadCoordinator auto="true"/>
-        <screenSettings id="settingsFacet" auto="true"/>
-    </facets>
+        caption="msg://registration.screen.caption"
+        focusComponent="userForm">
     <actions>
-        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
-                icon="EDITOR_OK"
-                primary="true"
-                shortcut="${COMMIT_SHORTCUT}"/>
-        <action id="windowClose"
-                caption="msg:///actions.Close"
-                icon="EDITOR_CANCEL"/>
+        <action id="commit"
+                caption="msg://registrationButton"
+                icon="CHECK"
+                shortcut="ENTER"/>
+        <action id="signIn"
+                caption="msg://loginButton"
+                icon="SIGN_IN"/>
     </actions>
-    <dialogMode height="600"
-                width="800"/>
-    <layout spacing="true" expand="scrollBox">
-        <scrollBox id="scrollBox" spacing="true">
-            <form id="form" dataContainer="userDc">
-                <column width="350px">
-                    <textField id="usernameField" property="username" caption="Имя пользователя"/>
-                    <passwordField id="passwordField"
-                                   caption="Пароль"
-                                   required="true"
-                                   visible="false"/>
-                    <passwordField id="confirmPasswordField"
-                                   caption="Повторите пароль"
-                                   required="true"
-                                   visible="false"/>
-                    <textField id="firstNameField" property="firstName" caption="Имя"/>
-                    <textField id="lastNameField" property="lastName" caption="Фамилия"/>
-                    <textField id="emailField" property="email"/>
-                    <textField id="iinField" property="iin" caption="ИИН"/>
-                    <entityPicker id="organizationField" property="organization" caption="Организация">
-                        <actions>
-                            <action id="entityLookup" type="entity_lookup"/>
-                            <action id="entityClear" type="entity_clear"/>
-                        </actions>
-                    </entityPicker>
-                </column>
-            </form>
-        </scrollBox>
-        <hbox id="editActions" spacing="true">
-            <button id="commitAndCloseBtn" action="windowCommitAndClose"
-                    caption="&#1047;&#1072;&#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103;"/>
-            <button id="closeBtn" action="windowClose" caption="&#1054;&#1090;&#1084;&#1077;&#1085;&#1072;"/>
-        </hbox>
+    <layout spacing="true" expand="loginWrapper">
+        <vbox id="loginWrapper" width="100%">
+            <vbox id="loginMainBox"
+                  align="MIDDLE_CENTER"
+                  margin="true"
+                  spacing="true"
+                  stylename="jmix-login-panel"
+                  width="AUTO">
+            <label id="welcomeLabel"
+                   align="MIDDLE_CENTER"
+                   stylename="jmix-login-caption"
+                   value="msg://welcomeLabel"/>
+
+                <vbox id="registrationVbox" spacing="true" align="MIDDLE_CENTER">
+                    <form id="userForm" align="MIDDLE_CENTER">
+                        <column width="350px">
+                            <textField id="usernameField" datatype="string" caption="msg://field.username"/>
+<!--                            <capsLockIndicator id="capsLockIndicator" align="MIDDLE_CENTER" capsLockOnMessage="ON"/>-->
+                            <passwordField id="passwordField"
+                                           caption="msg://field.password"/>
+<!--                            <capsLockIndicator id="capsLock2" align="MIDDLE_CENTER" capsLockOnMessage="ON"/>-->
+                            <passwordField id="confirmPasswordField"
+                                           caption="msg://field.confirm.password"/>
+                            <textField id="firstNameField" datatype="string" caption="msg://field.name"/>
+                            <textField id="lastNameField" datatype="string" caption="msg://field.surname"/>
+                            <textField id="emailField" datatype="string" caption="msg://field.email"/>
+                            <textField id="iinField" maxLength="12" caption="msg://field.iin"/>
+                            <checkBox id="hasOrganizationField" caption="msg://field.has.organization"/>
+                            <textField id="binField" maxLength="12" caption="msg://field.organization.bin"/>
+                        </column>
+                    </form>
+                    <form id="organizationForm" captionPosition="TOP">
+                        <column width="350px">
+                            <textField id="orgNameField"
+                                       caption="msg://field.organization.name"/>
+                            <textField id="orgAddressField"
+                                       caption="msg://field.organization.address"/>
+                        </column>
+                        <column width="350px">
+                            <textField id="orgFactAddressField" maxLength="12"
+                                       caption="msg://field.organization.fact.address"/>
+                            <textField id="orgBinField" maxLength="12"
+                                       caption="msg://field.organization.bin"/>
+                            <textField id="orgKbeField"
+                                       caption="msg://field.organization.kbe"/>
+                        </column>
+                        <column width="350px">
+                            <textField id="orgIIKField"
+                                       caption="msg://field.organization.iik"/>
+                            <textField id="orgBikField"
+                                       caption="msg://field.organization.bik"/>
+                        </column>
+                    </form>
+                    <button id="commitAndOpenLoginPageBtn"
+                            action="commit"
+                            css="max-width:350px;"
+                            align="MIDDLE_CENTER"
+                            stylename="jmix-login-submit-button"/>
+                    <button id="openLoginPageBtn"
+                            action="signIn"
+                            align="MIDDLE_CENTER"
+                            stylename="borderless-colored"/>
+                </vbox>
+            </vbox>
+        </vbox>
     </layout>
 </window>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://basketController.caption"
+        focusComponent="orderItemsTable">
+    <data readOnly="true">
+        <collection id="orderItemsDc" class="com.company.mbox.entity.OrderItem">
+            <fetchPlan extends="_base">
+                <property name="item">
+                    <property name="warehouse">
+                        <property name="address"/>
+                        <property name="division">
+                            <property name="organization">
+                                <property name="name"/>
+                            </property>
+                        </property>
+                    </property>
+                    <property name="name"/>
+                    <property name="unit"/>
+                    <property name="type"/>
+                    <property name="price"/>
+                </property>
+                <property name="organization">
+                    <property name="name"/>
+                </property>
+            </fetchPlan>
+            <loader id="orderItemsDl">
+                <query>
+                    <![CDATA[select e from OrderItem e where e.organization = :organization]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <layout expand="orderItemsTable" spacing="true">
+        <dataGrid id="orderItemsTable" width="100%" selectionMode="MULTI_CHECK" dataContainer="orderItemsDc">
+            <actions>
+                <action id="createOrderAction" icon="ARCHIVE" enable="false" caption="msg://basket.create.order"/>
+                <action id="refresh" type="refresh" caption="msg://basket.refresh"/>
+                <action id="remove" type="remove" caption="msg://basket.remove"/>
+            </actions>
+            <columns>
+                <column property="item.name" id="name" caption="msg://field.name"/>
+                <column property="number" id="number" caption="msg://field.number"/>
+                <column property="item.warehouse.division.organization.name" id="organization" caption="msg://field.organization"/>
+                <column property="item.warehouse.address" id="warehouseAddress" caption="msg://field.warehouse.address"/>
+                <column property="item.type" id="type" caption="msg://field.type"/>
+                <column property="item.unit" id="unit" caption="msg://field.unit"/>
+                <column property="item.price" id="price" caption="msg://field.price"/>
+                <column property="amount" id="amount" caption="msg://field.amount"/>
+            </columns>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="createOrderBtn" action="orderItemsTable.createOrderAction"/>
+                <button id="refreshBtn" action="orderItemsTable.refresh"/>
+                <button id="removeBtn" action="orderItemsTable.remove"/>
+            </buttonsPanel>
+        </dataGrid>
+    </layout>
+</window>

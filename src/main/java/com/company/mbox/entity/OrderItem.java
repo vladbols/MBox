@@ -10,12 +10,15 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ORDER_ITEM", indexes = {
-        @Index(name = "IDX_ORDERGROUP_ORDER_ID", columnList = "ORDER_ID")
+        @Index(name = "IDX_ORDERGROUP_ORDER_ID", columnList = "ORDER_ID"),
+        @Index(name = "IDX_ORDERITEM_ORGANIZATION_ID", columnList = "ORGANIZATION_ID"),
+        @Index(name = "IDX_ORDERITEM_CURRENCY_ID", columnList = "CURRENCY_ID")
 })
 @Entity
 public class OrderItem {
@@ -56,16 +59,73 @@ public class OrderItem {
     private Date deletedDate;
 
 
-    @JoinColumn(name = "ITEM_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ITEM_ID", nullable = false)
     private Item item;
 
+    @Column(name = "PRICE")
+    private Double price;
+
+    @JoinColumn(name = "CURRENCY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Currency currency;
+
+    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Organization organization;
+
+    @NotNull
+    @Column(name = "NUMBER_", nullable = false)
+    private Long number;
+
     @Column(name = "AMOUNT")
-    private Double amount;
+    private Integer amount;
 
     @JoinColumn(name = "ORDER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
 
     public Order getOrder() {
         return order;
@@ -137,14 +197,6 @@ public class OrderItem {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Double getAmount() {
-        return amount;
     }
 
     public UUID getId() {

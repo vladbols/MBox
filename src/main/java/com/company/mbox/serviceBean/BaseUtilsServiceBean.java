@@ -1,10 +1,11 @@
 package com.company.mbox.serviceBean;
 
 import com.company.mbox.entity.*;
-import com.company.mbox.scheduledTasks.UpdateItemsTask;
+import com.company.mbox.security.DatabaseUserRepository;
 import com.company.mbox.services.BaseUtilsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jmix.core.DataManager;
+import io.jmix.core.usersubstitution.CurrentUserSubstitution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,24 @@ import java.util.Map;
 @Service(BaseUtilsService.NAME)
 public class BaseUtilsServiceBean implements BaseUtilsService {
 
-    private static final Logger log = LoggerFactory.getLogger(UpdateItemsTask.class);
+    private static final Logger log = LoggerFactory.getLogger(BaseUtilsServiceBean.class);
 
     @Autowired
     private DataManager dataManager;
+
+    @Autowired
+    private CurrentUserSubstitution currentUserSubstitution;
+
+    @Override
+    public Organization getCurrentOrganization() {
+        return dataManager.load(Organization.class)
+                .query("" +
+                        "SELECT o " +
+                        "FROM Organization o " +
+                        "WHERE o.id IN (SELECT u.organization.id FROM User u WHERE u.username = :username)")
+                .parameter("username", currentUserSubstitution.getAuthenticatedUser().getUsername())
+                .optional().orElse(null);
+    }
 
     @Override
     @SuppressWarnings("all")
@@ -64,6 +79,17 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
+    public Organization getOrCreateOrganization(String bin) {
+        return dataManager.load(Organization.class)
+                .query("" +
+                        "SELECT o " +
+                        "FROM Organization o " +
+                        "WHERE o.bin = :bin ")
+                .parameter("bin", bin)
+                .optional().orElse(dataManager.create(Organization.class));
+    }
+
+    @Override
     public Division getOrCreateDivision(Integer legacyId) {
         return dataManager.load(Division.class)
                 .query("" +
@@ -95,4 +121,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
                 .parameter("legacyId", legacyId)
                 .optional().orElse(dataManager.create(Item.class));
     }
+
+
+
 }

@@ -1,12 +1,9 @@
 package com.company.mbox.entity;
 
-import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.entity.annotation.OnDelete;
 import io.jmix.core.metamodel.annotation.Composition;
-import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,13 +11,15 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ORDER_", indexes = {
-        @Index(name = "IDX_ORDER_USER_ID", columnList = "USER_ID")
+        @Index(name = "IDX_ORDER_ORGANIZATION_ID", columnList = "ORGANIZATION_ID")
 })
 @Entity(name = "Order_")
 public class Order {
@@ -61,29 +60,74 @@ public class Order {
     private Date deletedDate;
 
 
-    @OnDelete(DeletePolicy.CASCADE)
     @Composition
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItemId;
 
-    @JoinColumn(name = "USER_ID", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private User user;
+    @Column(name = "NUMBER_", unique = true)
+    private Long number;
 
-    @InstanceName
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "DATETIME")
+    private LocalDateTime datetime;
+
+    @Column(name = "COMMENT_")
+    @Lob
+    private String comment;
+
+    @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Organization organization;
+
+    @Column(name = "TOTAL_PRICE")
+    private Double totalPrice;
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setOrderItemId(List<OrderItem> orderItemId) {
+        this.orderItemId = orderItemId;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
+    }
+
+    public void setDatetime(LocalDateTime datetime) {
+        this.datetime = datetime;
+    }
+
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public List<OrderItem> getOrderItemId() {
         return orderItemId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 
@@ -149,14 +193,6 @@ public class Order {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public UUID getId() {

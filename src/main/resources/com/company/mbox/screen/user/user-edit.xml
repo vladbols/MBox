@@ -3,8 +3,7 @@
         caption="msg://UserEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="userDc"
-                  class="com.company.mbox.entity.User">
+        <instance id="userDc" class="com.company.mbox.entity.User">
             <fetchPlan extends="_base"/>
             <loader/>
         </instance>
@@ -22,34 +21,32 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
     </facets>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode height="600" width="800"/>
     <layout spacing="true" expand="editActions">
-        <form id="form" dataContainer="userDc"
-        >
-                <textField id="usernameField" property="username" editable="false"
-                           caption="&#1051;&#1086;&#1075;&#1080;&#1085;"/>
+        <form id="form" dataContainer="userDc">
+                <textField id="usernameField"
+                           caption="msg://field.username"
+                           property="username"
+                           editable="false"/>
                 <passwordField id="passwordField"
-                               caption="&#1055;&#1072;&#1088;&#1086;&#1083;&#1100;"
+                               caption="msg://field.password"
                                required="true"
                                visible="false"/>
                 <passwordField id="confirmPasswordField"
-                               caption="&#1055;&#1086;&#1074;&#1090;&#1086;&#1088;&#1080;&#1090;&#1077; &#1087;&#1072;&#1088;&#1086;&#1083;&#1100;"
+                               caption="msg://field.confirm.password"
                                required="true"
                                visible="false"/>
-                <textField id="iinField" property="iin" required="true" caption="&#1048;&#1048;&#1053;"/>
-                <textField id="firstNameField" property="firstName" caption="&#1048;&#1084;&#1103;"/>
-                <textField id="lastNameField" property="lastName"
-                           caption="&#1060;&#1072;&#1084;&#1080;&#1083;&#1080;&#1103;"/>
-                <textField id="emailField" property="email"/>
-                <comboBox id="timeZoneField" property="timeZoneId"
-                          caption="&#1063;&#1072;&#1089;&#1086;&#1074;&#1086;&#1081; &#1087;&#1086;&#1103;&#1089;"/>
-                <checkBox id="activeField" property="active"/>
+                <textField id="iinField" property="iin" required="true" caption="msg://field.iin"/>
+                <textField id="firstNameField" property="firstName" caption="msg://field.name"/>
+                <textField id="lastNameField" property="lastName" caption="msg://field.surname"/>
+                <textField id="emailField" property="email" caption="msg://field.email"/>
+                <comboBox id="timeZoneField" property="timeZoneId" caption="msg://field.timezone"/>
+                <checkBox id="activeField" property="active" caption="msg://field.is.active"/>
         </form>
         <hbox id="editActions" spacing="true">
             <button id="commitAndCloseBtn" action="windowCommitAndClose"
-                    caption="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1080;&#1079;&#1084;&#1077;&#1085;&#1077;&#1085;&#1080;&#1103;"/>
-            <button id="closeBtn" action="windowClose" caption="&#1047;&#1072;&#1082;&#1088;&#1099;&#1090;&#1100;"/>
+                    caption="msg://save.and.close"/>
+            <button id="closeBtn" action="windowClose" caption="msg://close"/>
         </hbox>
     </layout>
 </window>

@@ -49,24 +49,24 @@
                 <action id="resetRememberMeToken" type="resetRememberMeToken"/>
             </actions>
             <columns>
-                <column id="username" caption="&#1051;&#1086;&#1075;&#1080;&#1085;"/>
-                <column id="firstName" caption="&#1048;&#1084;&#1103;"/>
-                <column id="lastName" caption="&#1060;&#1072;&#1084;&#1080;&#1083;&#1080;&#1103;"/>
-                <column id="email"/>
-                <column id="active"/>
+                <column id="username" caption="msg://field.username"/>
+                <column id="firstName" caption="msg://field.name"/>
+                <column id="lastName" caption="msg://field.surname"/>
+                <column id="iin" caption="msg://field.iin"/>
+                <column id="email" caption="msg://field.email"/>
+                <column id="active" caption="msg://field.is.active"/>
             </columns>
             <simplePagination/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
                 <button id="createBtn" action="usersTable.create"
-                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
+                        caption="msg://user.create"/>
                 <button id="editBtn" action="usersTable.edit"
-                        caption="&#1056;&#1077;&#1076;&#1072;&#1082;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
+                        caption="msg://user.edit"/>
                 <button id="removeBtn" action="usersTable.remove"
-                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
+                        caption="msg://user.remove"/>
                 <button id="showRoleAssignmentsBtn" action="usersTable.showRoleAssignments"
-                        caption="&#1056;&#1086;&#1083;&#1080; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1103;"/>
-                <popupButton id="additionalActionsBtn" caption="&#1057;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;" icon="GEARS">
+                        caption="msg://user.role.assignments"/>
+                <popupButton id="additionalActionsBtn" caption="msg://additional.btn" icon="GEARS">
                     <actions>
                         <action id="usersTable.changePassword"/>
                         <action id="usersTable.resetPassword"/>

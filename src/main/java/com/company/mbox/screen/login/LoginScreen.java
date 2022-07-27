@@ -1,5 +1,6 @@
 package com.company.mbox.screen.login;
 
+import com.company.mbox.screen.user.RegistrationUser;
 import io.jmix.core.MessageTools;
 import io.jmix.core.Messages;
 import io.jmix.securityui.authentication.AuthDetails;
@@ -25,6 +26,8 @@ import java.util.Locale;
 @UiDescriptor("login-screen.xml")
 @Route(path = "login", root = true)
 public class LoginScreen extends Screen {
+
+    private final Logger log = LoggerFactory.getLogger(LoginScreen.class);
 
     @Autowired
     private TextField<String> usernameField;
@@ -56,13 +59,12 @@ public class LoginScreen extends Screen {
     @Autowired
     private JmixApp app;
 
-    private final Logger log = LoggerFactory.getLogger(LoginScreen.class);
 
     @Subscribe
     private void onInit(InitEvent event) {
         usernameField.focus();
         initLocalesField();
-        initDefaultCredentials();
+//        initDefaultCredentials();
     }
 
     private void initLocalesField() {
@@ -123,5 +125,13 @@ public class LoginScreen extends Screen {
                     .withDescription(messages.getMessage(getClass(), "badCredentials"))
                     .show();
         }
+    }
+
+    @Subscribe("register")
+    private void onRegisterActionPerformed(Action.ActionPerformedEvent event) {
+        this.close(StandardOutcome.CLOSE);
+        UiControllerUtils.getScreenContext(this).getScreens()
+                .create(RegistrationUser.class, OpenMode.ROOT)
+                .show();
     }
 }

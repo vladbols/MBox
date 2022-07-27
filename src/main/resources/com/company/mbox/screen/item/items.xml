@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window" caption="msg://items.caption" focusComponent="itemsTable">
+    <data readOnly="true">
+        <collection id="fetchPlanDc" class="com.company.mbox.entity.Item">
+            <fetchPlan>
+                <property name="warehouse">
+                    <property name="name"/>
+                    <property name="address"/>
+                    <property name="division">
+                        <property name="organization">
+                            <property name="name"/>
+                        </property>
+                    </property>
+                </property>
+                <property name="name"/>
+                <property name="unit"/>
+                <property name="type"/>
+                <property name="price"/>
+                <property name="amount"/>
+            </fetchPlan>
+            <loader id="fetchPlanDl">
+                <query>
+                    <![CDATA[select e from Item e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="itemOrdersDc" class="com.company.mbox.dto.ItemOrderDto"/>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <layout expand="itemsTable" spacing="true">
+        <filter id="filter" dataLoader="fetchPlanDl">
+            <properties include=".*"/>
+            <configurations>
+                <configuration id="filterProperties" default="true" name="msg://Items.search.filter">
+                    <propertyFilter id="name_property" property="name" caption="msg://filter.name.contains" operation="CONTAINS"/>
+                    <propertyFilter id="amount_property" property="amount" caption="msg://field.amount" operation="GREATER_OR_EQUAL"/>
+                </configuration>
+            </configurations>
+        </filter>
+        <dataGrid id="itemsTable"
+                  width="100%"
+                  editorEnabled="true"
+                  dataContainer="itemOrdersDc" selectionMode="MULTI_CHECK">
+            <actions>
+                <action id="addToBasketAction"
+                        icon="PLUS"
+                        primary="true"
+                        caption="msg://add.to.basket"/>
+            </actions>
+            <columns>
+                <column id="name" property="name" caption="msg://field.name" editable="false"/>
+                <column id="warehouseAddress" property="warehouseAddress" caption="msg://field.warehouse.address" editable="false"/>
+                <column id="organization" property="organization" caption="msg://field.organization" editable="false"/>
+                <column id="unit" property="unit" caption="msg://field.unit" editable="false"/>
+                <column id="type" property="type" caption="msg://field.type" editable="false"/>
+                <column id="price" property="price" caption="msg://field.price" editable="false"/>
+                <column id="amount" property="amount" editable="true" caption="msg://field.amount"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="addToBasket" action="itemsTable.addToBasketAction"/>
+            </buttonsPanel>
+        </dataGrid>
+    </layout>
+</window>

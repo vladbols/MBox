@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<window xmlns="http://jmix.io/schema/ui/window"
-        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
-        caption="msg://itemBrowse.caption"
-        focusComponent="itemsTable">
+<window xmlns="http://jmix.io/schema/ui/window" caption="msg://ItemBrowse.caption" focusComponent="itemsTable">
     <data readOnly="true">
-        <collection id="itemsDc"
-                    class="com.company.mbox.entity.Item">
+        <collection id="itemsDc" class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
                 <property name="warehouse">
                     <property name="division">
@@ -35,22 +31,18 @@
                 caption="msg:///actions.Cancel"
                 icon="LOOKUP_CANCEL"/>
     </actions>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode height="600" width="800"/>
     <layout expand="itemsTable" spacing="true">
         <filter id="filter" dataLoader="itemsDl">
             <properties include=".*"/>
             <configurations>
-                <configuration id="name_contains" default="true" name="msg:///filter.name.contains">
-                    <propertyFilter id="name_property" property="name" caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;" operation="CONTAINS"
-                                    description="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1085;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077; &#1074; &#1089;&#1086;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1080;&#1080; &#1089; &#1043;&#1054;&#1057;&#1058;&#1086;&#1084; (&#1085;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;, &#1090;&#1080;&#1087;, &#1088;&#1072;&#1079;&#1084;&#1077;&#1088;)"/>
-                    <propertyFilter id="amount_property" property="amount" caption="Количество" operation="GREATER_OR_EQUAL"/>
+                <configuration id="name_contains" default="true" name="msg://Items.search.filter">
+                    <propertyFilter id="name_property" property="name" caption="msg://filter.name.contains" operation="CONTAINS"/>
+                    <propertyFilter id="amount_property" property="amount" caption="msg://field.amount" operation="GREATER_OR_EQUAL"/>
                 </configuration>
             </configurations>
         </filter>
-        <groupTable id="itemsTable"
-                    width="100%"
-                    dataContainer="itemsDc">
+        <groupTable id="itemsTable" width="100%" dataContainer="itemsDc">
             <actions>
                 <action id="create" type="create"/>
                 <action id="edit" type="edit"/>
@@ -58,25 +50,19 @@
                 <action id="remove" type="remove"/>
             </actions>
             <columns>
-                <column id="name" caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
-                <column id="warehouse.address"
-                        caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;"/>
-                <column id="unit"
-                        caption="&#1045;&#1076;. &#1080;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;"/>
-                <column id="type" caption="&#1058;&#1080;&#1087;"/>
-                <column id="price" caption="&#1062;&#1077;&#1085;&#1072;"/>
+                <column id="id" visible="false"/>
+                <column id="name" caption="msg://field.name"/>
+                <column id="warehouse.address" caption="msg://column.warehouse.address"/>
+                <column id="unit" caption="msg://field.unit"/>
+                <column id="type" caption="msg://field.type"/>
+                <column id="price" caption="msg://field.price"/>
             </columns>
             <simplePagination/>
-            <buttonsPanel id="buttonsPanel"
-                          alwaysVisible="true">
-                <button id="createBtn" action="itemsTable.create"
-                        caption="&#1057;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100;"/>
-                <button id="editBtn" action="itemsTable.edit"
-                        caption="&#1056;&#1077;&#1076;&#1072;&#1077;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;"/>
-                <button id="refreshBtn" action="itemsTable.refresh"
-                        caption="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;"/>
-                <button id="removeBtn" action="itemsTable.remove"
-                        caption="&#1059;&#1076;&#1072;&#1083;&#1080;&#1090;&#1100;"/>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="createBtn" action="itemsTable.create" caption="msg://item.create"/>
+                <button id="editBtn" action="itemsTable.edit" caption="msg://item.edit"/>
+                <button id="refreshBtn" action="itemsTable.refresh" caption="msg://item.refresh"/>
+                <button id="removeBtn" action="itemsTable.remove" caption="msg://item.remove"/>
             </buttonsPanel>
         </groupTable>
         <hbox id="lookupActions" spacing="true" visible="false">

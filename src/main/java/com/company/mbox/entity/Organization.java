@@ -98,9 +98,20 @@ public class Organization {
     @ManyToOne(fetch = FetchType.LAZY)
     private Currency currency;
 
+    @Column(name = "CONTACTS")
+    private String contacts;
+
     @Column(name = "ACTIVE", nullable = false)
     @NotNull
     private Boolean active = false;
+
+    public String getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
+    }
 
     public Date getDeletedDate() {
         return deletedDate;

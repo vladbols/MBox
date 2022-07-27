@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://itemEdit.caption"
+        caption="msg://ItemEdit.caption"
         focusComponent="form">
     <data>
-        <instance id="itemDc"
-                  class="com.company.mbox.entity.Item">
+        <instance id="itemDc" class="com.company.mbox.entity.Item">
             <fetchPlan extends="_base">
                 <property name="warehouse">
                     <property name="address"/>
@@ -19,7 +18,8 @@
         <screenSettings id="settingsFacet" auto="true"/>
     </facets>
     <actions>
-        <action id="windowCommitAndClose" caption="msg:///actions.Ok"
+        <action id="windowCommitAndClose"
+                caption="msg:///actions.Ok"
                 icon="EDITOR_OK"
                 primary="true"
                 shortcut="${COMMIT_SHORTCUT}"/>
@@ -27,27 +27,22 @@
                 caption="msg:///actions.Close"
                 icon="EDITOR_CANCEL"/>
     </actions>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode height="600" width="800"/>
     <layout spacing="true" expand="scrollBox">
         <scrollBox id="scrollBox" spacing="true">
             <form id="form" dataContainer="itemDc">
                 <column width="350px">
-                    <entityPicker id="warehouseField" property="warehouse"
-                                  caption="&#1040;&#1076;&#1088;&#1077;&#1089; &#1089;&#1082;&#1083;&#1072;&#1076;&#1072;">
+                    <entityPicker id="warehouseField" property="warehouse" caption="msg://select.warehouse">
                         <actions>
                             <action id="entityLookup" type="entity_lookup"/>
                             <action id="entityClear" type="entity_clear"/>
                         </actions>
                     </entityPicker>
-                    <textArea id="nameField" property="name" rows="5"
-                              caption="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;"/>
-                    <textField id="unitField" property="unit"
-                              caption="&#1045;&#1076;. &#1080;&#1079;&#1084;&#1077;&#1088;&#1077;&#1085;&#1080;&#1103;"/>
-                    <textField id="typeField" property="type" caption="&#1058;&#1080;&#1087;"/>
-                    <textField id="priceField" property="price" caption="&#1062;&#1077;&#1085;&#1072;"/>
-                    <textField id="amountField" property="amount"
-                               caption="&#1050;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1086; &#1085;&#1072; &#1089;&#1082;&#1083;&#1072;&#1076;&#1077;"/>
+                    <textArea id="nameField" property="name" rows="5" caption="msg://field.name"/>
+                    <textField id="unitField" property="unit" caption="msg://field.unit"/>
+                    <textField id="typeField" property="type" caption="msg://field.type"/>
+                    <textField id="priceField" property="price" caption="msg://field.price"/>
+                    <textField id="amountField" property="amount" caption="msg://field.amount"/>
                 </column>
             </form>
         </scrollBox>

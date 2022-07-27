@@ -1,11 +1,14 @@
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://caption">
+        caption="msg://login.screen.caption">
 
     <actions>
         <action id="submit"
                 caption="msg://loginButton"
                 icon="CHECK"
                 shortcut="ENTER"/>
+        <action id="register"
+                caption="msg://registrationButton"
+                icon="SIGN_IN"/>
     </actions>
 
     <layout stylename="jmix-login-main-layout">
@@ -46,11 +49,14 @@
                                   stylename="jmix-login-locale"
                                   textInputAllowed="false"/>
                     </hbox>
-
                     <button id="loginButton"
                             align="MIDDLE_CENTER"
                             action="submit"
                             stylename="jmix-login-submit-button"/>
+                    <button id="registrationButton"
+                            align="MIDDLE_CENTER"
+                            action="register"
+                            stylename="TEXTAREA_BORDERLESS"/>
                 </vbox>
             </vbox>
         </vbox>

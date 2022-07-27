@@ -1,5 +1,5 @@
 <window xmlns="http://jmix.io/schema/ui/window"
-        caption="msg://caption">
+        caption="msg://mbox.caption">
     <layout expand="side">
         <hbox id="header"
               expand="mainMenu"
@@ -25,7 +25,7 @@
                   align="MIDDLE_CENTER"
                   stylename="jmix-main-buttons">
                 <logoutButton id="logoutButton"
-                              description="msg://logoutBtnDescription"
+                              description="msg://logoutBtn.caption"
                               icon="SIGN_OUT"/>
             </hbox>
         </hbox>
