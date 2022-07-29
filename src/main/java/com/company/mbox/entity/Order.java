@@ -1,8 +1,10 @@
 package com.company.mbox.entity;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDelete;
 import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -19,7 +21,8 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "ORDER_", indexes = {
-        @Index(name = "IDX_ORDER_ORGANIZATION_ID", columnList = "ORGANIZATION_ID")
+        @Index(name = "IDX_ORDER_ORGANIZATION_ID", columnList = "ORGANIZATION_ID"),
+        @Index(name = "IDX_ORDER_CURRENCY_ID", columnList = "CURRENCY_ID")
 })
 @Entity(name = "Order_")
 public class Order {
@@ -81,6 +84,19 @@ public class Order {
 
     @Column(name = "TOTAL_PRICE")
     private Double totalPrice;
+
+    @OnDelete(DeletePolicy.CASCADE)
+    @JoinColumn(name = "CURRENCY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Currency currency;
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 
     public Double getTotalPrice() {
         return totalPrice;

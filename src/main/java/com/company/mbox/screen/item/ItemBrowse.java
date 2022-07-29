@@ -10,5 +10,5 @@ import org.slf4j.LoggerFactory;
 @UiDescriptor("item-browse.xml")
 @LookupComponent("itemsTable")
 public class ItemBrowse extends StandardLookup<Item> {
-    private final Logger log = LoggerFactory.getLogger(LoginScreen.class);
+    private final Logger log = LoggerFactory.getLogger(ItemBrowse.class);
 }

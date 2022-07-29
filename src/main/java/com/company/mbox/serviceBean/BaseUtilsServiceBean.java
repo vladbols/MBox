@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service(BaseUtilsService.NAME)
 public class BaseUtilsServiceBean implements BaseUtilsService {
@@ -61,10 +62,8 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
             c = dataManager.create(Currency.class);
             c.setCode(code.toUpperCase());
             dataManager.save(c);
-            return c;
-        } else {
-            return c;
         }
+        return c;
     }
 
     @Override
@@ -90,36 +89,59 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public Division getOrCreateDivision(Integer legacyId) {
+    public Division getOrCreateDivision(Integer legacyId, UUID orgId) {
         return dataManager.load(Division.class)
                 .query("" +
                         "SELECT d " +
                         "FROM Division d " +
-                        "WHERE d.legacyId = :legacyId ")
+                        "WHERE d.legacyId = :legacyId " +
+                        "   AND d.organization.id = :orgId")
                 .parameter("legacyId", legacyId)
+                .parameter("orgId", orgId)
                 .optional().orElse(dataManager.create(Division.class));
     }
 
     @Override
-    public Warehouse getOrCreateWarehouse(Integer legacyId) {
+    public Warehouse getOrCreateWarehouse(Integer legacyId, UUID divisionId) {
         return dataManager.load(Warehouse.class)
                 .query("" +
-                        "SELECT d " +
-                        "FROM Warehouse d " +
-                        "WHERE d.legacyId = :legacyId ")
+                        "SELECT w " +
+                        "FROM Warehouse w " +
+                        "WHERE w.legacyId = :legacyId " +
+                        "   AND w.division.id = :divisionId")
                 .parameter("legacyId", legacyId)
+                .parameter("divisionId", divisionId)
                 .optional().orElse(dataManager.create(Warehouse.class));
     }
 
     @Override
-    public Item getOrCreateItem(Integer legacyId) {
+    public Item getOrCreateItem(Integer legacyId, UUID warehouseId) {
         return dataManager.load(Item.class)
                 .query("" +
-                        "SELECT d " +
-                        "FROM Item d " +
-                        "WHERE d.legacyId = :legacyId ")
+                        "SELECT i " +
+                        "FROM Item i " +
+                        "WHERE i.legacyId = :legacyId " +
+                        "   AND i.warehouse.id = :warehouseId")
                 .parameter("legacyId", legacyId)
+                .parameter("warehouseId", warehouseId)
                 .optional().orElse(dataManager.create(Item.class));
+    }
+
+    @Override
+    public User usernameExist(String username) {
+        return dataManager.load(User.class)
+                .query("select u from User u where u.username = :username")
+                .parameter("username", username)
+                .optional().orElse(null);
+
+    }
+    @Override
+    public User iinExist(String iin) {
+        return dataManager.load(User.class)
+                .query("select u from User u where u.iin = :iin")
+                .parameter("iin", iin)
+                .optional().orElse(null);
+
     }
 
 

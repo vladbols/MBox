@@ -2,10 +2,7 @@ package com.company.mbox.security;
 
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
-import io.jmix.security.role.annotation.EntityAttributePolicy;
-import io.jmix.security.role.annotation.EntityPolicy;
-import io.jmix.security.role.annotation.ResourceRole;
-import io.jmix.security.role.annotation.SpecificPolicy;
+import io.jmix.security.role.annotation.*;
 import io.jmix.securityui.role.annotation.MenuPolicy;
 import io.jmix.securityui.role.annotation.ScreenPolicy;
 
@@ -16,10 +13,13 @@ public interface CustomerRole {
 
     @EntityPolicy(entityName = "*", actions = {EntityPolicyAction.ALL})
     @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
-    @ScreenPolicy(screenIds = {"Items", "BasketController"})
-    @MenuPolicy(menuIds = {"Items", "BasketController"})
+    @ScreenPolicy(screenIds = {"Items", "BasketController", "OrdersController", "MainTop"})
+    @MenuPolicy(menuIds = {"Items", "BasketController", "OrdersController", "MainTop"})
     @SpecificPolicy(resources = "*")
     void fullAccess();
+//    @GraphQLPolicy(operations = "*")
+//    @ScreenPolicy(screenIds = "*")
+//    @MenuPolicy(menuIds = "*")
 
 //    @MenuPolicy(menuIds = {"registrationUser"})
 //    @MenuPolicy(menuIds = {"LoginScreen", "User.registration"})

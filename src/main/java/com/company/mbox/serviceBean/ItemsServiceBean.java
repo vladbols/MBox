@@ -11,7 +11,6 @@ import io.jmix.core.FetchPlan;
 import io.jmix.core.Messages;
 import io.jmix.core.Metadata;
 import io.jmix.ui.Notifications;
-import net.jpountz.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +85,7 @@ public class ItemsServiceBean implements ItemsService {
                 oi.setNumber(getLastOrderItemNumber());
                 oi.setItem(dataManager.load(Item.class).id(item.getId()).one());
                 oi.setOrganization(baseUtilsService.getCurrentOrganization());
+                oi.setCost(item.getPrice());
                 dataManager.save(oi);
                 createdOrderItems.add(oi);
             } catch (Exception ex) {

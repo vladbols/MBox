@@ -3,7 +3,9 @@ package com.company.mbox.entity;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.DependsOnProperties;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,8 +19,7 @@ import java.util.UUID;
 @JmixEntity
 @Table(name = "ORDER_ITEM", indexes = {
         @Index(name = "IDX_ORDERGROUP_ORDER_ID", columnList = "ORDER_ID"),
-        @Index(name = "IDX_ORDERITEM_ORGANIZATION_ID", columnList = "ORGANIZATION_ID"),
-        @Index(name = "IDX_ORDERITEM_CURRENCY_ID", columnList = "CURRENCY_ID")
+        @Index(name = "IDX_ORDERITEM_ORGANIZATION_ID", columnList = "ORGANIZATION_ID")
 })
 @Entity
 public class OrderItem {
@@ -58,23 +59,18 @@ public class OrderItem {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ITEM_ID", nullable = false)
     private Item item;
 
-    @Column(name = "PRICE")
-    private Double price;
-
-    @JoinColumn(name = "CURRENCY_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Currency currency;
-
     @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Organization organization;
+
+    @Column(name = "COST")
+    private Double cost;
 
     @NotNull
     @Column(name = "NUMBER_", nullable = false)
@@ -87,20 +83,18 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    public Currency getCurrency() {
-        return currency;
+    public Double getCost() {
+        return cost;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setCost(Double cost) {
+        this.cost = cost;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    @DependsOnProperties({"cost", "amount"})
+    @JmixProperty
+    public Double getTotalPrice() {
+        return (cost == null ? 0 : cost) * (amount == null ? 0 : amount);
     }
 
     public Organization getOrganization() {

@@ -8,6 +8,7 @@ import io.jmix.core.DataManager;
 import io.jmix.core.EntityStates;
 import io.jmix.core.Messages;
 import io.jmix.core.Metadata;
+import io.jmix.securitydata.entity.RoleAssignmentEntity;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.action.Action;
@@ -160,6 +161,14 @@ public class RegistrationUser extends Screen {
 
                 dataManager.save(user);
 
+                RoleAssignmentEntity entity = metadata.create(RoleAssignmentEntity.class);
+                entity.setVersion(1);
+                entity.setRoleCode("customer-role");
+                entity.setRoleType("resource");
+                entity.setUsername(user.getUsername());
+
+                dataManager.save(entity);
+
                 notifications.create(Notifications.NotificationType.HUMANIZED)
                         .withCaption(messages.getMessage("successful.registration"))
                         .show();
@@ -167,15 +176,30 @@ public class RegistrationUser extends Screen {
             } catch (Exception e) {
                 log.error("### ERROR occurred on registration. Error message: [{}]", e.getMessage());
             }
-
-
         }
     }
 
     private boolean checkAllFields() {
         List<Errors> errors = new ArrayList<>();
+        String username = usernameField.getRawValue();
+        String iin = iinField.getRawValue();
+
+        if (!username.isEmpty() && !username.isBlank() && baseUtilsService.usernameExist(username) != null) {
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption(messages.getMessage(getClass(), "usernameExist"))
+                    .show();
+            return false;
+        }
+        if (!iin.isEmpty() && !iin.isBlank() && baseUtilsService.iinExist(iin) != null) {
+            notifications.create(Notifications.NotificationType.WARNING)
+                    .withCaption(messages.getMessage(getClass(), "iinExist"))
+                    .show();
+            return false;
+        }
+
+
         for (Field f : userFields) {
-            if (Objects.equals(f.getId(), "emailField"))
+            if (Objects.equals(f.getId(), "emailField") || (!hasOrg() && Objects.equals(f.getId(), "binField")))
                 continue;
 
             Object val = f.getValue();

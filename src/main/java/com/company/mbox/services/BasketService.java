@@ -12,6 +12,6 @@ import java.util.Map;
 public interface BasketService {
     String NAME = "mbox_BasketService";
 
-    NotificationModel createOrder(List<OrderItem> ordersList);
+    NotificationModel createOrder(List<OrderItem> ordersList, String comment);
 
 }

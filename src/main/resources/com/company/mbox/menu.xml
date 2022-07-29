@@ -9,4 +9,5 @@
     </menu>
     <item screen="Items" caption="msg://com.company.mbox.screen.item/items.caption"/>
     <item screen="BasketController" caption="msg://com.company.mbox.screen.orderitem/basketController.menu"/>
+    <item screen="OrdersController" caption="msg://com.company.mbox.screen.orderitem/ordersController.menu"/>
 </menu-config>

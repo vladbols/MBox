@@ -27,7 +27,7 @@ import java.util.Objects;
 @Route(path = "main", root = true)
 public class MainScreenTopMenu extends Screen implements Window.HasWorkArea {
 
-    private final Logger log = LoggerFactory.getLogger(LoginScreen.class);
+    private final Logger log = LoggerFactory.getLogger(MainScreenTopMenu.class);
 
     @Autowired
     private ScreenTools screenTools;

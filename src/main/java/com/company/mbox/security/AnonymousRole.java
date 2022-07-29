@@ -1,14 +1,13 @@
 package com.company.mbox.security;
 
-import com.company.mbox.entity.Currency;
-import com.company.mbox.entity.Organization;
-import com.company.mbox.entity.User;
+import com.company.mbox.entity.*;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 import io.jmix.security.role.annotation.SpecificPolicy;
+import io.jmix.securitydata.entity.RoleAssignmentEntity;
 import io.jmix.securityui.role.annotation.MenuPolicy;
 import io.jmix.securityui.role.annotation.ScreenPolicy;
 
@@ -21,22 +20,39 @@ public interface AnonymousRole {
 //    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
 //    @ScreenPolicy(screenIds = "*")
 //    @MenuPolicy(menuIds = "*")
-//    @SpecificPolicy(resources = "*")
 //    void fullAccess();
+    @SpecificPolicy(resources = "*")
+    void specificPolicy();
 
     @MenuPolicy(menuIds = {"LoginScreen", "User.registration"})
     @ScreenPolicy(screenIds = {"LoginScreen", "User.registration"})
     void screens();
 
-    @EntityPolicy(entityClass = User.class, actions = {EntityPolicyAction.CREATE})
+    @EntityPolicy(entityClass = RoleAssignmentEntity.class, actions = {EntityPolicyAction.ALL})
+    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    void roleAssignmentEntity();
+
+    @EntityPolicy(entityClass = User.class, actions = {EntityPolicyAction.ALL})
     @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
     void user();
 
-    @EntityPolicy(entityClass = Organization.class, actions = {EntityPolicyAction.CREATE, EntityPolicyAction.READ})
+    @EntityPolicy(entityClass = Organization.class, actions = {EntityPolicyAction.ALL})
     @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
     void organization();
 
-    @EntityPolicy(entityClass = Currency.class, actions = {EntityPolicyAction.READ})
-    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.VIEW)
+    @EntityPolicy(entityClass = Currency.class, actions = {EntityPolicyAction.ALL})
+    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
     void currency();
+
+    @EntityPolicy(entityClass = Division.class, actions = {EntityPolicyAction.ALL})
+    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    void division();
+
+    @EntityPolicy(entityClass = Warehouse.class, actions = {EntityPolicyAction.ALL})
+    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    void warehouse();
+
+    @EntityPolicy(entityClass = Item.class, actions = {EntityPolicyAction.ALL})
+    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    void item();
 }

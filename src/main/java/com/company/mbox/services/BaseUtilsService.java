@@ -3,6 +3,7 @@ package com.company.mbox.services;
 import com.company.mbox.entity.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 public interface BaseUtilsService {
     String NAME = "mbox_BaseUtilsService";
@@ -17,9 +18,13 @@ public interface BaseUtilsService {
 
     Organization getOrCreateOrganization(String bin);
 
-    Division getOrCreateDivision(Integer legacyId);
+    Division getOrCreateDivision(Integer legacyId, UUID orgId);
 
-    Warehouse getOrCreateWarehouse(Integer legacyId);
+    Warehouse getOrCreateWarehouse(Integer legacyId, UUID divisionId);
 
-    Item getOrCreateItem(Integer legacyId);
+    Item getOrCreateItem(Integer legacyId, UUID warehouseId);
+
+    User usernameExist(String username);
+
+    User iinExist(String iin);
 }

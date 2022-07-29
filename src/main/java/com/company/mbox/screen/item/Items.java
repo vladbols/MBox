@@ -2,15 +2,10 @@ package com.company.mbox.screen.item;
 
 import com.company.mbox.dto.ItemOrderDto;
 import com.company.mbox.dto.PassScreenOptions;
-import com.company.mbox.entity.Organization;
 import com.company.mbox.models.NotificationModel;
-import com.company.mbox.security.DatabaseUserRepository;
-import com.company.mbox.services.BaseUtilsService;
 import com.company.mbox.services.ItemsService;
 import io.jmix.core.DataManager;
-import io.jmix.core.FetchPlan;
 import io.jmix.core.Messages;
-import io.jmix.core.usersubstitution.CurrentUserSubstitution;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.action.Action;
@@ -19,7 +14,6 @@ import io.jmix.ui.action.DialogAction;
 import io.jmix.ui.component.ContentMode;
 import io.jmix.ui.component.DataGrid;
 import io.jmix.ui.component.PropertyFilter;
-import io.jmix.ui.component.Table;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.screen.*;
@@ -29,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -38,9 +31,6 @@ import java.util.Set;
 public class Items extends StandardLookup<Item> {
 
     private final Logger log = LoggerFactory.getLogger(Items.class);
-
-    @Autowired
-    private DataManager dataManager;
 
     @Autowired
     private Notifications notifications;
@@ -73,7 +63,7 @@ public class Items extends StandardLookup<Item> {
             String param = ((PassScreenOptions) options).getName();
             name_property.setValue(param);
         }
-        itemOrdersDc.setItems(itemsService.getItemOrders(fetchPlanDc.getFetchPlan()));
+        reloadTable();
     }
 
     @Subscribe("itemsTable.addToBasketAction")
@@ -87,11 +77,11 @@ public class Items extends StandardLookup<Item> {
                     itemsList.add(item);
                     String tableBody =
                             "<tr>" +
-                            "   <td>%s</td>" +
-                            "   <td>%s</td>" +
-                            "   <td>%s</td>" +
-                            "   <td>%s</td>" +
-                            "</tr>";
+                                    "   <td>%s</td>" +
+                                    "   <td>%s</td>" +
+                                    "   <td>%s</td>" +
+                                    "   <td>%s</td>" +
+                                    "</tr>";
                     messageBody = String.format("%s%s", messageBody,
                             String.format(tableBody,
                                     item.getName(), item.getOrganization(),
@@ -99,44 +89,43 @@ public class Items extends StandardLookup<Item> {
                 }
             }
 
-            if (itemsList.isEmpty()) {
+            if (!itemsList.isEmpty()) {
+                String tableHeader =
+                        "<table>" +
+                                "    <thead>" +
+                                "        <tr>" +
+                                "            <th>%s</th>" +
+                                "            <th>%s</th>" +
+                                "            <th>%s</th>" +
+                                "            <th>%s</th>" +
+                                "        </tr>" +
+                                "    </thead>" +
+                                "    <tbody>%s</tbody>" +
+                                "</table>";
+                String message = String.format(tableHeader,
+                        messages.getMessage("com.company.mbox.screen.item/field.name"),
+                        messages.getMessage("com.company.mbox.screen.item/field.organization"),
+                        messages.getMessage("com.company.mbox.screen.item/field.price"),
+                        messages.getMessage("com.company.mbox.screen.item/field.amount"),
+                        messageBody);
+
+                dialogs.createOptionDialog()
+                        .withCaption(messages.getMessage(getClass(), "confirmSelectedRows"))
+                        .withMessage(message)
+                        .withContentMode(ContentMode.HTML)
+                        .withActions(
+                                new BaseAction("confirmAction")
+                                        .withCaption(messages.getMessage(getClass(), "confirm"))
+                                        .withHandler(han -> addItemsToBasket(itemsList)),
+                                new DialogAction(DialogAction.Type.CANCEL)
+                                        .withCaption(messages.getMessage(getClass(), "cancel")))
+                        .show();
+            } else {
                 notifications.create(Notifications.NotificationType.WARNING)
                         .withCaption(messages.getMessage(getClass(), "amountZero"))
                         .withDescription(messages.getMessage(getClass(), "fillAmountField"))
                         .show();
-                return;
             }
-
-            String tableHeader =
-                    "<table>" +
-                    "    <thead>" +
-                    "        <tr>" +
-                    "            <th>%s</th>" +
-                    "            <th>%s</th>" +
-                    "            <th>%s</th>" +
-                    "            <th>%s</th>" +
-                    "        </tr>" +
-                    "    </thead>" +
-                    "    <tbody>%s</tbody>" +
-                    "</table>";
-            String message = String.format(tableHeader,
-                    messages.getMessage("com.company.mbox.screen.item/field.name"),
-                    messages.getMessage("com.company.mbox.screen.item/field.organization"),
-                    messages.getMessage("com.company.mbox.screen.item/field.price"),
-                    messages.getMessage("com.company.mbox.screen.item/field.amount"),
-                    messageBody);
-
-            dialogs.createOptionDialog()
-                    .withCaption(messages.getMessage(getClass(), "confirmSelectedRows"))
-                    .withMessage(message)
-                    .withContentMode(ContentMode.HTML)
-                    .withActions(
-                            new BaseAction("confirmAction")
-                                    .withCaption(messages.getMessage(getClass(), "confirm"))
-                                    .withHandler(han -> addItemsToBasket(itemsList)),
-                            new DialogAction(DialogAction.Type.CANCEL)
-                                    .withCaption(messages.getMessage(getClass(), "cancel")))
-                    .show();
         } else {
             notifications.create(Notifications.NotificationType.WARNING)
                     .withCaption(messages.getMessage(getClass(), "noRowSelected"))
@@ -147,10 +136,17 @@ public class Items extends StandardLookup<Item> {
 
     private void addItemsToBasket(List<ItemOrderDto> itemsList) {
         NotificationModel nm = itemsService.addItemsToBasket(itemsList);
+        if (nm.getNotificationType().equals(Notifications.NotificationType.HUMANIZED)) {
+            reloadTable();
+        }
         notifications.create(nm.getNotificationType())
                 .withCaption(nm.getCaption())
                 .withDescription(nm.getDescription())
                 .show();
+    }
+
+    private void reloadTable() {
+        itemOrdersDc.setItems(itemsService.getItemOrders(fetchPlanDc.getFetchPlan()));
     }
 
 }

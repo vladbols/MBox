@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ public class BasketServiceBean implements BasketService {
     private EntityManager entityManager;
 
     @Override
-    public NotificationModel createOrder(List<OrderItem> ordersList) {
+    public NotificationModel createOrder(List<OrderItem> ordersList, String comment) {
         if (ordersList.isEmpty()) {
             return new NotificationModel(
                     Notifications.NotificationType.ERROR,
@@ -50,12 +49,13 @@ public class BasketServiceBean implements BasketService {
 
         Order order = dataManager.create(Order.class);
         try {
-            order.setComment("");
+            order.setComment(comment);
             order.setOrderItemId(ordersList);
             order.setNumber(getLastOrderNumber());
             order.setOrganization(baseUtilsService.getCurrentOrganization());
+            order.setCurrency(baseUtilsService.getOrCreateCurrency("KZT"));
             order.setDatetime(LocalDateTime.now());
-            order.setTotalPrice(ordersList.stream().mapToDouble(OrderItem::getPrice).sum());
+            order.setTotalPrice(ordersList.stream().mapToDouble(OrderItem::getTotalPrice).sum());
             dataManager.save(order);
 
             for (OrderItem oi : ordersList) {
@@ -63,8 +63,6 @@ public class BasketServiceBean implements BasketService {
                 uoi.setOrder(order);
                 dataManager.save(uoi);
             }
-
-
         } catch (Exception ex) {
             log.error("### Can't create order by Items: [{}]. Error message: [{}]",
                     ordersList.stream().map(l -> l.getItem().getId()).collect(Collectors.toList()),

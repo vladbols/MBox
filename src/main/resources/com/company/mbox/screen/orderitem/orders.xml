@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://ordersController.caption"
+        focusComponent="orderItemsTable">
+    <data readOnly="true">
+        <collection id="ordersDc" class="com.company.mbox.entity.Order">
+            <fetchPlan extends="_instance_name">
+                <property name="number"/>
+                <property name="datetime"/>
+                <property name="totalPrice"/>
+                <property name="comment"/>
+            </fetchPlan>
+            <loader id="ordersDl">
+                <query>
+                    <![CDATA[select e from Order_ e where e.organization = :organization]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="orderItemsDc" class="com.company.mbox.entity.OrderItem">
+            <fetchPlan extends="_base">
+                <property name="totalPrice"/>
+                <property name="item">
+                    <property name="name"/>
+                    <property name="warehouse">
+                        <property name="address"/>
+                        <property name="division">
+                            <property name="organization">
+                                <property name="name"/>
+                            </property>
+                        </property>
+                    </property>
+                </property>
+            </fetchPlan>
+            <loader id="orderItemsDl">
+                <query>
+                    <![CDATA[select e from OrderItem e where e.organization = :organization and e.order = :order and 1 = :param]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <layout expand="tables" spacing="true">
+        <!--        <filter id="filter"-->
+        <!--                dataLoader="ordersDl">-->
+        <!--            <properties include=".*"/>-->
+        <!--        </filter>-->
+        <vbox id="tables">
+            <groupTable id="ordersTable" width="100%" multiselect="false" dataContainer="ordersDc">
+                <actions>
+                    <action id="refresh" type="refresh" caption="msg://action.refresh"/>
+                </actions>
+                <columns>
+                    <column id="number" caption="msg://column.number"/>
+                    <column id="datetime" caption="msg://column.datetime"/>
+                    <column id="totalPrice" caption="msg://column.total.price"/>
+                    <column id="comment" caption="msg://column.comment"/>
+                </columns>
+                <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                    <button id="refreshBtn" action="ordersTable.refresh"/>
+                </buttonsPanel>
+            </groupTable>
+            <groupTable id="orderItemsTable" width="100%" dataContainer="orderItemsDc">
+                <columns>
+                    <group>
+                        <column id="item.warehouse.division.organization.name" caption="msg://column.organization"/>
+                    </group>
+                    <column id="number" groupAllowed="false" caption="msg://column.number"/>
+                    <column id="item.name" groupAllowed="false" caption="msg://column.name"/>
+                    <column id="item.warehouse.address" groupAllowed="false" caption="msg://column.warehouse.address"/>
+                    <column id="cost" groupAllowed="false" caption="msg://column.cost"/>
+                    <column id="amount" groupAllowed="false" caption="msg://column.amount"/>
+                    <column id="totalPrice" groupAllowed="false" caption="msg://column.item.total.price"/>
+                </columns>
+            </groupTable>
+        </vbox>
+
+    </layout>
+</window>
