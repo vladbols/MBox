@@ -15,12 +15,7 @@ import io.jmix.securityui.role.annotation.ScreenPolicy;
 public interface AnonymousRole {
 
     String CODE = "anonymous-role";
-//
-//    @EntityPolicy(entityName = "*", actions = {EntityPolicyAction.ALL})
-//    @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
-//    @ScreenPolicy(screenIds = "*")
-//    @MenuPolicy(menuIds = "*")
-//    void fullAccess();
+
     @SpecificPolicy(resources = "*")
     void specificPolicy();
 

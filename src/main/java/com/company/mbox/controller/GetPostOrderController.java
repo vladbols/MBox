@@ -29,16 +29,11 @@ import java.util.List;
 @RequestMapping("/orders")
 public class GetPostOrderController extends AbstractController {
 
-    private static final Logger log = LoggerFactory.getLogger(GetPostOrderController.class);
-
-    private static final Gson g = new Gson();
-
     @Autowired
     private BaseUtilsService baseUtilsService;
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @GetMapping("/getOrders")
     public ResponseEntity<?> getOrders() {
@@ -54,64 +49,81 @@ public class GetPostOrderController extends AbstractController {
     @RequestMapping(value = "/setItems", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public ResponseEntity<?> setItems(@RequestBody List<CompanyRequestDto> companyRequestDto) throws ParseException {
         if (companyRequestDto == null || companyRequestDto.isEmpty()) {
-            return badRequest("Idi nah");
+            return badRequest("Request body is null or empty");
         }
 
         for (CompanyRequestDto cDto : companyRequestDto) {
-            Organization o = baseUtilsService.getOrCreateOrganization(cDto.getOrg_uid());
-
-            o.setName(cDto.getOrg());
-            o.setLegacyId(cDto.getOrg_uid());
-            o.setBin(cDto.getBin());
-            o.setDate(new SimpleDateFormat("dd.MM.yyyy").parse(cDto.getDate()));
-            o.setAddress(cDto.getAddress());
-            o.setKbe(cDto.getKbe());
-            o.setAccount(cDto.getAccount());
-            o.setBik(cDto.getBik());
-            o.setBank(cDto.getBank());
-            o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
-            o.setActive(false);
-            dataManager.save(o);
+            Organization o;
+            try {
+                o = baseUtilsService.getOrCreateOrganization(cDto.getOrg_uid());
+                o.setName(cDto.getOrg());
+                o.setLegacyId(cDto.getOrg_uid());
+                o.setBin(cDto.getBin());
+                o.setDate(new SimpleDateFormat("dd.MM.yyyy").parse(cDto.getDate()));
+                o.setAddress(cDto.getAddress());
+                o.setKbe(cDto.getKbe());
+                o.setAccount(cDto.getAccount());
+                o.setBik(cDto.getBik());
+                o.setBank(cDto.getBank());
+                o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
+                o.setActive(false);
+                dataManager.save(o);
+            } catch (Exception e) {
+                log.error("### Error", e);
+                continue;
+            }
 
             for (DivisionRequestDto dDto : cDto.getDivisions()) {
-                Division d = baseUtilsService.getOrCreateDivision(dDto.getDivision_uid(), o.getId());
-
-                d.setName(dDto.getDivision());
-                d.setLegacyId(dDto.getDivision_uid());
-                d.setAddress(dDto.getAddress());
-                d.setOrganization(o);
-                dataManager.save(d);
+                Division d;
+                try {
+                    d = baseUtilsService.getOrCreateDivision(dDto.getDivision_uid(), o.getId());
+                    d.setName(dDto.getDivision());
+                    d.setLegacyId(dDto.getDivision_uid());
+                    d.setAddress(dDto.getAddress());
+                    d.setOrganization(o);
+                    dataManager.save(d);
+                } catch (Exception e) {
+                    log.error("### Error", e);
+                    continue;
+                }
 
                 for (WarehouseRequestDto wDto : dDto.getStors()) {
-                    Warehouse w = baseUtilsService.getOrCreateWarehouse(wDto.getStore_uid(), d.getId());
-
-                    w.setName(wDto.getStore());
-                    w.setLegacyId(wDto.getStore_uid());
-                    w.setAddress(wDto.getAddress());
-                    w.setDivision(d);
-                    dataManager.save(w);
+                    Warehouse w;
+                    try {
+                        w = baseUtilsService.getOrCreateWarehouse(wDto.getStore_uid(), d.getId());
+                        w.setName(wDto.getStore());
+                        w.setLegacyId(wDto.getStore_uid());
+                        w.setAddress(wDto.getAddress());
+                        w.setDivision(d);
+                        dataManager.save(w);
+                    } catch (Exception e) {
+                        log.error("### Error", e);
+                        continue;
+                    }
 
                     for (ItemsRequestDto iDto : wDto.getList()) {
-                        Item i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
-
-                        i.setName(iDto.getItem());
-                        i.setLegacyId(iDto.getItem_uid());
-                        i.setCategory(iDto.getCategory());
-                        i.setUnit(iDto.getUnit());
-                        i.setType(iDto.getType());
-                        i.setPrice(iDto.getPrice());
-                        i.setAmount(iDto.getNumber());
-                        i.setWarehouse(w);
-
-                        dataManager.save(i);
+                        try {
+                            Item i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
+                            i.setName(iDto.getItem());
+                            i.setLegacyId(iDto.getItem_uid());
+                            i.setCategory(iDto.getCategory());
+                            i.setUnit(iDto.getUnit());
+                            i.setType(iDto.getType());
+                            i.setPrice(iDto.getPrice());
+                            i.setAmount(iDto.getNumber());
+                            i.setWarehouse(w);
+                            dataManager.save(i);
+                        } catch (Exception e) {
+                            log.error("### Error", e);
+                        }
                     }
                 }
             }
         }
         return ok("ok");
     }
-    
-    public String getOrdersQuery(){
+
+    public String getOrdersQuery() {
         return "" +
                 "SELECT JSON_AGG(orders) " +
                 "FROM (" +
@@ -161,56 +173,56 @@ public class GetPostOrderController extends AbstractController {
                 "                            AND oi2.id = ANY(ordersJson.items_id) " +
                 "                    ) AS \"list\" " +
                 "                FROM (" +
-                "                SELECT DISTINCT " +
-                "                    ord.id                     AS \"order_uid\", " +
-                "                    customer.name              AS \"client\", " +
-                "                    customer.bin               AS \"client_bin\", " +
-                "                    ord.number_                AS \"number\", " +
-                "                    ord.datetime               AS \"date\", " +
-                "                    c.code                     AS \"currency\", " +
-                "                    d.name                     AS \"division\", " +
-                "                    d.legacy_id                AS \"division_uid\", " +
-                "                    w.name                     AS \"store\", " +
-                "                    w.legacy_id                AS \"store_uid\", " +
-                "                    customer.contacts          AS \"telephone\", " +
-                "                    ord.comment_               AS \"comment\", " +
-                "                    ARRAY[array_agg(oi.id)]    AS \"items_id\" " +
-                "                FROM order_ ord " +
-                "                    JOIN order_item oi " +
-                "                        ON oi.deleted_by IS NULL " +
-                "                            AND oi.order_id = ord.id " +
-                "                    JOIN item i " +
-                "                        ON i.deleted_by IS NULL " +
-                "                            AND i.id = oi.item_id " +
-                "                    JOIN warehouse w " +
-                "                        ON w.deleted_by IS NULL " +
-                "                            AND w.id = i.warehouse_id " +
-                "                    JOIN division d " +
-                "                        ON d.deleted_by IS NULL " +
-                "                            AND d.id = w.division_id " +
-                "                    JOIN organization org " +
-                "                        ON org.deleted_by IS NULL " +
-                "                            AND org.id = d.organization_id " +
-                "                    JOIN currency c " +
-                "                        ON c.deleted_by IS NULL " +
-                "                            AND c.id = org.currency_id " +
-                "                    JOIN organization customer " +
-                "                        ON customer.deleted_by IS NULL " +
-                "                            AND customer.id = ord.organization_id " +
-                "                WHERE ord.deleted_by IS NULL " +
-                "                    AND org.id = o.id " +
-                "                    GROUP BY " +
-                "                        ord.id, " +
-                "                        customer.name, " +
-                "                        customer.bin, " +
-                "                        ord.number_, " +
-                "                        ord.datetime, " +
-                "                        c.code, " +
-                "                        d.name, " +
-                "                        d.legacy_id, " +
-                "                        w.name, " +
-                "                        w.legacy_id, " +
-                "                        customer.contacts " +
+                "                    SELECT DISTINCT " +
+                "                        ord.id                     AS \"order_uid\", " +
+                "                        customer.name              AS \"client\", " +
+                "                        customer.bin               AS \"client_bin\", " +
+                "                        ord.number_                AS \"number\", " +
+                "                        ord.datetime               AS \"date\", " +
+                "                        c.code                     AS \"currency\", " +
+                "                        d.name                     AS \"division\", " +
+                "                        d.legacy_id                AS \"division_uid\", " +
+                "                        w.name                     AS \"store\", " +
+                "                        w.legacy_id                AS \"store_uid\", " +
+                "                        customer.contacts          AS \"telephone\", " +
+                "                        ord.comment_               AS \"comment\", " +
+                "                        ARRAY[array_agg(oi.id)]    AS \"items_id\" " +
+                "                    FROM order_ ord " +
+                "                        JOIN order_item oi " +
+                "                            ON oi.deleted_by IS NULL " +
+                "                                AND oi.order_id = ord.id " +
+                "                        JOIN item i " +
+                "                            ON i.deleted_by IS NULL " +
+                "                                AND i.id = oi.item_id " +
+                "                        JOIN warehouse w " +
+                "                            ON w.deleted_by IS NULL " +
+                "                                AND w.id = i.warehouse_id " +
+                "                        JOIN division d " +
+                "                            ON d.deleted_by IS NULL " +
+                "                                AND d.id = w.division_id " +
+                "                        JOIN organization org " +
+                "                            ON org.deleted_by IS NULL " +
+                "                                AND org.id = d.organization_id " +
+                "                        JOIN currency c " +
+                "                            ON c.deleted_by IS NULL " +
+                "                                AND c.id = org.currency_id " +
+                "                        JOIN organization customer " +
+                "                            ON customer.deleted_by IS NULL " +
+                "                                AND customer.id = ord.organization_id " +
+                "                    WHERE ord.deleted_by IS NULL " +
+                "                        AND org.id = o.id " +
+                "                        GROUP BY " +
+                "                            ord.id, " +
+                "                            customer.name, " +
+                "                            customer.bin, " +
+                "                            ord.number_, " +
+                "                            ord.datetime, " +
+                "                            c.code, " +
+                "                            d.name, " +
+                "                            d.legacy_id, " +
+                "                            w.name, " +
+                "                            w.legacy_id, " +
+                "                            customer.contacts " +
                 "                ) ordersJson " +
                 "            ) docs " +
                 "        ) AS \"documents\" " +

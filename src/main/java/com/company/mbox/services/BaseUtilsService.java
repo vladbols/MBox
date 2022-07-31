@@ -18,13 +18,15 @@ public interface BaseUtilsService {
 
     Organization getOrCreateOrganization(String bin);
 
+    Organization getOrganization(String bin);
+
     Division getOrCreateDivision(Integer legacyId, UUID orgId);
 
     Warehouse getOrCreateWarehouse(Integer legacyId, UUID divisionId);
 
     Item getOrCreateItem(Integer legacyId, UUID warehouseId);
 
-    User usernameExist(String username);
+    boolean usernameExist(String username);
 
-    User iinExist(String iin);
+    boolean iinExist(String iin);
 }

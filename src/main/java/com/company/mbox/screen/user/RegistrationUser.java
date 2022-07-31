@@ -4,25 +4,21 @@ import com.company.mbox.entity.Organization;
 import com.company.mbox.entity.User;
 import com.company.mbox.screen.login.LoginScreen;
 import com.company.mbox.services.BaseUtilsService;
+import com.mchange.v2.lang.StringUtils;
 import io.jmix.core.DataManager;
 import io.jmix.core.EntityStates;
 import io.jmix.core.Messages;
 import io.jmix.core.Metadata;
 import io.jmix.securitydata.entity.RoleAssignmentEntity;
 import io.jmix.ui.Notifications;
-import io.jmix.ui.UiComponents;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.component.*;
-import io.jmix.ui.component.impl.AbstractField;
-import io.jmix.ui.model.DataComponents;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.*;
 
 @UiController("User.registration")
 @UiDescriptor("registration-user.xml")
@@ -47,9 +43,6 @@ public class RegistrationUser extends Screen {
     private Messages messages;
 
     @Autowired
-    private MessageBundle messageBundle;
-
-    @Autowired
     private DataManager dataManager;
 
     @Autowired
@@ -57,6 +50,9 @@ public class RegistrationUser extends Screen {
 
     @Autowired
     private CheckBox hasOrganizationField;
+
+    @Autowired
+    private Form userForm;
 
     @Autowired
     private Form organizationForm;
@@ -82,8 +78,6 @@ public class RegistrationUser extends Screen {
     @Autowired
     private TextField<String> orgAddressField;
     @Autowired
-    private TextField<String> orgFactAddressField;
-    @Autowired
     private TextField<String> orgBinField;
     @Autowired
     private TextField<String> orgKbeField;
@@ -91,35 +85,46 @@ public class RegistrationUser extends Screen {
     private TextField<String> orgIIKField;
     @Autowired
     private TextField<String> orgBikField;
+    @Autowired
+    private MaskedField<String> orgContacts;
 
-    private List<Field> userFields = new ArrayList<>();
-    private List<Field> orgFields = new ArrayList<>();
+    @Autowired
+    private ScreenValidation screenValidation;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         hasOrganizationField.setValue(true);
 
-        userFields.add(usernameField);
-        userFields.add(passwordField);
-        userFields.add(confirmPasswordField);
-        userFields.add(firstNameField);
-        userFields.add(lastNameField);
-        userFields.add(emailField);
-        userFields.add(iinField);
-        userFields.add(binField);
-        orgFields.add(orgNameField);
-        orgFields.add(orgAddressField);
-        orgFields.add(orgFactAddressField);
-        orgFields.add(orgBinField);
-        orgFields.add(orgKbeField);
-        orgFields.add(orgIIKField);
-        orgFields.add(orgBikField);
+        confirmPasswordField.addValidator(value -> {
+            String password = passwordField.getValue();
+            if (StringUtils.nonEmptyString(password) && password.length() >= 8) {
+                if (!StringUtils.nonEmptyString(value))
+                    throw new ValidationException(messages.getMessage(getClass(), "validator.empty.confirm.passwords"));
+                else if (!value.equals(password))
+                    throw new ValidationException(messages.getMessage(getClass(), "validator.notEqual.passwords"));
+            }
+        });
+
+        iinField.addValidator(val -> iinBinValidator(val, "iin"));
+        binField.addValidator(val -> iinBinValidator(val, "bin"));
+        orgBinField.addValidator(val -> iinBinValidator(val, "bin"));
+    }
+
+    private void iinBinValidator(String val, String key) {
+        if (!StringUtils.nonEmptyString(val)) {
+            throw new ValidationException(messages.getMessage(getClass(), "validator.notEmpty." + key));
+        }
+        if (!val.matches("[0-9]+") || val.length() != 12) {
+            throw new ValidationException(messages.getMessage(getClass(), "validator.notFull." + key));
+        }
     }
 
     @Subscribe("hasOrganizationField")
     public void onHasOrganizationFieldValueChange(HasValue.ValueChangeEvent<Boolean> event) {
         boolean flag = Boolean.TRUE.equals(event.getValue());
         binField.setVisible(flag);
+        binField.setRequired(flag);
+        orgBinField.setRequired(!flag);
         organizationForm.setVisible(!flag);
     }
 
@@ -133,226 +138,95 @@ public class RegistrationUser extends Screen {
 
     @Subscribe("commitAndOpenLoginPageBtn")
     public void onCommitAndOpenLoginPageBtnClick(Button.ClickEvent event) {
-        if (checkAllFields()) {
-            try {
-                String bin = hasOrg() ? binField.getRawValue() : orgBinField.getRawValue();
-                Organization org = baseUtilsService.getOrCreateOrganization(bin);
-
-                if (entityStates.isNew(org)) {
-                    org.setName(orgNameField.getRawValue());
-                    org.setAddress(orgAddressField.getRawValue());
-                    org.setBin(bin);
-                    org.setBik(orgBikField.getRawValue());
-                    org.setKbe(orgKbeField.getRawValue());
-                    org.setCurrency(baseUtilsService.getOrCreateCurrency("KZT"));
-                    org.setActive(false);
-                    dataManager.save(org);
-                }
-
-                User user = metadata.create(User.class);
-                user.setOrganization(org);
-                user.setUsername(usernameField.getRawValue());
-                user.setPassword(passwordEncoder.encode(passwordField.getValue()));
-                user.setFirstName(firstNameField.getRawValue());
-                user.setLastName(lastNameField.getRawValue());
-                user.setEmail(emailField.getRawValue());
-                user.setIin(iinField.getRawValue());
-                user.setActive(true);
-
-                dataManager.save(user);
-
-                RoleAssignmentEntity entity = metadata.create(RoleAssignmentEntity.class);
-                entity.setVersion(1);
-                entity.setRoleCode("customer-role");
-                entity.setRoleType("resource");
-                entity.setUsername(user.getUsername());
-
-                dataManager.save(entity);
-
-                notifications.create(Notifications.NotificationType.HUMANIZED)
-                        .withCaption(messages.getMessage("successful.registration"))
-                        .show();
-                onSignIn(null);
-            } catch (Exception e) {
-                log.error("### ERROR occurred on registration. Error message: [{}]", e.getMessage());
-            }
-        }
-    }
-
-    private boolean checkAllFields() {
-        List<Errors> errors = new ArrayList<>();
-        String username = usernameField.getRawValue();
-        String iin = iinField.getRawValue();
-
-        if (!username.isEmpty() && !username.isBlank() && baseUtilsService.usernameExist(username) != null) {
-            notifications.create(Notifications.NotificationType.WARNING)
-                    .withCaption(messages.getMessage(getClass(), "usernameExist"))
-                    .show();
-            return false;
-        }
-        if (!iin.isEmpty() && !iin.isBlank() && baseUtilsService.iinExist(iin) != null) {
-            notifications.create(Notifications.NotificationType.WARNING)
-                    .withCaption(messages.getMessage(getClass(), "iinExist"))
-                    .show();
-            return false;
-        }
-
-
-        for (Field f : userFields) {
-            if (Objects.equals(f.getId(), "emailField") || (!hasOrg() && Objects.equals(f.getId(), "binField")))
-                continue;
-
-            Object val = f.getValue();
-            if (val == null) {
-                errors.add(new Errors(f.getCaption()));
-            }
-
-            if (Objects.equals(f.getId(), "passwordField")) {
-                String pass = passwordField.getValue();
-                String conf = confirmPasswordField.getValue();
-                if (pass != null && conf != null && !Objects.equals(pass, conf)) {
-                    errors.add(new Errors(f.getCaption(), messageBundle.getMessage("passwordsDoNotMatch")));
-                }
-            }
-        }
+        ValidationErrors errors = screenValidation.validateUiComponents(userForm);
         if (!hasOrg()) {
-            for (Field f : orgFields) {
-                if (Objects.equals(f.getId(), "orgFactAddressField") ||
-                        Objects.equals(f.getId(), "orgIIKField") ||
-                        Objects.equals(f.getId(), "binField"))
-                    continue;
-
-                Object val = f.getValue();
-                if (val == null) {
-                    errors.add(new Errors(f.getCaption()));
-                }
+            ValidationErrors errors2 = screenValidation.validateUiComponents(organizationForm);
+            if (!errors2.isEmpty()) {
+                errors.addAll(errors2);
             }
         }
         if (!errors.isEmpty()) {
-            String notificationCaption = "";
-            for (Errors str : errors) {
-                notificationCaption = String.format("%s%s\n",
-                        notificationCaption,
-                        str.getMessage() != null ?
-                                str.getMessage() :
-                                String.format(messages.getMessage(getClass(), "enterCorrectData"), str.getField()));
+            screenValidation.showValidationErrors(this, errors);
+            return;
+        }
+
+        try {
+            String bin = hasOrg() ? binField.getRawValue() : orgBinField.getRawValue();
+            String username = usernameField.getRawValue();
+            if (baseUtilsService.usernameExist(username)) {
+                notifications.create(Notifications.NotificationType.WARNING)
+                        .withCaption(messages.getMessage("username.exists"))
+                        .show();
+                return;
+            }
+            if (baseUtilsService.iinExist(iinField.getRawValue())) {
+                notifications.create(Notifications.NotificationType.WARNING)
+                        .withCaption(messages.getMessage("iin.exists"))
+                        .show();
+                return;
             }
 
+            Organization org;
+            if (hasOrg()) org = baseUtilsService.getOrganization(bin);
+            else org = baseUtilsService.getOrCreateOrganization(bin);
+
+            if (org == null) {
+                notifications.create(Notifications.NotificationType.WARNING)
+                        .withCaption(messages.getMessage("organization.not.found"))
+                        .show();
+                return;
+            }
+
+            if (entityStates.isNew(org)) {
+                org.setName(orgNameField.getRawValue());
+                org.setAddress(orgAddressField.getRawValue());
+                org.setBin(bin);
+                org.setBik(orgBikField.getRawValue());
+                org.setKbe(orgKbeField.getRawValue());
+                org.setAccount(orgIIKField.getRawValue());
+                org.setContacts(orgContacts.getRawValue());
+                org.setCurrency(baseUtilsService.getOrCreateCurrency("KZT"));
+                org.setActive(false);
+                dataManager.save(org);
+            } else if (!hasOrg() && !entityStates.isNew(org)) {
+                notifications.create(Notifications.NotificationType.WARNING)
+                        .withCaption(messages.getMessage("organization.exists"))
+                        .show();
+                return;
+            }
+
+            User user = metadata.create(User.class);
+            user.setOrganization(org);
+            user.setUsername(username);
+            user.setPassword(passwordEncoder.encode(passwordField.getValue()));
+            user.setFirstName(firstNameField.getRawValue());
+            user.setLastName(lastNameField.getRawValue());
+            user.setEmail(emailField.getRawValue());
+//            user.setTimeZoneId(TimeZone.getAvailableIDs()[]);
+            user.setIin(iinField.getRawValue());
+            user.setActive(true);
+            dataManager.save(user);
+
+            RoleAssignmentEntity entity = metadata.create(RoleAssignmentEntity.class);
+            entity.setVersion(1);
+            entity.setRoleCode("customer-role");
+            entity.setRoleType("resource");
+            entity.setUsername(user.getUsername());
+            dataManager.save(entity);
+
+            notifications.create(Notifications.NotificationType.HUMANIZED)
+                    .withCaption(messages.getMessage("successful.registration"))
+                    .show();
+            onSignIn(null);
+        } catch (Exception e) {
+            log.error("### ERROR occurred on registration. Error message: [{}]", e.getMessage());
             notifications.create(Notifications.NotificationType.WARNING)
-                    .withCaption(notificationCaption)
+                    .withCaption(messages.getMessage("error.registration"))
                     .show();
         }
-        return errors.isEmpty();
     }
 
     private boolean hasOrg() {
         return Boolean.TRUE.equals(hasOrganizationField.getValue());
-    }
-}
-
-class Errors {
-    private String field;
-    private String message;
-
-    public Errors() {
-    }
-
-    public Errors(String field) {
-        this.field = field;
-        this.message = null;
-    }
-
-    public Errors(String field, String message) {
-        this.field = field;
-        this.message = message;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-}
-
-class Validator {
-    private String id; // Field id
-    private Object value; // Field value
-    private Rules rules;
-
-    public Validator(String id, Object value) {
-        this.id = id;
-        this.value = value;
-    }
-
-    public Validator() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-}
-
-class Rules {
-    private int maxLength;
-    private int minxLength;
-    private Boolean notEmpty;
-    private Boolean checked;
-
-    public Rules() {
-    }
-
-    public int getMaxLength() {
-        return maxLength;
-    }
-
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
-    }
-
-    public int getMinxLength() {
-        return minxLength;
-    }
-
-    public void setMinxLength(int minxLength) {
-        this.minxLength = minxLength;
-    }
-
-    public Boolean getNotEmpty() {
-        return notEmpty;
-    }
-
-    public void setNotEmpty(Boolean notEmpty) {
-        this.notEmpty = notEmpty;
-    }
-
-    public Boolean getChecked() {
-        return checked;
-    }
-
-    public void setChecked(Boolean checked) {
-        this.checked = checked;
     }
 }

@@ -49,10 +49,12 @@
                 <column property="amount" id="amount" caption="msg://field.amount"/>
                 <column property="totalPrice" id="totalPrice" caption="msg://field.total.price"/>
             </columns>
-            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true" width="100%">
                 <button id="createOrderBtn" action="orderItemsTable.createOrderAction"/>
                 <button id="refreshBtn" action="orderItemsTable.refresh"/>
                 <button id="removeBtn" action="orderItemsTable.remove"/>
+                <button id="totalSelectedCost" enable="false" primary="true" align="MIDDLE_RIGHT"
+                        css="float: right; background: var(--button-primary-color); border-color: var(--button-primary-color);"/>
             </buttonsPanel>
         </dataGrid>
     </layout>

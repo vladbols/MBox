@@ -89,6 +89,17 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
+    public Organization getOrganization(String bin) {
+        return dataManager.load(Organization.class)
+                .query("" +
+                        "SELECT o " +
+                        "FROM Organization o " +
+                        "WHERE o.bin = :bin ")
+                .parameter("bin", bin)
+                .optional().orElse(null);
+    }
+
+    @Override
     public Division getOrCreateDivision(Integer legacyId, UUID orgId) {
         return dataManager.load(Division.class)
                 .query("" +
@@ -128,20 +139,20 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public User usernameExist(String username) {
-        return dataManager.load(User.class)
+    public boolean usernameExist(String username) {
+        User user = dataManager.load(User.class)
                 .query("select u from User u where u.username = :username")
                 .parameter("username", username)
                 .optional().orElse(null);
-
+        return user != null;
     }
     @Override
-    public User iinExist(String iin) {
-        return dataManager.load(User.class)
+    public boolean iinExist(String iin) {
+        User user = dataManager.load(User.class)
                 .query("select u from User u where u.iin = :iin")
                 .parameter("iin", iin)
                 .optional().orElse(null);
-
+        return user != null;
     }
 
 

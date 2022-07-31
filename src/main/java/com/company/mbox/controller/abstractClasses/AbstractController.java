@@ -19,7 +19,7 @@ import java.util.*;
 
 @Controller
 public class AbstractController {
-    protected final Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
+    protected final Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
     protected static DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 

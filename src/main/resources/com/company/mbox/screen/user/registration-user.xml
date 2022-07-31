@@ -27,40 +27,70 @@
                 <vbox id="registrationVbox" spacing="true" align="MIDDLE_CENTER">
                     <form id="userForm" align="MIDDLE_CENTER">
                         <column width="350px">
-                            <textField id="usernameField" datatype="string" caption="msg://field.username"/>
-<!--                            <capsLockIndicator id="capsLockIndicator" align="MIDDLE_CENTER" capsLockOnMessage="ON"/>-->
-                            <passwordField id="passwordField"
-                                           caption="msg://field.password"/>
-<!--                            <capsLockIndicator id="capsLock2" align="MIDDLE_CENTER" capsLockOnMessage="ON"/>-->
-                            <passwordField id="confirmPasswordField"
-                                           caption="msg://field.confirm.password"/>
-                            <textField id="firstNameField" datatype="string" caption="msg://field.name"/>
-                            <textField id="lastNameField" datatype="string" caption="msg://field.surname"/>
-                            <textField id="emailField" datatype="string" caption="msg://field.email"/>
-                            <textField id="iinField" maxLength="12" caption="msg://field.iin"/>
+                            <textField id="usernameField" datatype="string" required="true" requiredMessage="msg://validator.empty.username" caption="msg://field.username">
+                                <validators>
+                                    <size min="3" message="msg://validator.size.username"/>
+                                    <notBlank message="msg://validator.empty.username"/>
+                                    <notEmpty message="msg://validator.empty.username"/>
+                                    <notNull message="msg://validator.empty.username"/>
+                                </validators>
+                            </textField>
+                            <passwordField id="passwordField" caption="msg://field.password" required="true" requiredMessage="msg://validator.empty.password">
+                                <validators>
+                                    <size min="8" message="msg://validator.size.password"/>
+                                    <notBlank message="msg://validator.empty.password"/>
+                                    <notEmpty message="msg://validator.empty.password"/>
+                                    <notNull message="msg://validator.empty.password"/>
+                                </validators>
+                            </passwordField>
+                            <passwordField id="confirmPasswordField" caption="msg://field.confirm.password"/>
+                            <textField id="firstNameField" datatype="string" required="true" requiredMessage="msg://validator.empty.first.name" caption="msg://field.name"/>
+                            <textField id="lastNameField" datatype="string" required="true" requiredMessage="msg://validator.empty.last.name"  caption="msg://field.surname"/>
+                            <textField id="emailField" datatype="string" caption="msg://field.email">
+                                <validators>
+                                    <email message="msg://validator.incorrect.email.format"/>
+                                </validators>
+                            </textField>
+                            <textField id="iinField" required="true" requiredMessage="msg://validator.notEmpty.iin" maxLength="12" caption="msg://field.iin"/>
                             <checkBox id="hasOrganizationField" caption="msg://field.has.organization"/>
-                            <textField id="binField" maxLength="12" caption="msg://field.organization.bin"/>
+                            <textField id="binField" maxLength="12" requiredMessage="msg://validator.notEmpty.bin" caption="msg://field.organization.bin"/>
                         </column>
                     </form>
                     <form id="organizationForm" captionPosition="TOP">
                         <column width="350px">
                             <textField id="orgNameField"
+                                       required="true"
+                                       requiredMessage="msg://validator.empty.org.name"
                                        caption="msg://field.organization.name"/>
                             <textField id="orgAddressField"
+                                       required="true"
+                                       requiredMessage="msg://validator.empty.org.address"
                                        caption="msg://field.organization.address"/>
                         </column>
                         <column width="350px">
-                            <textField id="orgFactAddressField" maxLength="12"
-                                       caption="msg://field.organization.fact.address"/>
-                            <textField id="orgBinField" maxLength="12"
+                            <maskedField id="orgContacts"
+                                         required="true"
+                                         valueMode="masked"
+                                         requiredMessage="msg://validator.empty.org.contacts"
+                                         mask="+7(###)###-##-##"
+                                         caption="msg://field.organization.contacts"/>
+                            <textField id="orgBinField"
+                                       maxLength="12"
+                                       requiredMessage="msg://validator.notEmpty.bin"
                                        caption="msg://field.organization.bin"/>
                             <textField id="orgKbeField"
+                                       required="true"
+                                       requiredMessage="msg://validator.empty.org.kbe"
                                        caption="msg://field.organization.kbe"/>
                         </column>
                         <column width="350px">
                             <textField id="orgIIKField"
+                                       required="true"
+                                       requiredMessage="msg://validator.empty.org.iik"
                                        caption="msg://field.organization.iik"/>
                             <textField id="orgBikField"
+                                       required="true"
+                                       requiredMessage="msg://validator.empty.org.bik"
                                        caption="msg://field.organization.bik"/>
                         </column>
                     </form>

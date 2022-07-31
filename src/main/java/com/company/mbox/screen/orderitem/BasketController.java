@@ -1,35 +1,24 @@
 package com.company.mbox.screen.orderitem;
 
-import com.company.mbox.dto.ItemOrderDto;
 import com.company.mbox.models.NotificationModel;
 import com.company.mbox.services.BaseUtilsService;
 import com.company.mbox.services.BasketService;
-import com.company.mbox.services.ItemsService;
 import io.jmix.core.Messages;
-import io.jmix.data.AuditInfoProvider;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.action.BaseAction;
-import io.jmix.ui.action.DialogAction;
-import io.jmix.ui.action.list.RefreshAction;
-import io.jmix.ui.app.inputdialog.DialogActions;
-import io.jmix.ui.app.inputdialog.DialogOutcome;
-import io.jmix.ui.app.inputdialog.InputParameter;
 import io.jmix.ui.component.Button;
-import io.jmix.ui.component.ContentMode;
 import io.jmix.ui.component.DataGrid;
-import io.jmix.ui.component.inputdialog.InputDialogAction;
-import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.screen.*;
 import com.company.mbox.entity.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Named;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @UiController("BasketController")
@@ -61,15 +50,28 @@ public class BasketController extends StandardLookup<OrderItem> {
     @Named("orderItemsTable.createOrderAction")
     private BaseAction orderItemsTableCreateOrderAction;
 
+    @Autowired
+    private Button totalSelectedCost;
+
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         orderItemsDl.setParameter("organization", baseUtilsService.getCurrentOrganization());
         orderItemsDl.load();
+        totalSelectedCost.setCaption(String.format(
+                messages.getMessage(getClass(), "totalSelectedRowsCost"),
+                0));
     }
 
     @Subscribe("orderItemsTable")
     public void onOrderItemsTableSelection(DataGrid.SelectionEvent<OrderItem> event) {
         orderItemsTableCreateOrderAction.setEnabled(event.getSelected().size() > 0);
+
+        Double total = event.getSelected().stream().mapToDouble(OrderItem::getTotalPrice).sum();
+        DecimalFormat decimalFormat = new DecimalFormat("0.###############");
+
+        totalSelectedCost.setCaption(String.format(
+                messages.getMessage(getClass(), "totalSelectedRowsCost"),
+                decimalFormat.format(total)));
     }
 
     @Subscribe("orderItemsTable.createOrderAction")
@@ -130,12 +132,6 @@ public class BasketController extends StandardLookup<OrderItem> {
 //            .withHandler(han -> createOrder(ordersList)),
 //            new DialogAction(DialogAction.Type.CANCEL)
 //                                    .withCaption(messages.getMessage(getClass(), "cancel")))
-
-
-
-
-
-
 
 
 }
