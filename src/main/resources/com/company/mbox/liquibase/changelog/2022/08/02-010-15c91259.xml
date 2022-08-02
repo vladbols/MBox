@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="MBox">
+        <createTable tableName="CURRENCY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CURRENCY"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="NAME" type="CLOB"/>
+            <column name="CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="MBox">
+        <createTable tableName="DIC_SIDE_BAR">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DIC_SIDE_BAR"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="NAME" type="CLOB"/>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="PARENT_SIDE_BAR_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="MBox">
+        <createTable tableName="DIVISION">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_DIVISION"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LEGACY_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="ADDRESS" type="VARCHAR(255)"/>
+            <column name="ORGANIZATION_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="MBox">
+        <createTable tableName="ITEM">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ITEM"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="WAREHOUSE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LEGACY_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CATEGORY" type="VARCHAR(255)"/>
+            <column name="NAME" type="CLOB"/>
+            <column name="UNIT" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_" type="CLOB"/>
+            <column name="PRICE" type="DOUBLE"/>
+            <column name="AMOUNT" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="MBox">
+        <createTable tableName="ORDER_">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="NUMBER_" type="BIGINT"/>
+            <column name="DATETIME" type="DATETIME"/>
+            <column name="COMMENT_" type="CLOB"/>
+            <column name="ORGANIZATION_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOTAL_PRICE" type="DOUBLE"/>
+            <column name="CURRENCY_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="MBox">
+        <createTable tableName="ORDER_ITEM">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORDER_ITEM"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="ITEM_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORGANIZATION_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COST" type="DOUBLE"/>
+            <column name="NUMBER_" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AMOUNT" type="INT"/>
+            <column name="ORDER_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="MBox">
+        <createTable tableName="ORGANIZATION">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ORGANIZATION"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LEGACY_ID" type="UUID"/>
+            <column name="NAME" type="CLOB"/>
+            <column name="BIN" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE_" type="DATETIME"/>
+            <column name="ADDRESS" type="CLOB"/>
+            <column name="ACCOUNT" type="VARCHAR(255)"/>
+            <column name="KBE" type="INT"/>
+            <column name="BIK" type="VARCHAR(255)"/>
+            <column name="BANK" type="VARCHAR(255)"/>
+            <column name="CURRENCY_ID" type="UUID"/>
+            <column name="CONTACTS" type="VARCHAR(255)"/>
+            <column name="ACTIVE" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="8" author="MBox">
+        <createTable tableName="UNIT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_UNIT"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="9" author="MBox">
+        <createTable tableName="WAREHOUSE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_WAREHOUSE"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LEGACY_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="ADDRESS" type="VARCHAR(255)"/>
+            <column name="DIVISION_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="10" author="MBox">
+        <addColumn tableName="USER_">
+            <column name="CREATED_BY" type="VARCHAR(255)"/>
+            <column name="CREATED_DATE" type="DATETIME"/>
+            <column name="DELETED_BY" type="VARCHAR(255)"/>
+            <column name="DELETED_DATE" type="DATETIME"/>
+            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="DATETIME"/>
+            <column name="ORGANIZATION_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="11" author="MBox">
+        <addColumn tableName="USER_">
+            <column name="IIN" type="VARCHAR(12)"/>
+        </addColumn>
+
+        <addNotNullConstraint columnName="IIN" defaultNullValue="''" tableName="USER_"/>
+    </changeSet>
+    <changeSet id="12" author="MBox">
+        <createIndex indexName="IDX_DICSIDEBAR" tableName="DIC_SIDE_BAR">
+            <column name="PARENT_SIDE_BAR_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PARENT_SIDE_BAR_ID" baseTableName="DIC_SIDE_BAR"
+                                 constraintName="FK_DICSIDEBAR_ON_PARENTSIDEBAR" referencedColumnNames="ID"
+                                 referencedTableName="DIC_SIDE_BAR"/>
+    </changeSet>
+    <changeSet id="13" author="MBox">
+        <createIndex indexName="IDX_DIVISION_ORGANIZATION_ID" tableName="DIVISION">
+            <column name="ORGANIZATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORGANIZATION_ID" baseTableName="DIVISION"
+                                 constraintName="FK_DIVISION_ON_ORGANIZATION" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="14" author="MBox">
+        <createIndex indexName="IDX_ITEM_WAREHOUSE_ID" tableName="ITEM">
+            <column name="WAREHOUSE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="WAREHOUSE_ID" baseTableName="ITEM"
+                                 constraintName="FK_ITEM_ON_WAREHOUSE" referencedColumnNames="ID"
+                                 referencedTableName="WAREHOUSE"/>
+    </changeSet>
+    <changeSet id="15" author="MBox">
+        <createIndex indexName="IDX_ORDERGROUP_ORDER_ID" tableName="ORDER_ITEM">
+            <column name="ORDER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="ORDER_ITEM"
+                                 constraintName="FK_ORDER_ITEM_ON_ORDER" referencedColumnNames="ID"
+                                 referencedTableName="ORDER_"/>
+    </changeSet>
+    <changeSet id="16" author="MBox">
+        <createIndex indexName="IDX_ORDERITEM_ORGANIZATION_ID" tableName="ORDER_ITEM">
+            <column name="ORGANIZATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORGANIZATION_ID" baseTableName="ORDER_ITEM"
+                                 constraintName="FK_ORDER_ITEM_ON_ORGANIZATION" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="17" author="MBox">
+        <createIndex indexName="IDX_ORDER_CURRENCY_ID" tableName="ORDER_">
+            <column name="CURRENCY_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="ORDER_"
+                                 constraintName="FK_ORDER__ON_CURRENCY" referencedColumnNames="ID"
+                                 referencedTableName="CURRENCY"/>
+    </changeSet>
+    <changeSet id="18" author="MBox">
+        <createIndex indexName="IDX_ORDER_ORGANIZATION_ID" tableName="ORDER_">
+            <column name="ORGANIZATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORGANIZATION_ID" baseTableName="ORDER_"
+                                 constraintName="FK_ORDER__ON_ORGANIZATION" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="19" author="MBox">
+        <createIndex indexName="IDX_ORGANIZATION_CURRENCY_ID" tableName="ORGANIZATION">
+            <column name="CURRENCY_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CURRENCY_ID" baseTableName="ORGANIZATION"
+                                 constraintName="FK_ORGANIZATION_ON_CURRENCY" referencedColumnNames="ID"
+                                 referencedTableName="CURRENCY"/>
+    </changeSet>
+    <changeSet id="20" author="MBox" dbms="postgresql">
+        <createIndex indexName="IDX_UC_CURRENCY_CODE" tableName="CURRENCY" unique="true">
+            <column name="CODE"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+    <changeSet id="21" author="MBox" dbms="postgresql">
+        <createIndex indexName="IDX_UC_ORDER__NUMBER_" tableName="ORDER_" unique="true">
+            <column name="NUMBER_"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+    <changeSet id="22" author="MBox" dbms="postgresql">
+        <createIndex indexName="IDX_UC_ORGANIZATION_BIN" tableName="ORGANIZATION" unique="true">
+            <column name="BIN"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+    <changeSet id="23" author="MBox" dbms="postgresql">
+        <createIndex indexName="IDX_UC_ORGANIZATION_LEGACY" tableName="ORGANIZATION" unique="true">
+            <column name="LEGACY_ID"/>
+        </createIndex>
+
+        <modifySql>
+            <append value="where DELETED_DATE is null"/>
+        </modifySql>
+    </changeSet>
+    <changeSet id="24" author="MBox">
+        <createIndex indexName="IDX_USER_ORGANIZATION_ID" tableName="USER_">
+            <column name="ORGANIZATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORGANIZATION_ID" baseTableName="USER_"
+                                 constraintName="FK_USER__ON_ORGANIZATION" referencedColumnNames="ID"
+                                 referencedTableName="ORGANIZATION"/>
+    </changeSet>
+    <changeSet id="25" author="MBox">
+        <createIndex indexName="IDX_WAREHOUSE_DIVISION_ID" tableName="WAREHOUSE">
+            <column name="DIVISION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DIVISION_ID" baseTableName="WAREHOUSE"
+                                 constraintName="FK_WAREHOUSE_ON_DIVISION" referencedColumnNames="ID"
+                                 referencedTableName="DIVISION"/>
+    </changeSet>
+    <changeSet id="26" author="MBox">
+        <addForeignKeyConstraint baseColumnNames="ITEM_ID" baseTableName="ORDER_ITEM"
+                                 constraintName="FK_ORDER_ITEM_ON_ITEM" referencedColumnNames="ID"
+                                 referencedTableName="ITEM"/>
+    </changeSet>
+    <changeSet id="27" author="MBox">
+        <addNotNullConstraint columnDataType="BOOLEAN" columnName="ACTIVE" tableName="USER_" validate="true"/>
+    </changeSet>
+    <changeSet id="28" author="MBox">
+        <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="PASSWORD" tableName="USER_" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
