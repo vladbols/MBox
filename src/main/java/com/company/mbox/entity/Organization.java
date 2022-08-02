@@ -58,8 +58,8 @@ public class Organization {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-    @Column(name = "LEGACY_ID")
-    private Integer legacyId;
+    @Column(name = "LEGACY_ID", unique = true)
+    private UUID legacyId;
 
     @Lob
     @InstanceName
@@ -68,7 +68,7 @@ public class Organization {
 
     @Length(min = 12, max = 12)
     @NotNull
-    @Column(name = "BIN", nullable = false)
+    @Column(name = "BIN", nullable = false, unique = true)
     private String bin;
 
     @Column(name = "DATE_")
@@ -83,11 +83,9 @@ public class Organization {
     @Column(name = "ACCOUNT")
     private String account;
 
-    @Length(min = 2, max = 2)
     @Column(name = "KBE")
-    private String kbe;
+    private Integer kbe;
 
-    @Length(min = 8, max = 12)
     @Column(name = "BIK")
     private String bik;
 
@@ -104,6 +102,22 @@ public class Organization {
     @Column(name = "ACTIVE", nullable = false)
     @NotNull
     private Boolean active = false;
+
+    public void setKbe(Integer kbe) {
+        this.kbe = kbe;
+    }
+
+    public Integer getKbe() {
+        return kbe;
+    }
+
+    public void setLegacyId(UUID legacyId) {
+        this.legacyId = legacyId;
+    }
+
+    public UUID getLegacyId() {
+        return legacyId;
+    }
 
     public String getContacts() {
         return contacts;
@@ -201,14 +215,6 @@ public class Organization {
         this.bik = bik;
     }
 
-    public String getKbe() {
-        return kbe;
-    }
-
-    public void setKbe(String kbe) {
-        this.kbe = kbe;
-    }
-
     public String getAccount() {
         return account;
     }
@@ -247,14 +253,6 @@ public class Organization {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getLegacyId() {
-        return legacyId;
-    }
-
-    public void setLegacyId(Integer legacyId) {
-        this.legacyId = legacyId;
     }
 
     public UUID getId() {

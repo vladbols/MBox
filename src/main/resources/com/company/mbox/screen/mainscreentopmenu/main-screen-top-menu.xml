@@ -17,10 +17,11 @@
             </image>
             <menu id="mainMenu"
                   align="MIDDLE_CENTER"/>
+            <button id="profileBtn" width="AUTO" icon="USER_CIRCLE" primary="true" caption="msg://profile.btn"/>
             <userIndicator id="userIndicator"
                            align="MIDDLE_CENTER"/>
-            <timeZoneIndicator id="timeZoneIndicator"
-                               align="MIDDLE_CENTER"/>
+<!--            <timeZoneIndicator id="timeZoneIndicator"-->
+<!--                               align="MIDDLE_CENTER"/>-->
             <hbox id="mainButtonsBox"
                   align="MIDDLE_CENTER"
                   stylename="jmix-main-buttons">

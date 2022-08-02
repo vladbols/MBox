@@ -80,7 +80,7 @@ public class RegistrationUser extends Screen {
     @Autowired
     private TextField<String> orgBinField;
     @Autowired
-    private TextField<String> orgKbeField;
+    private TextField<Integer> orgKbeField;
     @Autowired
     private TextField<String> orgIIKField;
     @Autowired
@@ -151,15 +151,15 @@ public class RegistrationUser extends Screen {
         }
 
         try {
-            String bin = hasOrg() ? binField.getRawValue() : orgBinField.getRawValue();
-            String username = usernameField.getRawValue();
+            String bin = hasOrg() ? binField.getValue() : orgBinField.getValue();
+            String username = usernameField.getValue();
             if (baseUtilsService.usernameExist(username)) {
                 notifications.create(Notifications.NotificationType.WARNING)
                         .withCaption(messages.getMessage("username.exists"))
                         .show();
                 return;
             }
-            if (baseUtilsService.iinExist(iinField.getRawValue())) {
+            if (baseUtilsService.iinExist(iinField.getValue())) {
                 notifications.create(Notifications.NotificationType.WARNING)
                         .withCaption(messages.getMessage("iin.exists"))
                         .show();
@@ -178,15 +178,15 @@ public class RegistrationUser extends Screen {
             }
 
             if (entityStates.isNew(org)) {
-                org.setName(orgNameField.getRawValue());
-                org.setAddress(orgAddressField.getRawValue());
                 org.setBin(bin);
-                org.setBik(orgBikField.getRawValue());
-                org.setKbe(orgKbeField.getRawValue());
-                org.setAccount(orgIIKField.getRawValue());
-                org.setContacts(orgContacts.getRawValue());
-                org.setCurrency(baseUtilsService.getOrCreateCurrency("KZT"));
                 org.setActive(false);
+                org.setBik(orgBikField.getValue());
+                org.setKbe(orgKbeField.getValue());
+                org.setName(orgNameField.getValue());
+                org.setAccount(orgIIKField.getValue());
+                org.setContacts(orgContacts.getValue());
+                org.setAddress(orgAddressField.getValue());
+                org.setCurrency(baseUtilsService.getOrCreateCurrency("KZT"));
                 dataManager.save(org);
             } else if (!hasOrg() && !entityStates.isNew(org)) {
                 notifications.create(Notifications.NotificationType.WARNING)
@@ -199,11 +199,11 @@ public class RegistrationUser extends Screen {
             user.setOrganization(org);
             user.setUsername(username);
             user.setPassword(passwordEncoder.encode(passwordField.getValue()));
-            user.setFirstName(firstNameField.getRawValue());
-            user.setLastName(lastNameField.getRawValue());
-            user.setEmail(emailField.getRawValue());
+            user.setFirstName(firstNameField.getValue());
+            user.setLastName(lastNameField.getValue());
+            user.setEmail(emailField.getValue());
 //            user.setTimeZoneId(TimeZone.getAvailableIDs()[]);
-            user.setIin(iinField.getRawValue());
+            user.setIin(iinField.getValue());
             user.setActive(true);
             dataManager.save(user);
 

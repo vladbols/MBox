@@ -14,7 +14,7 @@ public class CompanyRequestDto {
     @InstanceName
     private String org;
 
-    private Integer org_uid;
+    private UUID org_uid;
 
     @Length(min = 12, max = 12)
     private String bin;
@@ -23,7 +23,7 @@ public class CompanyRequestDto {
 
     private String address;
 
-    private String kbe;
+    private Integer kbe;
 
     private String account;
 
@@ -34,6 +34,22 @@ public class CompanyRequestDto {
     private String currency;
 
     private List<DivisionRequestDto> divisions;
+
+    public void setKbe(Integer kbe) {
+        this.kbe = kbe;
+    }
+
+    public Integer getKbe() {
+        return kbe;
+    }
+
+    public void setOrg_uid(UUID org_uid) {
+        this.org_uid = org_uid;
+    }
+
+    public UUID getOrg_uid() {
+        return org_uid;
+    }
 
     public UUID getOrganizationId() {
         return organizationId;
@@ -49,14 +65,6 @@ public class CompanyRequestDto {
 
     public void setOrg(String org) {
         this.org = org;
-    }
-
-    public Integer getOrg_uid() {
-        return org_uid;
-    }
-
-    public void setOrg_uid(Integer org_uid) {
-        this.org_uid = org_uid;
     }
 
     public String getBin() {
@@ -81,14 +89,6 @@ public class CompanyRequestDto {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getKbe() {
-        return kbe;
-    }
-
-    public void setKbe(String kbe) {
-        this.kbe = kbe;
     }
 
     public String getAccount() {

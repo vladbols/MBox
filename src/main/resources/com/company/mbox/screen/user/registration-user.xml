@@ -79,6 +79,8 @@
                                        requiredMessage="msg://validator.notEmpty.bin"
                                        caption="msg://field.organization.bin"/>
                             <textField id="orgKbeField"
+                                       datatype="int"
+                                       maxLength="2"
                                        required="true"
                                        requiredMessage="msg://validator.empty.org.kbe"
                                        caption="msg://field.organization.kbe"/>

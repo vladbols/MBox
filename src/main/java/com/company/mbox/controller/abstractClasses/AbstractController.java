@@ -23,7 +23,7 @@ public class AbstractController {
 
     protected static DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-    protected static DateFormat dateTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    protected static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
     @Autowired
     protected DataManager dataManager;

@@ -4,6 +4,7 @@ import com.company.mbox.entity.*;
 import com.company.mbox.security.DatabaseUserRepository;
 import com.company.mbox.services.BaseUtilsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mchange.v2.lang.StringUtils;
 import io.jmix.core.DataManager;
 import io.jmix.core.usersubstitution.CurrentUserSubstitution;
 import org.slf4j.Logger;
@@ -39,6 +40,17 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
+    public User getCurrentUser() {
+        return dataManager.load(User.class)
+                .query("" +
+                        "SELECT u " +
+                        "FROM User u " +
+                        "WHERE u.username = :username")
+                .parameter("username", currentUserSubstitution.getAuthenticatedUser().getUsername())
+                .optional().orElse(null);
+    }
+
+    @Override
     @SuppressWarnings("all")
     public Map<String, Object> getObjMap(String json) {
         ObjectMapper mapper = new ObjectMapper();
@@ -51,6 +63,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
 
     @Override
     public Currency getOrCreateCurrency(String code) {
+        if (!StringUtils.nonEmptyString(code)) return null;
         Currency c = dataManager.load(Currency.class)
                 .query("" +
                         "SELECT c " +
@@ -67,7 +80,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public Organization getOrCreateOrganization(Integer legacyId) {
+    public Organization getOrCreateOrganization(UUID legacyId) {
         return dataManager.load(Organization.class)
                 .query("" +
                         "SELECT o " +
@@ -100,7 +113,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public Division getOrCreateDivision(Integer legacyId, UUID orgId) {
+    public Division getOrCreateDivision(UUID legacyId, UUID orgId) {
         return dataManager.load(Division.class)
                 .query("" +
                         "SELECT d " +
@@ -113,7 +126,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public Warehouse getOrCreateWarehouse(Integer legacyId, UUID divisionId) {
+    public Warehouse getOrCreateWarehouse(UUID legacyId, UUID divisionId) {
         return dataManager.load(Warehouse.class)
                 .query("" +
                         "SELECT w " +
@@ -126,7 +139,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
     }
 
     @Override
-    public Item getOrCreateItem(Integer legacyId, UUID warehouseId) {
+    public Item getOrCreateItem(UUID legacyId, UUID warehouseId) {
         return dataManager.load(Item.class)
                 .query("" +
                         "SELECT i " +

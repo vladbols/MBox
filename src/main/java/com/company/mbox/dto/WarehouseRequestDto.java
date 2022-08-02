@@ -13,11 +13,19 @@ public class WarehouseRequestDto {
     @InstanceName
     private String store;
 
-    private Integer store_uid;
+    private UUID store_uid;
 
     private String address;
 
     private List<ItemsRequestDto> list;
+
+    public void setStore_uid(UUID store_uid) {
+        this.store_uid = store_uid;
+    }
+
+    public UUID getStore_uid() {
+        return store_uid;
+    }
 
     public UUID getStoreId() {
         return storeId;
@@ -33,14 +41,6 @@ public class WarehouseRequestDto {
 
     public void setStore(String store) {
         this.store = store;
-    }
-
-    public Integer getStore_uid() {
-        return store_uid;
-    }
-
-    public void setStore_uid(Integer store_uid) {
-        this.store_uid = store_uid;
     }
 
     public String getAddress() {

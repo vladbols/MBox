@@ -1,8 +1,11 @@
 package com.company.mbox.entity;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDelete;
+import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -57,8 +60,9 @@ public class Division {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-    @Column(name = "LEGACY_ID")
-    private Integer legacyId;
+    @NotNull
+    @Column(name = "LEGACY_ID", nullable = false)
+    private UUID legacyId;
 
     @InstanceName
     @Column(name = "NAME")
@@ -67,10 +71,20 @@ public class Division {
     @Column(name = "ADDRESS")
     private String address;
 
+    @OnDeleteInverse(DeletePolicy.CASCADE)
+    @OnDelete(DeletePolicy.UNLINK)
     @JoinColumn(name = "ORGANIZATION_ID", nullable = false)
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Organization organization;
+
+    public void setLegacyId(UUID legacyId) {
+        this.legacyId = legacyId;
+    }
+
+    public UUID getLegacyId() {
+        return legacyId;
+    }
 
     public Organization getOrganization() {
         return organization;
@@ -134,14 +148,6 @@ public class Division {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public void setLegacyId(Integer legacyId) {
-        this.legacyId = legacyId;
-    }
-
-    public Integer getLegacyId() {
-        return legacyId;
     }
 
     public String getAddress() {

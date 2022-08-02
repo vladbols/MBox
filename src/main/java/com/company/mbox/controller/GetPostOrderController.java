@@ -1,10 +1,7 @@
 package com.company.mbox.controller;
 
 import com.company.mbox.controller.abstractClasses.AbstractController;
-import com.company.mbox.dto.CompanyRequestDto;
-import com.company.mbox.dto.DivisionRequestDto;
-import com.company.mbox.dto.ItemsRequestDto;
-import com.company.mbox.dto.WarehouseRequestDto;
+import com.company.mbox.dto.*;
 import com.company.mbox.entity.Division;
 import com.company.mbox.entity.Item;
 import com.company.mbox.entity.Organization;
@@ -15,12 +12,14 @@ import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -46,8 +45,27 @@ public class GetPostOrderController extends AbstractController {
         }
     }
 
+//    @RequestMapping(value = "/setDocs", method = RequestMethod.POST, produces = "application/pdf;charset=utf-8")
+//    public ResponseEntity<?> getDocs() {
+//        try {
+//            PGobject singleResult = (PGobject) entityManager.createNativeQuery(getOrdersQuery()).getSingleResult();
+//            return ok(singleResult != null ? singleResult.getValue() : "[]");
+//        } catch (Exception e) {
+//            log.error("### Error occurred. Error message: [{}]", e.getMessage());
+//            return badRequest(e.getMessage());
+//        }
+//    }
+//
+//    @RequestMapping(value = "/pdfFile", method = RequestMethod.POST, produces = {"application/pdf"})
+//    @ResponseBody
+//    public FileSystemResource getFile(@ModelAttribute ResultDocsDto pdfFile) {
+//        PdfFileGenerator pdfFileGenerator = new PdfFileGeneratorImpl();
+//        File file = pdfFileGenerator.generatePdf(pdfFile);
+//        return new FileSystemResource(file);
+//    }
+
     @RequestMapping(value = "/setItems", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    public ResponseEntity<?> setItems(@RequestBody List<CompanyRequestDto> companyRequestDto) throws ParseException {
+    public ResponseEntity<?> setItems(@RequestBody List<CompanyRequestDto> companyRequestDto) {
         if (companyRequestDto == null || companyRequestDto.isEmpty()) {
             return badRequest("Request body is null or empty");
         }
@@ -56,17 +74,17 @@ public class GetPostOrderController extends AbstractController {
             Organization o;
             try {
                 o = baseUtilsService.getOrCreateOrganization(cDto.getOrg_uid());
-                o.setName(cDto.getOrg());
-                o.setLegacyId(cDto.getOrg_uid());
-                o.setBin(cDto.getBin());
-                o.setDate(new SimpleDateFormat("dd.MM.yyyy").parse(cDto.getDate()));
-                o.setAddress(cDto.getAddress());
-                o.setKbe(cDto.getKbe());
-                o.setAccount(cDto.getAccount());
-                o.setBik(cDto.getBik());
-                o.setBank(cDto.getBank());
-                o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
                 o.setActive(false);
+                o.setBin(cDto.getBin());
+                o.setKbe(cDto.getKbe());
+                o.setBik(cDto.getBik());
+                o.setName(cDto.getOrg());
+                o.setBank(cDto.getBank());
+                o.setAddress(cDto.getAddress());
+                o.setAccount(cDto.getAccount());
+                o.setLegacyId(cDto.getOrg_uid());
+                o.setDate(dateTimeFormat.parse(cDto.getDate()));
+                o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
                 dataManager.save(o);
             } catch (Exception e) {
                 log.error("### Error", e);
@@ -77,10 +95,10 @@ public class GetPostOrderController extends AbstractController {
                 Division d;
                 try {
                     d = baseUtilsService.getOrCreateDivision(dDto.getDivision_uid(), o.getId());
-                    d.setName(dDto.getDivision());
-                    d.setLegacyId(dDto.getDivision_uid());
-                    d.setAddress(dDto.getAddress());
                     d.setOrganization(o);
+                    d.setName(dDto.getDivision());
+                    d.setAddress(dDto.getAddress());
+                    d.setLegacyId(dDto.getDivision_uid());
                     dataManager.save(d);
                 } catch (Exception e) {
                     log.error("### Error", e);
@@ -91,10 +109,10 @@ public class GetPostOrderController extends AbstractController {
                     Warehouse w;
                     try {
                         w = baseUtilsService.getOrCreateWarehouse(wDto.getStore_uid(), d.getId());
-                        w.setName(wDto.getStore());
-                        w.setLegacyId(wDto.getStore_uid());
-                        w.setAddress(wDto.getAddress());
                         w.setDivision(d);
+                        w.setName(wDto.getStore());
+                        w.setAddress(wDto.getAddress());
+                        w.setLegacyId(wDto.getStore_uid());
                         dataManager.save(w);
                     } catch (Exception e) {
                         log.error("### Error", e);
@@ -104,14 +122,14 @@ public class GetPostOrderController extends AbstractController {
                     for (ItemsRequestDto iDto : wDto.getList()) {
                         try {
                             Item i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
+                            i.setWarehouse(w);
                             i.setName(iDto.getItem());
-                            i.setLegacyId(iDto.getItem_uid());
-                            i.setCategory(iDto.getCategory());
                             i.setUnit(iDto.getUnit());
                             i.setType(iDto.getType());
                             i.setPrice(iDto.getPrice());
                             i.setAmount(iDto.getNumber());
-                            i.setWarehouse(w);
+                            i.setLegacyId(iDto.getItem_uid());
+                            i.setCategory(iDto.getCategory());
                             dataManager.save(i);
                         } catch (Exception e) {
                             log.error("### Error", e);

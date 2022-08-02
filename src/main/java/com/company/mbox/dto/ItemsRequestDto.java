@@ -12,7 +12,7 @@ public class ItemsRequestDto {
     @InstanceName
     private String item;
 
-    private Integer item_uid;
+    private UUID item_uid;
 
     private String category;
 
@@ -23,6 +23,14 @@ public class ItemsRequestDto {
     private Double price;
 
     private Integer number;
+
+    public void setItem_uid(UUID item_uid) {
+        this.item_uid = item_uid;
+    }
+
+    public UUID getItem_uid() {
+        return item_uid;
+    }
 
     public UUID getItemId() {
         return itemId;
@@ -38,14 +46,6 @@ public class ItemsRequestDto {
 
     public void setItem(String item) {
         this.item = item;
-    }
-
-    public Integer getItem_uid() {
-        return item_uid;
-    }
-
-    public void setItem_uid(Integer item_uid) {
-        this.item_uid = item_uid;
     }
 
     public String getCategory() {

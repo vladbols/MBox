@@ -13,11 +13,19 @@ public class DivisionRequestDto {
     @InstanceName
     private String division;
 
-    private Integer division_uid;
+    private UUID division_uid;
 
     private String address;
 
     private List<WarehouseRequestDto> stors;
+
+    public void setDivision_uid(UUID division_uid) {
+        this.division_uid = division_uid;
+    }
+
+    public UUID getDivision_uid() {
+        return division_uid;
+    }
 
     public UUID getDivisionId() {
         return divisionId;
@@ -33,14 +41,6 @@ public class DivisionRequestDto {
 
     public void setDivision(String division) {
         this.division = division;
-    }
-
-    public Integer getDivision_uid() {
-        return division_uid;
-    }
-
-    public void setDivision_uid(Integer division_uid) {
-        this.division_uid = division_uid;
     }
 
     public String getAddress() {

@@ -10,21 +10,23 @@ public interface BaseUtilsService {
 
     Organization getCurrentOrganization();
 
+    User getCurrentUser();
+
     Map<String, Object> getObjMap(String model);
 
     Currency getOrCreateCurrency(String code);
 
-    Organization getOrCreateOrganization(Integer legacyId);
+    Organization getOrCreateOrganization(UUID legacyId);
 
     Organization getOrCreateOrganization(String bin);
 
     Organization getOrganization(String bin);
 
-    Division getOrCreateDivision(Integer legacyId, UUID orgId);
+    Division getOrCreateDivision(UUID legacyId, UUID orgId);
 
-    Warehouse getOrCreateWarehouse(Integer legacyId, UUID divisionId);
+    Warehouse getOrCreateWarehouse(UUID legacyId, UUID divisionId);
 
-    Item getOrCreateItem(Integer legacyId, UUID warehouseId);
+    Item getOrCreateItem(UUID legacyId, UUID warehouseId);
 
     boolean usernameExist(String username);
 

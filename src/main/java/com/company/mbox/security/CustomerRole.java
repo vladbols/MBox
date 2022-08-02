@@ -13,8 +13,8 @@ public interface CustomerRole {
 
     @EntityPolicy(entityName = "*", actions = {EntityPolicyAction.ALL})
     @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
-    @ScreenPolicy(screenIds = {"Items", "BasketController", "OrdersController", "MainTop"})
-    @MenuPolicy(menuIds = {"Items", "BasketController", "OrdersController", "MainTop"})
+    @ScreenPolicy(screenIds = {"Items", "BasketController", "OrdersController", "MainTop", "UserProfileController"})
+    @MenuPolicy(menuIds = {"Items", "BasketController", "OrdersController", "MainTop", "UserProfileController"})
     @SpecificPolicy(resources = "*")
     void fullAccess();
 //    @GraphQLPolicy(operations = "*")

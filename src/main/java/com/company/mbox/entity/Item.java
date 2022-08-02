@@ -1,8 +1,11 @@
 package com.company.mbox.entity;
 
+import io.jmix.core.DeletePolicy;
 import io.jmix.core.annotation.DeletedBy;
 import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.OnDelete;
+import io.jmix.core.entity.annotation.OnDeleteInverse;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import org.springframework.data.annotation.CreatedBy;
@@ -11,7 +14,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.UUID;
 
@@ -57,13 +62,16 @@ public class Item {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    @OnDelete(DeletePolicy.UNLINK)
+    @OnDeleteInverse(DeletePolicy.CASCADE)
     @JoinColumn(name = "WAREHOUSE_ID", nullable = false)
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Warehouse warehouse;
 
-    @Column(name = "LEGACY_ID")
-    private Integer legacyId;
+    @NotNull
+    @Column(name = "LEGACY_ID", nullable = false)
+    private UUID legacyId;
 
     @Column(name = "CATEGORY")
     private String category;
@@ -84,8 +92,19 @@ public class Item {
     @Column(name = "PRICE")
     private Double price;
 
+    @Min(message = "{msg://com.company.mbox.entity/Item.amount.validation.Min}", value = 1)
+    @Positive
+    @NotNull(message = "{msg://com.company.mbox.entity/Item.amount.validation.NotNull}")
     @Column(name = "AMOUNT")
     private Integer amount;
+
+    public void setLegacyId(UUID legacyId) {
+        this.legacyId = legacyId;
+    }
+
+    public UUID getLegacyId() {
+        return legacyId;
+    }
 
     public Double getPrice() {
         return price;
@@ -197,14 +216,6 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getLegacyId() {
-        return legacyId;
-    }
-
-    public void setLegacyId(Integer legacyId) {
-        this.legacyId = legacyId;
     }
 
     public UUID getId() {

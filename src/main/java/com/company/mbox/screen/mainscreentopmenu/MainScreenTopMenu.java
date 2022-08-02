@@ -2,14 +2,15 @@ package com.company.mbox.screen.mainscreentopmenu;
 
 import com.company.mbox.dto.PassScreenOptions;
 import com.company.mbox.entity.DicSideBar;
-import com.company.mbox.screen.item.ItemBrowse;
+import com.company.mbox.screen.dicsidebar.DicSideBarEdit;
 import com.company.mbox.screen.item.Items;
-import com.company.mbox.screen.login.LoginScreen;
+import com.company.mbox.screen.user.UserProfileController;
 import io.jmix.core.DataManager;
 import io.jmix.ui.ScreenBuilders;
 import io.jmix.ui.ScreenTools;
 import io.jmix.ui.Screens;
 import io.jmix.ui.component.AppWorkArea;
+import io.jmix.ui.component.Button;
 import io.jmix.ui.component.Window;
 import io.jmix.ui.component.mainwindow.SideMenu;
 import io.jmix.ui.navigation.Route;
@@ -116,5 +117,17 @@ public class MainScreenTopMenu extends Screen implements Window.HasWorkArea {
                 UiControllerUtils.getScreenContext(this).getScreens());
 
         screenTools.handleRedirect();
+    }
+
+    @Subscribe("profileBtn")
+    public void onProfileBtnClick(Button.ClickEvent event) {
+//        Screen itemScreen = screens.create(UserProfileController.class);
+//        screenBuilders
+//                .screen(itemScreen)
+//                .withScreenClass(DicSideBarEdit.class)
+//                .build().show();
+        UiControllerUtils.getScreenContext(this).getScreens()
+                .create(UserProfileController.class, OpenMode.NEW_TAB)
+                .show();
     }
 }

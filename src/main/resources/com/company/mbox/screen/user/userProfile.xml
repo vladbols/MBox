@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://userProfileController.caption"
+        focusComponent="profileForm">
+    <data readOnly="true">
+        <collection id="usersDc" class="com.company.mbox.entity.User">
+            <fetchPlan extends="_base">
+                <property name="organization" fetchPlan="_base">
+                    <property name="currency" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="usersDl">
+                <query>
+                    <![CDATA[select e from User e where e.username = :username]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="actionEditUser"
+                caption="msg://action.edit.user"
+                icon="PENCIL"/>
+        <action id="actionSaveUser"
+                caption="msg://action.save.user"
+                icon="EDITOR_OK"/>
+    </actions>
+    <layout expand="profileForm" spacing="true">
+        <hbox id="formActions" spacing="true">
+            <button action="actionEditUser"/>
+            <button action="actionSaveUser"/>
+        </hbox>
+        <form id="profileForm" dataContainer="usersDc" width="100%">
+            <column width="350px">
+                <textField id="username" property="username"/>
+                <textField id="iin" property="iin"/>
+            </column>
+            <column width="350px">
+                <textField id="firstName" property="firstName"/>
+                <textField id="lastName" property="lastName"/>
+            </column>
+            <column width="350px">
+                <textField id="email" property="email"/>
+                <textField id="organizationName" property="organization.name"/>
+            </column>
+
+        </form>
+    </layout>
+</window>
