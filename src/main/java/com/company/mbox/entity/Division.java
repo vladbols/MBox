@@ -60,9 +60,11 @@ public class Division {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-    @NotNull
-    @Column(name = "LEGACY_ID", nullable = false)
+    @Column(name = "LEGACY_ID")
     private UUID legacyId;
+
+    @Column(name = "MAIN")
+    private Boolean main;
 
     @InstanceName
     @Column(name = "NAME")
@@ -77,6 +79,14 @@ public class Division {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Organization organization;
+
+    public Boolean getMain() {
+        return main;
+    }
+
+    public void setMain(Boolean main) {
+        this.main = main;
+    }
 
     public void setLegacyId(UUID legacyId) {
         this.legacyId = legacyId;

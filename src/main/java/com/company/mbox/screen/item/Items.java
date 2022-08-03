@@ -4,20 +4,21 @@ import com.company.mbox.dto.ItemOrderDto;
 import com.company.mbox.dto.PassScreenOptions;
 import com.company.mbox.models.NotificationModel;
 import com.company.mbox.services.ItemsService;
+import com.mchange.v2.lang.StringUtils;
 import io.jmix.core.DataManager;
 import io.jmix.core.Messages;
+import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.action.BaseAction;
 import io.jmix.ui.action.DialogAction;
-import io.jmix.ui.component.ContentMode;
-import io.jmix.ui.component.DataGrid;
-import io.jmix.ui.component.PropertyFilter;
+import io.jmix.ui.component.*;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.model.CollectionLoader;
 import io.jmix.ui.screen.*;
 import com.company.mbox.entity.Item;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,40 @@ public class Items extends StandardLookup<Item> {
 
     @Autowired
     private ItemsService itemsService;
+
+    @Autowired
+    private CollectionLoader<Item> fetchPlanDl;
+
+    @Autowired
+    private Filter filter;
+
+    @Autowired
+    private PropertyFilter<Integer> amount_property;
+
+    @Subscribe("name_property")
+    public void onName_propertyValueChange(HasValue.ValueChangeEvent<String> event) {
+        refreshTable();
+    }
+
+    @Subscribe("amount_property")
+    public void onAmount_propertyValueChange(HasValue.ValueChangeEvent<Integer> event) {
+        refreshTable();
+    }
+
+    private void refreshTable() {
+        String name = StringUtils.nonNullOrBlank(name_property.getValue());
+        Integer amount = ObjectUtils.defaultIfNull(amount_property.getValue(), 0);
+
+
+
+    }
+
+
+
+
+
+
+
 
     @Subscribe
     public void onInit(InitEvent event) {

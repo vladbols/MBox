@@ -114,6 +114,16 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
 
     @Override
     public Division getOrCreateDivision(UUID legacyId, UUID orgId) {
+        if (legacyId == null)
+            return dataManager.load(Division.class)
+                    .query("" +
+                            "SELECT d " +
+                            "FROM Division d " +
+                            "WHERE d.main = TRUE " +
+                            "   AND d.organization.id = :orgId")
+                    .parameter("orgId", orgId)
+                    .optional().orElse(dataManager.create(Division.class));
+
         return dataManager.load(Division.class)
                 .query("" +
                         "SELECT d " +
@@ -159,6 +169,7 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
                 .optional().orElse(null);
         return user != null;
     }
+
     @Override
     public boolean iinExist(String iin) {
         User user = dataManager.load(User.class)
@@ -167,7 +178,6 @@ public class BaseUtilsServiceBean implements BaseUtilsService {
                 .optional().orElse(null);
         return user != null;
     }
-
 
 
 }

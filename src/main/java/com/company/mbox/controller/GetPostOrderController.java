@@ -6,8 +6,13 @@ import com.company.mbox.entity.Division;
 import com.company.mbox.entity.Item;
 import com.company.mbox.entity.Organization;
 import com.company.mbox.entity.Warehouse;
+import com.company.mbox.models.SavedDivisionModel;
+import com.company.mbox.models.SavedOrganizationModel;
+import com.company.mbox.models.SavedWarehouseModel;
 import com.company.mbox.services.BaseUtilsService;
+import com.company.mbox.services.GetPostOrderService;
 import com.google.gson.Gson;
+import com.mchange.v2.lang.StringUtils;
 import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +27,23 @@ import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/orders")
 public class GetPostOrderController extends AbstractController {
 
+
     @Autowired
     private BaseUtilsService baseUtilsService;
 
+    @Autowired
+    private GetPostOrderService getPostService;
+
     @PersistenceContext
     private EntityManager entityManager;
+
+
 
     @GetMapping("/getOrders")
     public ResponseEntity<?> getOrders() {
@@ -69,6 +80,7 @@ public class GetPostOrderController extends AbstractController {
         if (companyRequestDto == null || companyRequestDto.isEmpty()) {
             return badRequest("Request body is null or empty");
         }
+        List<SavedOrganizationModel> savedOrganizations = new ArrayList<>();
 
         for (CompanyRequestDto cDto : companyRequestDto) {
             Organization o;
@@ -83,13 +95,14 @@ public class GetPostOrderController extends AbstractController {
                 o.setAddress(cDto.getAddress());
                 o.setAccount(cDto.getAccount());
                 o.setLegacyId(cDto.getOrg_uid());
-                o.setDate(dateTimeFormat.parse(cDto.getDate()));
+//                o.setDate(dateTimeFormat.parse(cDto.getDate()));
                 o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
                 dataManager.save(o);
             } catch (Exception e) {
                 log.error("### Error", e);
                 continue;
             }
+            List<SavedDivisionModel> savedDivisions = new ArrayList<>();
 
             for (DivisionRequestDto dDto : cDto.getDivisions()) {
                 Division d;
@@ -99,11 +112,13 @@ public class GetPostOrderController extends AbstractController {
                     d.setName(dDto.getDivision());
                     d.setAddress(dDto.getAddress());
                     d.setLegacyId(dDto.getDivision_uid());
+                    d.setMain(dDto.getDivision_uid() == null);
                     dataManager.save(d);
                 } catch (Exception e) {
                     log.error("### Error", e);
                     continue;
                 }
+                List<SavedWarehouseModel> savedWarehouses = new ArrayList<>();
 
                 for (WarehouseRequestDto wDto : dDto.getStors()) {
                     Warehouse w;
@@ -118,10 +133,12 @@ public class GetPostOrderController extends AbstractController {
                         log.error("### Error", e);
                         continue;
                     }
+                    List<UUID> savedItems = new ArrayList<>();
 
                     for (ItemsRequestDto iDto : wDto.getList()) {
+                        Item i;
                         try {
-                            Item i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
+                            i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
                             i.setWarehouse(w);
                             i.setName(iDto.getItem());
                             i.setUnit(iDto.getUnit());
@@ -133,20 +150,27 @@ public class GetPostOrderController extends AbstractController {
                             dataManager.save(i);
                         } catch (Exception e) {
                             log.error("### Error", e);
+                            continue;
                         }
+                        savedItems.add(i.getId());
                     }
+                    savedWarehouses.add(new SavedWarehouseModel(w.getId(), savedItems));
                 }
+                savedDivisions.add(new SavedDivisionModel(d.getId(), savedWarehouses));
             }
+            savedOrganizations.add(new SavedOrganizationModel(o.getId(), savedDivisions));
         }
+
+//        getPostService.deleteOlds(savedOrganizations);
         return ok("ok");
     }
 
     public String getOrdersQuery() {
         return "" +
-                "SELECT JSON_AGG(orders) " +
+                "SELECT COALESCE(JSON_AGG(orders),'[]') " +
                 "FROM (" +
                 "    SELECT " +
-                "        o.id               AS \"id\", " +
+//                "        o.id               AS \"id\", " +
                 "        o.name             AS \"org\", " +
                 "        o.legacy_id        AS \"org_uid\", " +
                 "        o.bin              AS \"bin\", " +
@@ -171,7 +195,7 @@ public class GetPostOrderController extends AbstractController {
                 "                        SELECT " +
                 "                            JSONB_AGG(" +
                 "                                JSON_BUILD_OBJECT(" +
-                "                                    'uid', it.legacy_id, " +
+                "                                    'item_uid', it.legacy_id, " +
                 "                                    'item', it.name, " +
                 "                                    'unit', it.unit, " +
                 "                                    'type', it.type_, " +
@@ -192,19 +216,19 @@ public class GetPostOrderController extends AbstractController {
                 "                    ) AS \"list\" " +
                 "                FROM (" +
                 "                    SELECT DISTINCT " +
-                "                        ord.id                     AS \"order_uid\", " +
-                "                        customer.name              AS \"client\", " +
-                "                        customer.bin               AS \"client_bin\", " +
-                "                        ord.number_                AS \"number\", " +
-                "                        ord.datetime               AS \"date\", " +
-                "                        c.code                     AS \"currency\", " +
-                "                        d.name                     AS \"division\", " +
-                "                        d.legacy_id                AS \"division_uid\", " +
-                "                        w.name                     AS \"store\", " +
-                "                        w.legacy_id                AS \"store_uid\", " +
-                "                        customer.contacts          AS \"telephone\", " +
-                "                        ord.comment_               AS \"comment\", " +
-                "                        ARRAY[array_agg(oi.id)]    AS \"items_id\" " +
+                "                        ord.id                             AS \"order_uid\", " +
+                "                        customer.name                      AS \"client\", " +
+                "                        customer.bin                       AS \"client_bin\", " +
+                "                        ord.number_                        AS \"number\", " +
+                "                        ord.datetime                       AS \"date\", " +
+                "                        c.code                             AS \"currency\", " +
+                "                        d.name                             AS \"division\", " +
+                "                        COALESCE(d.legacy_id::text, '')    AS \"division_uid\", " +
+                "                        w.name                             AS \"store\", " +
+                "                        w.legacy_id                        AS \"store_uid\", " +
+                "                        customer.contacts                  AS \"telephone\", " +
+                "                        ord.comment_                       AS \"comment\", " +
+                "                        ARRAY[array_agg(oi.id)]            AS \"items_id\" " +
                 "                    FROM order_ ord " +
                 "                        JOIN order_item oi " +
                 "                            ON oi.deleted_by IS NULL " +
