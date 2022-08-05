@@ -1,17 +1,13 @@
 package com.company.mbox.serviceBean;
 
-import com.company.mbox.dto.ItemOrderDto;
+import com.company.mbox.abstracts.AbstractServiceBean;
 import com.company.mbox.entity.*;
 import com.company.mbox.models.NotificationModel;
 import com.company.mbox.services.BaseUtilsService;
 import com.company.mbox.services.BasketService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jmix.core.DataManager;
-import io.jmix.core.FetchPlan;
 import io.jmix.core.Messages;
 import io.jmix.ui.Notifications;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service(BasketService.NAME)
-public class BasketServiceBean implements BasketService {
-
-    private static final Logger log = LoggerFactory.getLogger(BasketServiceBean.class);
+public class BasketServiceBean extends AbstractServiceBean implements BasketService {
 
     @Autowired
     private DataManager dataManager;

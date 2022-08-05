@@ -30,9 +30,8 @@
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
     </facets>
-    <layout expand="itemsTable" spacing="true">
-        <filter id="filter" dataLoader="fetchPlanDl">
-            <properties include=".*"/>
+    <layout expand="itemsTable" spacing="true" >
+        <filter id="filter" dataLoader="fetchPlanDl" >
             <configurations>
                 <configuration id="filterProperties" default="true" name="msg://Items.search.filter">
                     <propertyFilter id="name_property" property="name" caption="msg://filter.name.contains" operation="CONTAINS"/>

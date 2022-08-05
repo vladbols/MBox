@@ -1,4 +1,4 @@
-package com.company.mbox.controller.abstractClasses;
+package com.company.mbox.abstracts;
 
 import com.google.gson.*;
 import io.jmix.core.DataManager;
@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;

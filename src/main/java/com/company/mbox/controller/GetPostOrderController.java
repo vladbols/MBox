@@ -1,32 +1,23 @@
 package com.company.mbox.controller;
 
-import com.company.mbox.controller.abstractClasses.AbstractController;
+import com.company.mbox.abstracts.AbstractController;
 import com.company.mbox.dto.*;
-import com.company.mbox.entity.Division;
-import com.company.mbox.entity.Item;
-import com.company.mbox.entity.Organization;
-import com.company.mbox.entity.Warehouse;
+import com.company.mbox.entity.*;
 import com.company.mbox.models.SavedDivisionModel;
 import com.company.mbox.models.SavedOrganizationModel;
 import com.company.mbox.models.SavedWarehouseModel;
 import com.company.mbox.services.BaseUtilsService;
 import com.company.mbox.services.GetPostOrderService;
-import com.google.gson.Gson;
-import com.mchange.v2.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.postgresql.util.PGobject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RestController
@@ -46,13 +37,18 @@ public class GetPostOrderController extends AbstractController {
 
 
     @GetMapping("/getOrders")
-    public ResponseEntity<?> getOrders() {
+    public ResponseEntity<?> getOrders(HttpServletRequest request, HttpServletResponse response) {
         try {
             PGobject singleResult = (PGobject) entityManager.createNativeQuery(getOrdersQuery()).getSingleResult();
-            return ok(singleResult != null ? singleResult.getValue() : "[]");
+            entityManager.clear();
+            if (singleResult != null) {
+                getPostService.updateOrders();
+                return ok(singleResult.getValue());
+            }
+            return ok("[]");
         } catch (Exception e) {
             log.error("### Error occurred. Error message: [{}]", e.getMessage());
-            return badRequest(e.getMessage());
+            return ok(e.getMessage());
         }
     }
 
@@ -76,9 +72,11 @@ public class GetPostOrderController extends AbstractController {
 //    }
 
     @RequestMapping(value = "/setItems", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    public ResponseEntity<?> setItems(@RequestBody List<CompanyRequestDto> companyRequestDto) {
+    public ResponseEntity<?> setItems(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      @RequestBody List<CompanyRequestDto> companyRequestDto) {
         if (companyRequestDto == null || companyRequestDto.isEmpty()) {
-            return badRequest("Request body is null or empty");
+            return ok("Request body is null or empty");
         }
         List<SavedOrganizationModel> savedOrganizations = new ArrayList<>();
 
@@ -90,14 +88,15 @@ public class GetPostOrderController extends AbstractController {
                 o.setBin(cDto.getBin());
                 o.setKbe(cDto.getKbe());
                 o.setBik(cDto.getBik());
-                o.setName(cDto.getOrg());
+                o.setName(StringUtils.normalizeSpace(cDto.getOrg()));
                 o.setBank(cDto.getBank());
-                o.setAddress(cDto.getAddress());
+                o.setAddress(StringUtils.normalizeSpace(cDto.getAddress()));
                 o.setAccount(cDto.getAccount());
                 o.setLegacyId(cDto.getOrg_uid());
 //                o.setDate(dateTimeFormat.parse(cDto.getDate()));
                 o.setCurrency(baseUtilsService.getOrCreateCurrency(cDto.getCurrency()));
                 dataManager.save(o);
+                log.error("### Successful created Organization: [{}, {}]", o.getId(), o.getName());
             } catch (Exception e) {
                 log.error("### Error", e);
                 continue;
@@ -109,11 +108,12 @@ public class GetPostOrderController extends AbstractController {
                 try {
                     d = baseUtilsService.getOrCreateDivision(dDto.getDivision_uid(), o.getId());
                     d.setOrganization(o);
-                    d.setName(dDto.getDivision());
-                    d.setAddress(dDto.getAddress());
+                    d.setName(StringUtils.normalizeSpace(dDto.getDivision()));
+                    d.setAddress(StringUtils.normalizeSpace(dDto.getAddress()));
                     d.setLegacyId(dDto.getDivision_uid());
                     d.setMain(dDto.getDivision_uid() == null);
                     dataManager.save(d);
+                    log.error("### Successful created Division: [{}, {}]", d.getId(), d.getName());
                 } catch (Exception e) {
                     log.error("### Error", e);
                     continue;
@@ -125,10 +125,11 @@ public class GetPostOrderController extends AbstractController {
                     try {
                         w = baseUtilsService.getOrCreateWarehouse(wDto.getStore_uid(), d.getId());
                         w.setDivision(d);
-                        w.setName(wDto.getStore());
-                        w.setAddress(wDto.getAddress());
+                        w.setName(StringUtils.normalizeSpace(wDto.getStore()));
+                        w.setAddress(StringUtils.normalizeSpace(wDto.getAddress()));
                         w.setLegacyId(wDto.getStore_uid());
                         dataManager.save(w);
+                        log.error("### Successful created Warehouse: [{}, {}]", w.getId(), w.getName());
                     } catch (Exception e) {
                         log.error("### Error", e);
                         continue;
@@ -140,7 +141,7 @@ public class GetPostOrderController extends AbstractController {
                         try {
                             i = baseUtilsService.getOrCreateItem(iDto.getItem_uid(), w.getId());
                             i.setWarehouse(w);
-                            i.setName(iDto.getItem());
+                            i.setName(StringUtils.normalizeSpace(iDto.getItem()));
                             i.setUnit(iDto.getUnit());
                             i.setType(iDto.getType());
                             i.setPrice(iDto.getPrice());
@@ -148,6 +149,7 @@ public class GetPostOrderController extends AbstractController {
                             i.setLegacyId(iDto.getItem_uid());
                             i.setCategory(iDto.getCategory());
                             dataManager.save(i);
+                            log.error("### Successful created Item: [{}, {}]", i.getId(), i.getName());
                         } catch (Exception e) {
                             log.error("### Error", e);
                             continue;
@@ -160,17 +162,15 @@ public class GetPostOrderController extends AbstractController {
             }
             savedOrganizations.add(new SavedOrganizationModel(o.getId(), savedDivisions));
         }
-
-//        getPostService.deleteOlds(savedOrganizations);
-        return ok("ok");
+        getPostService.deleteOlds(savedOrganizations);
+        return ok("Successful inserted");
     }
 
     public String getOrdersQuery() {
         return "" +
-                "SELECT COALESCE(JSON_AGG(orders),'[]') " +
+                "SELECT JSON_AGG(orders) " +
                 "FROM (" +
                 "    SELECT " +
-//                "        o.id               AS \"id\", " +
                 "        o.name             AS \"org\", " +
                 "        o.legacy_id        AS \"org_uid\", " +
                 "        o.bin              AS \"bin\", " +
@@ -253,6 +253,7 @@ public class GetPostOrderController extends AbstractController {
                 "                                AND customer.id = ord.organization_id " +
                 "                    WHERE ord.deleted_by IS NULL " +
                 "                        AND org.id = o.id " +
+                "                        AND ord.last_taken_date IS NULL " +
                 "                        GROUP BY " +
                 "                            ord.id, " +
                 "                            customer.name, " +

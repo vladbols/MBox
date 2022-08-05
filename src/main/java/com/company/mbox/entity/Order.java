@@ -62,10 +62,13 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
-
     @Composition
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItemId;
+
+    @Column(name = "LAST_TAKEN_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastTakenDate;
 
     @Column(name = "NUMBER_", unique = true)
     private Long number;
@@ -89,6 +92,14 @@ public class Order {
     @JoinColumn(name = "CURRENCY_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Currency currency;
+
+    public Date getLastTakenDate() {
+        return lastTakenDate;
+    }
+
+    public void setLastTakenDate(Date lastTakenDate) {
+        this.lastTakenDate = lastTakenDate;
+    }
 
     public Currency getCurrency() {
         return currency;
@@ -145,7 +156,6 @@ public class Order {
     public List<OrderItem> getOrderItemId() {
         return orderItemId;
     }
-
 
     public List<OrderItem> getOrderGroupId() {
         return orderItemId;

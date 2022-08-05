@@ -5,9 +5,7 @@ import com.company.mbox.dto.PassScreenOptions;
 import com.company.mbox.models.NotificationModel;
 import com.company.mbox.services.ItemsService;
 import com.mchange.v2.lang.StringUtils;
-import io.jmix.core.DataManager;
 import io.jmix.core.Messages;
-import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.Dialogs;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.action.Action;
@@ -46,9 +44,6 @@ public class Items extends StandardLookup<Item> {
     private PropertyFilter<String> name_property;
 
     @Autowired
-    private CollectionContainer<Item> fetchPlanDc;
-
-    @Autowired
     private CollectionContainer<ItemOrderDto> itemOrdersDc;
 
     @Autowired
@@ -56,12 +51,6 @@ public class Items extends StandardLookup<Item> {
 
     @Autowired
     private ItemsService itemsService;
-
-    @Autowired
-    private CollectionLoader<Item> fetchPlanDl;
-
-    @Autowired
-    private Filter filter;
 
     @Autowired
     private PropertyFilter<Integer> amount_property;
@@ -79,17 +68,8 @@ public class Items extends StandardLookup<Item> {
     private void refreshTable() {
         String name = StringUtils.nonNullOrBlank(name_property.getValue());
         Integer amount = ObjectUtils.defaultIfNull(amount_property.getValue(), 0);
-
-
-
+        reloadTable(name, amount);
     }
-
-
-
-
-
-
-
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -98,7 +78,7 @@ public class Items extends StandardLookup<Item> {
             String param = ((PassScreenOptions) options).getName();
             name_property.setValue(param);
         }
-        reloadTable();
+        refreshTable();
     }
 
     @Subscribe("itemsTable.addToBasketAction")
@@ -145,6 +125,7 @@ public class Items extends StandardLookup<Item> {
                         messageBody);
 
                 dialogs.createOptionDialog()
+                        .withWidth("600px")
                         .withCaption(messages.getMessage(getClass(), "confirmSelectedRows"))
                         .withMessage(message)
                         .withContentMode(ContentMode.HTML)
@@ -172,7 +153,7 @@ public class Items extends StandardLookup<Item> {
     private void addItemsToBasket(List<ItemOrderDto> itemsList) {
         NotificationModel nm = itemsService.addItemsToBasket(itemsList);
         if (nm.getNotificationType().equals(Notifications.NotificationType.HUMANIZED)) {
-            reloadTable();
+            reloadTable("", 0);
         }
         notifications.create(nm.getNotificationType())
                 .withCaption(nm.getCaption())
@@ -180,8 +161,8 @@ public class Items extends StandardLookup<Item> {
                 .show();
     }
 
-    private void reloadTable() {
-        itemOrdersDc.setItems(itemsService.getItemOrders(fetchPlanDc.getFetchPlan()));
+    private void reloadTable(String name, Integer amount) {
+        itemOrdersDc.setItems(itemsService.getItemOrders(name, amount));
     }
 
 }

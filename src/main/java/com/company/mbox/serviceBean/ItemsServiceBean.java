@@ -1,5 +1,6 @@
 package com.company.mbox.serviceBean;
 
+import com.company.mbox.abstracts.AbstractServiceBean;
 import com.company.mbox.dto.ItemOrderDto;
 import com.company.mbox.entity.Item;
 import com.company.mbox.entity.OrderItem;
@@ -7,12 +8,8 @@ import com.company.mbox.models.NotificationModel;
 import com.company.mbox.services.BaseUtilsService;
 import com.company.mbox.services.ItemsService;
 import io.jmix.core.DataManager;
-import io.jmix.core.FetchPlan;
 import io.jmix.core.Messages;
-import io.jmix.core.Metadata;
 import io.jmix.ui.Notifications;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +19,10 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Service(ItemsService.NAME)
-public class ItemsServiceBean implements ItemsService {
-
-    private static final Logger log = LoggerFactory.getLogger(ItemsServiceBean.class);
+public class ItemsServiceBean extends AbstractServiceBean implements ItemsService {
 
     @Autowired
     private DataManager dataManager;
@@ -35,33 +31,50 @@ public class ItemsServiceBean implements ItemsService {
     private EntityManager entityManager;
 
     @Autowired
-    private Metadata metadata;
-
-    @Autowired
     private BaseUtilsService baseUtilsService;
 
     @Autowired
     private Messages messages;
 
     @Override
-    public Collection<ItemOrderDto> getItemOrders(FetchPlan fp) {
-        List<Item> items = dataManager.load(Item.class)
-                .query("SELECT i FROM Item i")
-                .fetchPlan(fp)
-                .list();
+    @SuppressWarnings("all")
+    public Collection<ItemOrderDto> getItemOrders(String name, Integer amount) {
+        List<Object[]> items = entityManager.createNativeQuery("" +
+                "SELECT " +
+                "    i.id       AS id, " +
+                "    i.name     AS name, " +
+                "    i.price    AS price, " +
+                "    i.type_    AS type, " +
+                "    i.unit     AS unit, " +
+                "    o.name     AS organization, " +
+                "    w.address  AS warehouseAddress " +
+                "FROM item i " +
+                "    JOIN warehouse w " +
+                "        ON w.deleted_by IS NULL " +
+                "            AND w.id = i.warehouse_id " +
+                "    JOIN division d " +
+                "        ON d.deleted_by IS NULL " +
+                "            AND d.id = w.division_id " +
+                "    JOIN organization o " +
+                "        ON o.deleted_by IS NULL " +
+                "            AND o.id = d.organization_id " +
+                "WHERE STRING_TO_ARRAY(LOWER(?1), ' ') <@ STRING_TO_ARRAY(LOWER(i.name), ' ')" +
+                "    AND i.amount >= ?2")
+                .setParameter(1, name)
+                .setParameter(2, amount)
+                .getResultList();
 
         Collection<ItemOrderDto> itemOrders = new ArrayList<>();
-
-        for (Item i : items) {
+        for (Object[] i : items) {
             ItemOrderDto itemOrder = dataManager.create(ItemOrderDto.class);
-            itemOrder.setId(i.getId());
-            itemOrder.setName(i.getName());
+            itemOrder.setId((UUID) i[0]);
+            itemOrder.setName((String) i[1]);
             itemOrder.setAmount(0);
-            itemOrder.setPrice(i.getPrice());
-            itemOrder.setType(i.getType());
-            itemOrder.setUnit(i.getUnit());
-            itemOrder.setOrganization(i.getWarehouse().getDivision().getOrganization().getName());
-            itemOrder.setWarehouseAddress(i.getWarehouse().getAddress());
+            itemOrder.setPrice((Double) i[2]);
+            itemOrder.setType((String) i[3]);
+            itemOrder.setUnit((String) i[4]);
+            itemOrder.setOrganization((String) i[5]);
+            itemOrder.setWarehouseAddress((String) i[6]);
 
             itemOrders.add(itemOrder);
         }

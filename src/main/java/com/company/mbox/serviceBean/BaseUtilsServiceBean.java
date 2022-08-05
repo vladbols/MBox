@@ -1,14 +1,12 @@
 package com.company.mbox.serviceBean;
 
+import com.company.mbox.abstracts.AbstractServiceBean;
 import com.company.mbox.entity.*;
-import com.company.mbox.security.DatabaseUserRepository;
 import com.company.mbox.services.BaseUtilsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mchange.v2.lang.StringUtils;
 import io.jmix.core.DataManager;
 import io.jmix.core.usersubstitution.CurrentUserSubstitution;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service(BaseUtilsService.NAME)
-public class BaseUtilsServiceBean implements BaseUtilsService {
-
-    private static final Logger log = LoggerFactory.getLogger(BaseUtilsServiceBean.class);
+public class BaseUtilsServiceBean extends AbstractServiceBean implements BaseUtilsService {
 
     @Autowired
     private DataManager dataManager;

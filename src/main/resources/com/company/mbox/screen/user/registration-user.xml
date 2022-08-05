@@ -88,6 +88,7 @@
                         <column width="350px">
                             <textField id="orgIIKField"
                                        required="true"
+                                       maxLength="20"
                                        requiredMessage="msg://validator.empty.org.iik"
                                        caption="msg://field.organization.iik"/>
                             <textField id="orgBikField"
