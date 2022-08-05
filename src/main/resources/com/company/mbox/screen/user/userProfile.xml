@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://jmix.io/schema/ui/window"
-        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
         caption="msg://userProfileController.caption"
         focusComponent="profileForm">
-    <data readOnly="true">
-        <collection id="usersDc" class="com.company.mbox.entity.User">
-            <fetchPlan extends="_base">
-                <property name="organization" fetchPlan="_base">
-                    <property name="currency" fetchPlan="_base"/>
-                </property>
-            </fetchPlan>
-            <loader id="usersDl">
-                <query>
-                    <![CDATA[select e from User e where e.username = :username]]>
-                </query>
-            </loader>
-        </collection>
-    </data>
     <facets>
         <dataLoadCoordinator auto="true"/>
         <screenSettings id="settingsFacet" auto="true"/>
@@ -24,30 +9,53 @@
     <actions>
         <action id="actionEditUser"
                 caption="msg://action.edit.user"
+                enable="true"
                 icon="PENCIL"/>
         <action id="actionSaveUser"
+                enable="false"
                 caption="msg://action.save.user"
                 icon="EDITOR_OK"/>
+        <action id="actionRevertEditUser"
+                enable="false"
+                visible="false"
+                caption="msg://action.revert.edit.user"
+                icon="EDITOR_CANCEL"/>
     </actions>
     <layout expand="profileForm" spacing="true">
         <hbox id="formActions" spacing="true">
             <button action="actionEditUser"/>
             <button action="actionSaveUser"/>
+            <button action="actionRevertEditUser"/>
         </hbox>
-        <form id="profileForm" dataContainer="usersDc" width="100%">
-            <column width="350px">
-                <textField id="username" property="username"/>
-                <textField id="iin" property="iin"/>
-            </column>
-            <column width="350px">
-                <textField id="firstName" property="firstName"/>
-                <textField id="lastName" property="lastName"/>
-            </column>
-            <column width="350px">
-                <textField id="email" property="email"/>
-                <textField id="organizationName" property="organization.name"/>
-            </column>
-
+        <form id="profileForm" width="AUTO" captionPosition="TOP" align="TOP_LEFT">
+            <vbox>
+                <hbox spacing="true">
+                    <textField id="username" enable="false" caption="msg://field.username"
+                               css="color: var(--textfield-text-color);"/>
+                    <textField id="iin" enable="false" caption="msg://field.iin"
+                               css="color: var(--textfield-text-color);"/>
+                    <textField id="organizationName" enable="false" caption="msg://field.organization.name"
+                               css="color: var(--textfield-text-color);"/>
+                </hbox>
+                <split/><split/>
+                <hbox spacing="true">
+                    <textField id="firstName"
+                               enable="false"
+                               requiredMessage="msg://validator.empty.first.name"
+                               caption="msg://field.name" css="color: var(--textfield-text-color);"/>
+                    <textField id="lastName"
+                               enable="false"
+                               requiredMessage="msg://validator.empty.last.name"
+                               caption="msg://field.surname" css="color: var(--textfield-text-color);"/>
+                    <textField id="email" enable="false"
+                               caption="msg://field.email"
+                               css="color: var(--textfield-text-color);">
+                        <validators>
+                            <email message="msg://validator.incorrect.email.format"/>
+                        </validators>
+                    </textField>
+                </hbox>
+            </vbox>
         </form>
     </layout>
 </window>

@@ -121,11 +121,6 @@ public class MainScreenTopMenu extends Screen implements Window.HasWorkArea {
 
     @Subscribe("profileBtn")
     public void onProfileBtnClick(Button.ClickEvent event) {
-//        Screen itemScreen = screens.create(UserProfileController.class);
-//        screenBuilders
-//                .screen(itemScreen)
-//                .withScreenClass(DicSideBarEdit.class)
-//                .build().show();
         UiControllerUtils.getScreenContext(this).getScreens()
                 .create(UserProfileController.class, OpenMode.NEW_TAB)
                 .show();

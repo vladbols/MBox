@@ -209,7 +209,7 @@ public class RegistrationUser extends Screen {
 
             RoleAssignmentEntity entity = metadata.create(RoleAssignmentEntity.class);
             entity.setVersion(1);
-            entity.setRoleCode("customer-role");
+            entity.setRoleCode("employee-role");
             entity.setRoleType("resource");
             entity.setUsername(user.getUsername());
             dataManager.save(entity);

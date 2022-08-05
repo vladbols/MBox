@@ -45,7 +45,7 @@
                             </passwordField>
                             <passwordField id="confirmPasswordField" caption="msg://field.confirm.password"/>
                             <textField id="firstNameField" datatype="string" required="true" requiredMessage="msg://validator.empty.first.name" caption="msg://field.name"/>
-                            <textField id="lastNameField" datatype="string" required="true" requiredMessage="msg://validator.empty.last.name"  caption="msg://field.surname"/>
+                            <textField id="lastNameField" datatype="string" required="true" requiredMessage="msg://validator.empty.last.name" caption="msg://field.surname"/>
                             <textField id="emailField" datatype="string" caption="msg://field.email">
                                 <validators>
                                     <email message="msg://validator.incorrect.email.format"/>
