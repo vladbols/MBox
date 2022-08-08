@@ -13,8 +13,12 @@ public interface EmployeeRole {
 
     @EntityPolicy(entityName = "*", actions = {EntityPolicyAction.ALL})
     @EntityAttributePolicy(entityName = "*", attributes = "*", action = EntityAttributePolicyAction.MODIFY)
-    @ScreenPolicy(screenIds = {"Items", "BasketController", "OrdersController", "MainTop", "UserProfileController"})
-    @MenuPolicy(menuIds = {"Items", "BasketController", "OrdersController", "MainTop", "UserProfileController"})
+    @ScreenPolicy(screenIds = {"Items",
+            "BasketController", "OrdersController", "MainTop",
+            "UserProfileController", "PasswordChangeController"})
+    @MenuPolicy(menuIds = {"Items",
+            "BasketController", "OrdersController", "MainTop",
+            "UserProfileController", "PasswordChangeController"})
     @SpecificPolicy(resources = "*")
     void employee();
 //    @GraphQLPolicy(operations = "*")

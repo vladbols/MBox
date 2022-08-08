@@ -20,42 +20,117 @@
                 visible="false"
                 caption="msg://action.revert.edit.user"
                 icon="EDITOR_CANCEL"/>
+        <action id="actionChangePassword"
+                caption="msg://change.password"
+                icon="LOCK"/>
+
+        <action id="actionEditOrg"
+                caption="msg://action.edit.user"
+                enable="true"
+                visible="false"
+                icon="PENCIL"/>
+        <action id="actionSaveOrg"
+                enable="false"
+                visible="false"
+                caption="msg://action.save.user"
+                icon="EDITOR_OK"/>
+        <action id="actionRevertEditOrg"
+                enable="false"
+                visible="false"
+                caption="msg://action.revert.edit.user"
+                icon="EDITOR_CANCEL"/>
     </actions>
-    <layout expand="profileForm" spacing="true">
-        <hbox id="formActions" spacing="true">
-            <button action="actionEditUser"/>
-            <button action="actionSaveUser"/>
-            <button action="actionRevertEditUser"/>
-        </hbox>
-        <form id="profileForm" width="AUTO" captionPosition="TOP" align="TOP_LEFT">
-            <vbox>
-                <hbox spacing="true">
-                    <textField id="username" enable="false" caption="msg://field.username"
-                               css="color: var(--textfield-text-color);"/>
-                    <textField id="iin" enable="false" caption="msg://field.iin"
-                               css="color: var(--textfield-text-color);"/>
-                    <textField id="organizationName" enable="false" caption="msg://field.organization.name"
-                               css="color: var(--textfield-text-color);"/>
+    <layout expand="mainSplitPanel" spacing="true">
+        <split id="mainSplitPanel"
+               orientation="vertical"
+               pos="30"
+               stylename="splitter-large"
+               width="100%">
+            <vbox id="userDetails">
+                <hbox id="formActions" spacing="true">
+                    <button action="actionEditUser"/>
+                    <button action="actionSaveUser"/>
+                    <button action="actionRevertEditUser"/>
+                    <button action="actionChangePassword"/>
                 </hbox>
-                <split/><split/>
-                <hbox spacing="true">
-                    <textField id="firstName"
-                               enable="false"
-                               requiredMessage="msg://validator.empty.first.name"
-                               caption="msg://field.name" css="color: var(--textfield-text-color);"/>
-                    <textField id="lastName"
-                               enable="false"
-                               requiredMessage="msg://validator.empty.last.name"
-                               caption="msg://field.surname" css="color: var(--textfield-text-color);"/>
-                    <textField id="email" enable="false"
-                               caption="msg://field.email"
-                               css="color: var(--textfield-text-color);">
-                        <validators>
-                            <email message="msg://validator.incorrect.email.format"/>
-                        </validators>
-                    </textField>
-                </hbox>
+                <form id="profileForm" width="AUTO" captionPosition="TOP" align="TOP_LEFT">
+                    <vbox>
+                        <hbox spacing="true">
+                            <textField id="username" enable="false" caption="msg://field.username"
+                                       css="color: var(--textfield-text-color);"/>
+                            <textField id="iin" enable="false" caption="msg://field.iin"
+                                       css="color: var(--textfield-text-color);"/>
+                            <textField id="organizationName" enable="false" caption="msg://field.organization.name"
+                                       css="color: var(--textfield-text-color);"/>
+                        </hbox>
+                        <split/>
+                        <hbox spacing="true">
+                            <textField id="firstName"
+                                       enable="false"
+                                       requiredMessage="msg://validator.empty.first.name"
+                                       caption="msg://field.name" css="color: var(--textfield-text-color);"/>
+                            <textField id="lastName"
+                                       enable="false"
+                                       requiredMessage="msg://validator.empty.last.name"
+                                       caption="msg://field.surname" css="color: var(--textfield-text-color);"/>
+                            <textField id="email" enable="false"
+                                       caption="msg://field.email"
+                                       css="color: var(--textfield-text-color);">
+                                <validators>
+                                    <email message="msg://validator.incorrect.email.format"/>
+                                </validators>
+                            </textField>
+                        </hbox>
+                    </vbox>
+                </form>
             </vbox>
-        </form>
+            <vbox id="orgDetails">
+                <split/>
+                <hbox id="orgFormActions" spacing="true">
+                    <button action="actionEditOrg"/>
+                    <button action="actionSaveOrg"/>
+                    <button action="actionRevertEditOrg"/>
+                </hbox>
+                <form id="organizationForm" captionPosition="TOP">
+                    <vbox>
+                        <hbox spacing="true">
+                            <textField id="orgBinField" enable="false" css="color: var(--textfield-text-color);"
+                                       maxLength="12"
+                                       requiredMessage="msg://validator.notEmpty.bin"
+                                       caption="msg://field.organization.bin"/>
+                        </hbox>
+                        <split/>
+                        <hbox spacing="true">
+                            <textField id="orgNameField" enable="false" css="color: var(--textfield-text-color);"
+                                       requiredMessage="msg://validator.empty.org.name"
+                                       caption="msg://field.organization.name"/>
+                            <textField id="orgAddressField" enable="false" css="color: var(--textfield-text-color);"
+                                       requiredMessage="msg://validator.empty.org.address"
+                                       caption="msg://field.organization.address"/>
+                            <maskedField id="orgContacts" enable="false" css="color: var(--textfield-text-color);"
+                                         valueMode="masked"
+                                         requiredMessage="msg://validator.empty.org.contacts"
+                                         mask="+7(###)###-##-##"
+                                         caption="msg://field.organization.contacts"/>
+                        </hbox>
+                        <split/>
+                        <hbox spacing="true">
+                            <textField id="orgKbeField"
+                                       datatype="int" enable="false" css="color: var(--textfield-text-color);"
+                                       maxLength="2"
+                                       requiredMessage="msg://validator.empty.org.kbe"
+                                       caption="msg://field.organization.kbe"/>
+                            <textField id="orgIIKField"
+                                       maxLength="20" enable="false" css="color: var(--textfield-text-color);"
+                                       requiredMessage="msg://validator.empty.org.iik"
+                                       caption="msg://field.organization.iik"/>
+                            <textField id="orgBikField" enable="false" css="color: var(--textfield-text-color);"
+                                       requiredMessage="msg://validator.empty.org.bik"
+                                       caption="msg://field.organization.bik"/>
+                        </hbox>
+                    </vbox>
+                </form>
+            </vbox>
+        </split>
     </layout>
 </window>

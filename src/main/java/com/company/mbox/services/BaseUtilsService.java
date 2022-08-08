@@ -2,6 +2,7 @@ package com.company.mbox.services;
 
 import com.company.mbox.entity.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,6 +12,8 @@ public interface BaseUtilsService {
     Organization getCurrentOrganization();
 
     User getCurrentUser();
+
+    List<String> getCurrentUserAuthorities();
 
     Map<String, Object> getObjMap(String model);
 

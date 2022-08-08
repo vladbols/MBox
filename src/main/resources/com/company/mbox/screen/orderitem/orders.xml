@@ -9,6 +9,7 @@
                 <property name="datetime"/>
                 <property name="totalPrice"/>
                 <property name="comment"/>
+                <property name="lastTakenDate"/>
             </fetchPlan>
             <loader id="ordersDl">
                 <query>
@@ -57,6 +58,7 @@
                     <column id="datetime" caption="msg://column.datetime"/>
                     <column id="totalPrice" caption="msg://column.total.price"/>
                     <column id="comment" caption="msg://column.comment"/>
+                    <column id="lastTakenDate" caption="msg://column.createdIn1C"/>
                 </columns>
                 <buttonsPanel id="buttonsPanel" alwaysVisible="true">
                     <button id="refreshBtn" action="ordersTable.refresh"/>

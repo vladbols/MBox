@@ -2,18 +2,20 @@ package com.company.mbox.serviceBean;
 
 import com.company.mbox.abstracts.AbstractServiceBean;
 import com.company.mbox.entity.*;
+import com.company.mbox.entity.Currency;
 import com.company.mbox.services.BaseUtilsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mchange.v2.lang.StringUtils;
 import io.jmix.core.DataManager;
 import io.jmix.core.usersubstitution.CurrentUserSubstitution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service(BaseUtilsService.NAME)
 public class BaseUtilsServiceBean extends AbstractServiceBean implements BaseUtilsService {
@@ -23,6 +25,9 @@ public class BaseUtilsServiceBean extends AbstractServiceBean implements BaseUti
 
     @Autowired
     private CurrentUserSubstitution currentUserSubstitution;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Organization getCurrentOrganization() {
@@ -44,6 +49,14 @@ public class BaseUtilsServiceBean extends AbstractServiceBean implements BaseUti
                         "WHERE u.username = :username")
                 .parameter("username", currentUserSubstitution.getAuthenticatedUser().getUsername())
                 .optional().orElse(null);
+    }
+
+    @Override
+    public List<String> getCurrentUserAuthorities() {
+        return currentUserSubstitution.getEffectiveUser().getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
     }
 
     @Override

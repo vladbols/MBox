@@ -24,7 +24,6 @@ import java.util.*;
 @RequestMapping("/orders")
 public class GetPostOrderController extends AbstractController {
 
-
     @Autowired
     private BaseUtilsService baseUtilsService;
 
@@ -34,13 +33,10 @@ public class GetPostOrderController extends AbstractController {
     @PersistenceContext
     private EntityManager entityManager;
 
-
-
     @GetMapping("/getOrders")
     public ResponseEntity<?> getOrders(HttpServletRequest request, HttpServletResponse response) {
         try {
             PGobject singleResult = (PGobject) entityManager.createNativeQuery(getOrdersQuery()).getSingleResult();
-            entityManager.clear();
             if (singleResult != null) {
                 getPostService.updateOrders();
                 return ok(singleResult.getValue());

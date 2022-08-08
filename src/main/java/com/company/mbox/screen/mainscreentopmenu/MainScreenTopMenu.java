@@ -2,7 +2,6 @@ package com.company.mbox.screen.mainscreentopmenu;
 
 import com.company.mbox.dto.PassScreenOptions;
 import com.company.mbox.entity.DicSideBar;
-import com.company.mbox.screen.dicsidebar.DicSideBarEdit;
 import com.company.mbox.screen.item.Items;
 import com.company.mbox.screen.user.UserProfileController;
 import io.jmix.core.DataManager;
